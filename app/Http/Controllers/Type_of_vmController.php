@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class type_of_vmController extends Controller
+class Type_of_vmController extends Controller
 {
     //
 }

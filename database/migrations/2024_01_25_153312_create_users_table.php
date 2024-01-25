@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20); // Longueur ajustée pour correspondre à votre script SQL
-            $table->string('email', 20)->unique(); // Utilisez soit 'email' soit 'mail'
+            $table->string('name', 20);
+            $table->string('email', 50)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password', 15); // Longueur ajustée
-            $table->unsignedBigInteger('id_role'); // Ajout du champ id_role
+            $table->string('password');
+            $table->unsignedBigInteger('id_role')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
