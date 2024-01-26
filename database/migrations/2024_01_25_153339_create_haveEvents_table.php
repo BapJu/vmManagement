@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lieux', function (Blueprint $table) {
-            $table->id();
-            $table->char('site', 25);
-            $table->integer('plan_adressage');
+        Schema::create('haveEvents', function (Blueprint $table) {
+            $table->unsignedBigInteger('id');
+            $table->unsignedBigInteger('id_user');
+            $table->primary(['id', 'id_user']);
+
+            $table->foreign('id')->references('id')->on('events');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lieus');
+        Schema::dropIfExists('haveEvents');
     }
 };

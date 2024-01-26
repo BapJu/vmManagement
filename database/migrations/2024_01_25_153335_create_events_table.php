@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->date('create_at');
-            $table->date('delete_at');
+            $table->date('scheduledExpiry');
+            $table->date('effectiveExpiry');
             $table->char('ip', 45);
-            $table->unsignedBigInteger('id_type_of_vm');
+            $table->boolean('active');
+            $table->unsignedBigInteger('typeOfVm');
             $table->timestamps();
 
-            $table->foreign('id_type_of_vm')->references('id')->on('type_of_vms');
+            $table->foreign('typeOfVm')->references('id')->on('typeOfVms');
         });
 
     }

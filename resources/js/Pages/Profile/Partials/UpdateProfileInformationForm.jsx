@@ -4,21 +4,38 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import React, { useEffect, useState } from 'react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
 
+
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
+        id_role: user.id_role,
+
     });
+
+    //Get roles list
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/roles')
+            .then(response => response.json())
+            .then(data => {
+                setRoles(data);
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
+    }, []);
 
     const submit = (e) => {
         e.preventDefault();
-
         patch(route('profile.update'));
     };
-
+    console.log(data);
     return (
         <section className={className}>
             <header>
@@ -31,7 +48,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Name"/>
 
                     <TextInput
                         id="name"
@@ -43,11 +60,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="name"
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.name}/>
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Email"/>
 
                     <TextInput
                         id="email"
@@ -59,7 +76,25 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="username"
                     />
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <InputError className="mt-2" message={errors.email}/>
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="role" value="Role"/>
+
+                    <select
+                        id="role"
+                        className="mt-1 block w-full"
+                        value={data.id_role}
+                        onChange={(e) => setData('id_role', e.target.value)}
+                        required
+                    >
+                        {roles.map(role => (
+                            <option key={role.id} value={role.id}>{role.name}</option>
+                        ))}
+                    </select>
+
+                    <InputError className="mt-2" message={errors.role}/>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
