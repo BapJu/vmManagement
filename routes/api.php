@@ -25,10 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Routes pour 'role'
 Route::get('/roles', [RoleController::class, 'index']);
-Route::post('/roles', [RoleController::class,'store']);
-Route::get('/roles/{id}', [RoleController::class,'show']);
-Route::put('/roles/{id}', [RoleController::class, 'update']);
-Route::delete('/roles/{id}', [RoleController::class, 'destroy']);
+Route::post('/role', [RoleController::class,'store']);
+Route::get('/role/{id}', [RoleController::class,'show']);
+Route::put('/role/{id}', [RoleController::class, 'update']);
+Route::delete('/role/{id}', [RoleController::class, 'destroy']);
 
 // Routes pour 'lieu'
 Route::get('/locations', [LocationController::class, 'index']);
@@ -54,7 +54,7 @@ Route::delete('/typeOfVm/{id}', [typeOfVmController::class, '@destroy']);
 
 
 // Routes pour 'event'
-Route::get('/event', [EventController::class, '@index']);
+Route::get('/events', [EventController::class, '@index']);
 Route::post('/event', [EventController::class, '@store']);
 Route::get('/event/{id}', [EventController::class, '@show']);
 Route::put('/event/{id}', [EventController::class, '@update']);
