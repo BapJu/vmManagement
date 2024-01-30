@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('flagvm', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('name');
-            $table->char('description')->nullable();
+            $table->char('name', 50);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flagvm');
+        Schema::dropIfExists('role');
     }
 };

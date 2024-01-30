@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subject', function (Blueprint $table) {
-            $table->increments('id');
-            $table->char('description');
-            $table->integer('ipaddressingplan');
+        Schema::create('avoir_flagvm', function (Blueprint $table) {
+            $table->integer('id');
+            $table->integer('id_flagvm');
+
+            $table->primary(['id', 'id_flagvm']);
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subject');
+        Schema::dropIfExists('avoir_flagvm');
     }
 };

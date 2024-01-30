@@ -9,8 +9,8 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $Locations = Location::all();
-        return response()->json($Locations);
+        $Location = Location::all();
+        return response()->json($Location);
     }
 
     // Méthode pour créer un nouveau rôle

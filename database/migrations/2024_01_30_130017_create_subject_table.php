@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('avoir_flagvm', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('id_typeofvm');
-
-            $table->primary(['id', 'id_typeofvm']);
+        Schema::create('subject', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description');
+            $table->integer('ipaddressingplan');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('avoir_flagvm');
+        Schema::dropIfExists('subject');
     }
 };

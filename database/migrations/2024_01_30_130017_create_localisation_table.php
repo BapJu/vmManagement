@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('localisation', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('site');
+            $table->string('name', 50);
             $table->integer('ipaddressingplan');
         });
     }

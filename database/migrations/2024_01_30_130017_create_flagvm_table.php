@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('typeofvm', function (Blueprint $table) {
+        Schema::create('flagvm', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('description')->nullable();
-            $table->integer('template_id');
-            $table->integer('id_localisation')->nullable();
-            $table->integer('id_subject')->nullable();
+            $table->string('name', 50);
+            $table->string('description')->nullable();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typeofvm');
+        Schema::dropIfExists('flagvm');
     }
 };

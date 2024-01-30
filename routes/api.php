@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\typeOfVmController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\StorageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,33 +31,42 @@ Route::get('/role/{id}', [RoleController::class,'show']);
 Route::put('/role/{id}', [RoleController::class, 'update']);
 Route::delete('/role/{id}', [RoleController::class, 'destroy']);
 
-// Routes pour 'lieu'
-Route::get('/locations', [LocationController::class, 'index']);
-Route::post('/location', [LocationController::class, 'store']);
-Route::get('/location/{id}', [LocationController::class, 'show']);
-Route::put('/location/{id}', [LocationController::class, 'update']);
-Route::delete('/location/{id}', [LocationController::class, 'destroy']);
+// Routes pour 'localisation'
+Route::get('/localisations', [LocationController::class, 'index']);
+Route::post('/localisation', [LocationController::class, 'store']);
+Route::get('/localisation/{id}', [LocationController::class, 'show']);
+Route::put('/localisation/{id}', [LocationController::class, 'update']);
+Route::delete('/localisation/{id}', [LocationController::class, 'destroy']);
 
-// Routes pour 'course'
-Route::get('/courses', [CourseController::class, '@index']);
-Route::post('/course', [CourseController::class, '@store']);
-Route::get('/course/{id}', [CourseController::class, '@show']);
-Route::put('/course/{id}', [CourseController::class, '@update']);
-Route::delete('/course/{id}', [CourseController::class, '@destroy']);
+// Routes pour 'Subject'
+Route::get('/subjects', [SubjectController::class, 'index']);
+Route::post('/subject', [SubjectController::class, 'store']);
+Route::get('/subject/{id}', [SubjectController::class, 'show']);
+Route::put('/subject/{id}', [SubjectController::class, 'update']);
+Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 
 // Routes pour 'type_of_vm'
-Route::get('/typeOfVms', [typeOfVmController::class, '@index']);
-Route::post('/typeOfVm', [typeOfVmController::class, '@store']);
-Route::get('/typeOfVm/{id}', [typeOfVmController::class, '@show']);
-Route::put('/typeOfVm/{id}', [typeOfVmController::class, '@update']);
-Route::delete('/typeOfVm/{id}', [typeOfVmController::class, '@destroy']);
+Route::get('/typeOfVms', [typeOfVmController::class, 'index']);
+Route::get('/typeOfVms/location={idLocalisation}/subject={idSubject}', [typeOfVmController::class, 'filter']);
+Route::post('/typeOfVm', [typeOfVmController::class, 'store']);
+Route::get('/typeOfVm/{id}', [typeOfVmController::class, 'show']);
+Route::put('/typeOfVm/{id}', [typeOfVmController::class, 'update']);
+Route::delete('/typeOfVm/{id}', [typeOfVmController::class, 'destroy']);
 
 
 // Routes pour 'event'
-Route::get('/events', [EventController::class, '@index']);
-Route::post('/event', [EventController::class, '@store']);
-Route::get('/event/{id}', [EventController::class, '@show']);
-Route::put('/event/{id}', [EventController::class, '@update']);
-Route::delete('/event/{id}', [EventController::class, '@destroy']);
+Route::get('/events', [EventController::class, 'index']);
+Route::post('/event', [EventController::class, 'store']);
+Route::get('/event/{id}', [EventController::class, 'show']);
+Route::put('/event/{id}', [EventController::class, 'update']);
+Route::delete('/event/{id}', [EventController::class, 'destroy']);
+
+
+// Routes pour 'storage'
+Route::get('/storages', [StorageController::class, 'index']);
+Route::post('/storage', [StorageController::class, 'store']);
+Route::get('/storage/{id}', [StorageController::class, 'show']);
+Route::put('/storage/{id}', [StorageController::class, 'update']);
+Route::delete('/storage/{id}', [StorageController::class, 'destroy']);
 

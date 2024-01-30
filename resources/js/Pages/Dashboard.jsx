@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 export default function Dashboard({ auth }) {
     const [vmStats, setVmStats] = useState({ totalCreated: 0, totalActive: 0 });
@@ -18,26 +20,69 @@ export default function Dashboard({ auth }) {
         });
     }, []);
 
-    const handleSiteChange = (event) => {
-        setSite(event.target.value);
-        // Vous pouvez également ajouter une logique ici pour charger les domaines en fonction du site sélectionné
-    };
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        id_localisation: 1,
+        id_subject: 1,
+        id_template: null,
 
-    const handleDomainChange = (event) => {
-        setDomain(event.target.value);
-        // Chargez les templates disponibles en fonction du site et du domaine sélectionné
-        fetchTemplates(site, event.target.value).then(data => {
-            setTemplates(data);
-        });
-    };
 
-    async function fetchTemplates(site, domain) {
-        return [
-            { id: 1, name: 'Template 1' },
-            { id: 2, name: 'Template 2' },
-            // Plus de templates...
-        ];
-    }
+    });
+
+    const [localisations, setLocalisation] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/localisations')
+            .then(response => response.json())
+            .then(data => {
+                setLocalisation(data);
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
+    }, []);
+
+    const [subjects, setSubject] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/subjects')
+            .then(response => response.json())
+            .then(data => {
+                setSubject(data);
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
+    }, []);
+
+
+    useEffect(() => {
+        if (data.id_localisation && data.id_subject) {
+            fetch(`/api/typeOfVms/location=${data.id_localisation}/subject=${data.id_subject}`)
+                .then(response => response.json())
+                .then(data => {
+                    setTemplates(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching roles:', error);
+                });
+        }
+    }, [data]);
+
+
+    const [storages, setStorage] = useState([]);
+
+    useEffect(() => {
+            fetch(`/api/storages`)
+                .then(response => response.json())
+                .then(data => {
+                    setStorage(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching roles:', error);
+                });
+    }, [data]);
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -53,7 +98,7 @@ export default function Dashboard({ auth }) {
             totalActive: 30,  // Replace with actual data
         };
     }
-
+    console.log(data);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -81,30 +126,60 @@ export default function Dashboard({ auth }) {
                         <form onSubmit={handleSubmit}>
                             <div>
                                 <label>Site:</label>
-                                <select value={site} onChange={handleSiteChange}>
-                                    <option value="">Sélectionner un site</option>
-                                    {/* Options des sites ici */}
+                                <select
+                                    id="localisation"
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('id_localisation', e.target.value)}
+                                    required>
+                                    {localisations.map(localisation => (
+                                        <option key={localisation.id}
+                                                value={localisation.id}>{localisation.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div>
                                 <label>Domaine:</label>
-                                <select value={domain} onChange={handleDomainChange}>
-                                    <option value="">Sélectionner un domaine</option>
-                                    {/* Options des domaines ici */}
+                                <select
+                                    id="subject"
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('id_subject', e.target.value)}
+                                    required>
+                                    {subjects.map(subject => (
+                                        <option key={subject.id}
+                                                value={subject.id}>{subject.description}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label>Mémoire:</label>
+                                <select
+                                    id="storage"
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('id_storage', e.target.value)}
+                                    required>
+                                    {storages.map(storage => (
+                                        <option key={storage.id}
+                                                value={storage.id}>{storage.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div>
                                 <label>Template:</label>
-                                <select value={selectedTemplate} onChange={(e) => setSelectedTemplate(e.target.value)}>
-                                    <option value="">Sélectionner un template</option>
+                                <select
+                                    id="template"
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('id_template', e.target.value)}
+                                    required>
                                     {templates.map(template => (
-                                        <option key={template.id} value={template.id}>{template.name}</option>
+                                        <option key={template.id}
+                                                value={template.id}>{template.description}</option>
                                     ))}
                                 </select>
                             </div>
                             <div>
                                 <label>Nombre de VM à créer:</label>
-                                <input type="number" value={vmCount} onChange={(e) => setVmCount(e.target.value)} min="1"/>
+                                <input type="number" value={vmCount} onChange={(e) => setVmCount(e.target.value)}
+                                       min="1"/>
                             </div>
                             <button type="submit">Créer VM</button>
                         </form>

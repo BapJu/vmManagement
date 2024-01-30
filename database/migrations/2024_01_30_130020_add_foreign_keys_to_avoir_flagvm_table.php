@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('avoir_flagvm', function (Blueprint $table) {
-            $table->foreign(['id'], 'avoir_flagvm_flagvm_fk')->references(['id'])->on('flagvm');
-            $table->foreign(['id_typeofvm'], 'avoir_flagvm_typeofvm0_fk')->references(['id'])->on('typeofvm');
+            $table->foreign(['id'], 'avoir_flagvm_event_fk')->references(['id'])->on('event');
+            $table->foreign(['id_flagvm'], 'avoir_flagvm_flagvm0_fk')->references(['id'])->on('flagvm');
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('avoir_flagvm', function (Blueprint $table) {
-            $table->dropForeign('avoir_flagvm_flagvm_fk');
-            $table->dropForeign('avoir_flagvm_typeofvm0_fk');
+            $table->dropForeign('avoir_flagvm_event_fk');
+            $table->dropForeign('avoir_flagvm_flagvm0_fk');
         });
     }
 };

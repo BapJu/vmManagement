@@ -17,12 +17,13 @@ return new class extends Migration
             $table->increments('id');
             $table->date('created_at');
             $table->date('scheduledexpiry')->nullable();
-            $table->char('ip', 15);
+            $table->string('ip', 15);
             $table->date('effectiveexpiry')->nullable();
             $table->boolean('active');
             $table->integer('vmid');
             $table->integer('id_user');
             $table->integer('id_typeofvm');
+            $table->integer('id_storage');
         });
     }
 

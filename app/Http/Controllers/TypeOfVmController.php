@@ -59,4 +59,12 @@ class TypeOfVmController extends Controller
 
         return response()->json(['message' => 'TypeOfVm deleted successfully']);
     }
+
+
+    public function filter($idLocalisation, $idSubject)
+    {
+        $TypeOfVms = TypeOfVm::where('id_localisation', $idLocalisation)->where('id_subject', $idSubject)->get();
+        return response()->json($TypeOfVms);
+    }
+
 }
