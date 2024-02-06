@@ -34,7 +34,7 @@ class EventController extends Controller
             SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text) AS available_ip
             FROM ip_series
             WHERE NOT EXISTS (
-                SELECT 1 FROM events WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)
+                SELECT 1 FROM event WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)
             )
         )
         SELECT available_ip
@@ -42,7 +42,7 @@ class EventController extends Controller
         LIMIT :limit
     ";
 
-        $ipAvailable = DB::select($query, ['limit' => $request->input('number_of_events')]);
+        $ipAvailable = DB::select($query, ['limit' => $request->input('nb_vm')]);
 
         if (empty($ipAvailable)) {
             // Si aucune plage d'IP disponible, renvoyer une erreur
