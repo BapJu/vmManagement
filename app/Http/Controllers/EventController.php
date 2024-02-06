@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -13,14 +14,55 @@ class EventController extends Controller
         return response()->json($Events);
     }
 
-    // Méthode pour créer un nouveau rôle
+    // Méthode pour créer un nouveau event
     public function store(Request $request)
     {
-        $Event = new Event();
-        $Event->name = $request->input('name'); // Assurez-vous d'avoir un champ 'name' dans votre formulaire
-        $Event->save();
+        // On récupère les infos pour établir l'IP
+        $idLocalisation = $request->input('id_localisation');
+        $idSubject = $request->input('id_subject');
 
-        return response()->json(['message' => 'Event created successfully']);
+        // On récupère le masque de sous-réseau
+        $mask_subject = DB::table('subject')->where('id', $idSubject)->value('mask');
+        $mask_site = DB::table('localisation')->where('id', $idLocalisation)->value('mask');
+
+        // Vérifier d'abord la disponibilité d'une plage d'IP
+        $query = "
+        WITH ip_series AS (
+            SELECT generate_series(1,254) AS octet
+        ),
+        available_ips AS (
+            SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text) AS available_ip
+            FROM ip_series
+            WHERE NOT EXISTS (
+                SELECT 1 FROM events WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)
+            )
+        )
+        SELECT available_ip
+        FROM available_ips
+        LIMIT :limit
+    ";
+
+        $ipAvailable = DB::select($query, ['limit' => $request->input('number_of_events')]);
+
+        if (empty($ipAvailable)) {
+            // Si aucune plage d'IP disponible, renvoyer une erreur
+            return response()->json(['message' => 'No IP range available'], 400);
+        }
+
+        foreach ($ipAvailable as $ip) {
+            // Créer un nouvel événement pour chaque adresse IP disponible
+            $event = new Event();
+            $event->id_typeofvm = $request->input('id_template');
+            $event->id_user = $request->input('id_user');
+            $event->id_storage = $request->input('id_storage');
+            $event->id_localisation = $request->input('id_localisation');
+            $event->id_subject = $request->input('id_subject');
+            $event->ip = $ip->available_ip;
+            $event->save();
+        }
+
+        // Renvoyer un message de succès
+        return response()->json(['message' => 'Events created successfully'], 201);
     }
 
     // Méthode pour afficher un rôle spécifique

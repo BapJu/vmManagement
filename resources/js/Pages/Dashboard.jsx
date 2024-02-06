@@ -24,6 +24,11 @@ export default function Dashboard({ auth }) {
         id_localisation: 1,
         id_subject: 1,
         id_template: null,
+        id_storage: 1,
+        nb_vm: 1,
+        id_user: auth.user.id,
+        end_date: null,
+
 
 
     });
@@ -86,9 +91,23 @@ export default function Dashboard({ auth }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Logique de création de VM ici
-        console.log('Creating VMs:', { site, domain, selectedTemplate, vmCount });
-    };
+        console.log('Creating VMs:', data);
+        fetch('/api/event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
 
     // Mock function to simulate fetching data, replace with actual data fetching
     async function fetchVMStats() {
@@ -177,9 +196,14 @@ export default function Dashboard({ auth }) {
                                 </select>
                             </div>
                             <div>
+                                <label>Date de fin des Vms:</label>
+                                <input type="date" onChange={(e) => setData('end_date', e.target.value)}/>
+                            </div>
+                            <div>
                                 <label>Nombre de VM à créer:</label>
-                                <input type="number" value={vmCount} onChange={(e) => setVmCount(e.target.value)}
-                                       min="1"/>
+                                <input type="number" value={vmCount} onChange={(e) => setData('nb_vm', e.target.value)}
+                                       min="1"
+                                />
                             </div>
                             <button type="submit">Créer VM</button>
                         </form>
