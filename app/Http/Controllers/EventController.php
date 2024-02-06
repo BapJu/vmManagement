@@ -22,8 +22,8 @@ class EventController extends Controller
         $idSubject = $request->input('id_subject');
 
         // On récupère le masque de sous-réseau
-        $mask_subject = DB::table('subject')->where('id', $idSubject)->value('mask');
-        $mask_site = DB::table('localisation')->where('id', $idLocalisation)->value('mask');
+        $mask_subject = DB::table('subject')->where('id', $idSubject)->value('ipaddressingplan');
+        $mask_site = DB::table('localisation')->where('id', $idLocalisation)->value('ipaddressingplan');
 
         // Vérifier d'abord la disponibilité d'une plage d'IP
         $query = "
@@ -52,7 +52,7 @@ class EventController extends Controller
         foreach ($ipAvailable as $ip) {
             // Créer un nouvel événement pour chaque adresse IP disponible
             $event = new Event();
-            $event->id_typeofvm = $request->input('id_template');
+            $event->id_typeofvm = $request->input('id_typeofvm');
             $event->id_user = $request->input('id_user');
             $event->id_storage = $request->input('id_storage');
             $event->id_localisation = $request->input('id_localisation');

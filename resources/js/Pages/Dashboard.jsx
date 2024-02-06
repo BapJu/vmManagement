@@ -23,11 +23,12 @@ export default function Dashboard({ auth }) {
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         id_localisation: 1,
         id_subject: 1,
-        id_template: null,
+        id_typeofvm: null,
         id_storage: 1,
         nb_vm: 1,
         id_user: auth.user.id,
         end_date: null,
+
 
 
 
@@ -187,7 +188,7 @@ export default function Dashboard({ auth }) {
                                 <select
                                     id="template"
                                     className="mt-1 block w-full"
-                                    onChange={(e) => setData('id_template', e.target.value)}
+                                    onChange={(e) => setData('id_typeofvm', e.target.value)}
                                     required>
                                     {templates.map(template => (
                                         <option key={template.id}
