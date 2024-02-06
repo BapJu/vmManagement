@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\typeOfVmController;
+use App\Http\Controllers\TypeOfVmController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StorageController;
 /*
@@ -47,12 +47,12 @@ Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 
 // Routes pour 'type_of_vm'
-Route::get('/typeOfVms', [typeOfVmController::class, 'index']);
-Route::get('/typeOfVms/location={idLocalisation}/subject={idSubject}', [typeOfVmController::class, 'filter']);
-Route::post('/typeOfVm', [typeOfVmController::class, 'store']);
-Route::get('/typeOfVm/{id}', [typeOfVmController::class, 'show']);
-Route::put('/typeOfVm/{id}', [typeOfVmController::class, 'update']);
-Route::delete('/typeOfVm/{id}', [typeOfVmController::class, 'destroy']);
+Route::get('/typeOfVms', [TypeOfVmController::class, 'index']);
+Route::get('/typeOfVms/location={idLocalisation}/subject={idSubject}', [TypeOfVmController::class, 'filter']);
+Route::post('/typeOfVm', [TypeOfVmController::class, 'store']);
+Route::get('/typeOfVm/{id}', [TypeOfVmController::class, 'show']);
+Route::put('/typeOfVm/{id}', [TypeOfVmController::class, 'update']);
+Route::delete('/typeOfVm/{id}', [TypeOfVmController::class, 'destroy']);
 
 
 // Routes pour 'event'
