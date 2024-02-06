@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('description');
             $table->integer('ipaddressingplan');
+            $table->integer('defaultgateway');
         });
     }
 
