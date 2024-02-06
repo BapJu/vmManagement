@@ -28,13 +28,13 @@ class EventController extends Controller
         // Vérifier d'abord la disponibilité d'une plage d'IP
         $query = "
         WITH ip_series AS (
-            SELECT generate_series(1,254) AS octet
+        SELECT generate_series(1,254) AS octet
         ),
         available_ips AS (
-            SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text) AS available_ip
+            SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet AS available_ip
             FROM ip_series
             WHERE NOT EXISTS (
-                SELECT 1 FROM event WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)
+                SELECT 1 FROM event WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet
             )
         )
         SELECT available_ip
