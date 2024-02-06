@@ -8,11 +8,7 @@ export default defineConfig({
             input: 'resources/js/app.jsx',
             refresh: true,
         }),
-
         react(),
     ],
-    server: {
-        host: '10.10.64.27',
-        port: 5173,
-    },
 });
+
