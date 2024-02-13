@@ -12,13 +12,7 @@ export default function Dashboard({ auth }) {
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
 
-    useEffect(() => {
-        // Fetch the VM statistics from your backend or state store
-        // This is a mock function, replace it with your actual data fetching logic
-        fetchVMStats().then(stats => {
-            setVmStats(stats);
-        });
-    }, []);
+
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         id_localisation: 1,
@@ -28,10 +22,6 @@ export default function Dashboard({ auth }) {
         nb_vm: 1,
         id_user: auth.user.id,
         end_date: null,
-
-
-
-
     });
 
     const [localisations, setLocalisation] = useState([]);
@@ -118,6 +108,18 @@ export default function Dashboard({ auth }) {
             totalActive: 30,  // Replace with actual data
         };
     }
+
+    useEffect(() => {
+        fetch(`/event/user=${auth.user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                setVmStats(data);
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
+    }, [vmStats]);
+    console.log(vmStats);
     console.log(data);
     return (
         <AuthenticatedLayout

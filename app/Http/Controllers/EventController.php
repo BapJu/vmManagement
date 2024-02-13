@@ -102,4 +102,15 @@ class EventController extends Controller
 
         return response()->json(['message' => 'Event deleted successfully']);
     }
+
+
+    public function filter($idUser)
+    {
+        $Events = Event::where('id_user', $idUser)->get();
+        if ($Events->isEmpty()) {
+            return response()->json([], 200);
+        }
+        return response()->json($Events);
+    }
+
 }

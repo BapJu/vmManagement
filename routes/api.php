@@ -61,6 +61,7 @@ Route::post('/event', [EventController::class, 'store']);
 Route::get('/event/{id}', [EventController::class, 'show']);
 Route::put('/event/{id}', [EventController::class, 'update']);
 Route::delete('/event/{id}', [EventController::class, 'destroy']);
+Route::get('/event/user={idUser}', [EventController::class, 'filter']);
 
 
 // Routes pour 'storage'
