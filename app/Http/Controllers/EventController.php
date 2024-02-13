@@ -75,6 +75,11 @@ class EventController extends Controller
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
 
+
+        $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
+        $output = shell_exec($command);
+        echo $output;
+
         foreach ($ipAvailable as $ip) {
             // Créer un nouvel événement pour chaque adresse IP disponible
             $event = new Event();
