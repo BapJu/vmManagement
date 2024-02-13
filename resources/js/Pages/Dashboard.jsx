@@ -110,7 +110,7 @@ export default function Dashboard({ auth }) {
     }
 
     useEffect(() => {
-        fetch(`api/event/user=${auth.user.id}`)
+        fetch(`api/event/user/${auth.user.id}`)
             .then(response => response.json())
             .then(data => {
                 setVmStats(data);
