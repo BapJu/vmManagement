@@ -73,7 +73,7 @@ class EventController extends Controller
         }
 
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
-        file_put_contents('clones.yml', $yamlContent);
+        file_put_contents(storage_path('app/Services/clones.yml'), $yamlContent);
 
         foreach ($ipAvailable as $ip) {
             // Créer un nouvel événement pour chaque adresse IP disponible
