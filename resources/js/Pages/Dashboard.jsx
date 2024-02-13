@@ -100,25 +100,26 @@ export default function Dashboard({ auth }) {
 
     }
 
-    // Mock function to simulate fetching data, replace with actual data fetching
-    async function fetchVMStats() {
-        // Fetch data from API or state management
-        return {
-            totalCreated: 50, // Replace with actual data
-            totalActive: 30,  // Replace with actual data
-        };
-    }
+
 
     useEffect(() => {
         fetch(`api/event/user/${auth.user.id}`)
             .then(response => response.json())
             .then(data => {
-                setVmStats(data);
+                // Calculate the total number of VMs created
+                const totalCreated = data.length;
+
+                // Calculate the total number of active VMs
+                const totalActive = data.filter(vm => vm.active).length;
+
+                // Update the vmStats state with these calculated values
+                setVmStats({ totalCreated, totalActive });
             })
             .catch(error => {
                 console.error('Error fetching roles:', error);
             });
-    }, [vmStats]);
+    }, []); // Removed vmStats from dependency array to prevent re-fetching
+
     console.log(vmStats);
     console.log(data);
     return (
