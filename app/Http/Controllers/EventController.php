@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\DB;
+use App\Services\YAMLGenerator;
+
 
 class EventController extends Controller
 {
@@ -49,6 +51,30 @@ class EventController extends Controller
             return response()->json(['message' => 'No IP range available'], 400);
         }
 
+        $dataForYAML = [];
+        $templateVMID = 104; // Exemple de valeur, ajustez selon vos besoins
+        $vmIDStart = 200; // ID de départ pour les VMs, ajustez selon vos besoins
+        $storage = "local-lvm"; // Exemple de valeur, ajustez selon vos besoins
+        $category = "beta application gestion"; // Exemple de valeur, ajustez selon vos besoins
+        $cloneNamePrefix = "AO-devTest-Beta";
+
+
+        foreach ($ipAvailable as $index => $ip) {
+            $vmid = $vmIDStart + $index; // Ajustez l'ID de VM dynamiquement
+            $dataForYAML[] = [
+                'template_vmid' => $templateVMID,
+                'vmid' => $vmid,
+                'static_ip' => $ip->available_ip,
+                'gateway' => "10.10.48.1", // Exemple de passerelle, ajustez selon vos besoins
+                'cloneName' => $cloneNamePrefix . "-" . $vmid,
+                'storage' => $storage,
+                'category' => $category
+            ];
+        }
+
+        $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
+        file_put_contents('clones.yml', $yamlContent);
+
         foreach ($ipAvailable as $ip) {
             // Créer un nouvel événement pour chaque adresse IP disponible
             $event = new Event();
@@ -61,6 +87,8 @@ class EventController extends Controller
             $event->active = true;
             $event->save();
         }
+
+
 
         // Renvoyer un message de succès
         return response()->json(['message' => 'Events created successfully'], 201);
