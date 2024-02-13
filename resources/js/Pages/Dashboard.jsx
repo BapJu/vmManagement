@@ -80,6 +80,25 @@ export default function Dashboard({ auth }) {
 
 
 
+    useEffect(() => {
+        fetch(`api/event/user/${auth.user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                // Calculate the total number of VMs created
+                const totalCreated = data.length;
+
+                // Calculate the total number of active VMs
+                const totalActive = data.filter(vm => vm.active).length;
+
+                // Update the vmStats state with these calculated values
+                setVmStats({ totalCreated, totalActive });
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
+    }, []); // Removed vmStats from dependency array to prevent re-fetching
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Creating VMs:', data);
@@ -100,27 +119,6 @@ export default function Dashboard({ auth }) {
 
     }
 
-
-
-    useEffect(() => {
-        fetch(`api/event/user/${auth.user.id}`)
-            .then(response => response.json())
-            .then(data => {
-                // Calculate the total number of VMs created
-                const totalCreated = data.length;
-
-                // Calculate the total number of active VMs
-                const totalActive = data.filter(vm => vm.active).length;
-
-                // Update the vmStats state with these calculated values
-                setVmStats({ totalCreated, totalActive });
-            })
-            .catch(error => {
-                console.error('Error fetching roles:', error);
-            });
-    }, []); // Removed vmStats from dependency array to prevent re-fetching
-
-    console.log(vmStats);
     console.log(data);
     return (
         <AuthenticatedLayout
@@ -135,7 +133,7 @@ export default function Dashboard({ auth }) {
                     {/* VM Statistics Dashboard */}
                     <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <h3 className="font-semibold text-lg">VM Statistics</h3>
+                            <h3 className="font-semibold text-lg">Vos Statistics VM</h3>
                             <div>Total VMs Created: {vmStats.totalCreated}</div>
                             <div>Total VMs Active: {vmStats.totalActive}</div>
                         </div>
@@ -193,6 +191,8 @@ export default function Dashboard({ auth }) {
                                     className="mt-1 block w-full"
                                     onChange={(e) => setData('id_typeofvm', e.target.value)}
                                     required>
+                                    <option key={0}
+                                            value={0}>Choisissez votre template</option>
                                     {templates.map(template => (
                                         <option key={template.id}
                                                 value={template.id}>{template.description}</option>
