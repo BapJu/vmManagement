@@ -19,13 +19,20 @@ class EventController extends Controller
     // Méthode pour créer un nouveau event
     public function store(Request $request)
     {
-        // On récupère les infos pour établir l'IP
+        // Initialisation et récupération des valeurs dynamiques
         $idLocalisation = $request->input('id_localisation');
         $idSubject = $request->input('id_subject');
+        $nb_vm = $request->input('nb_vm');
+        $templateVMID = $request->input('id_typeofvm');
+        $storage_id =  $request->input('id_storage');
 
-        // On récupère le masque de sous-réseau
+        // Récupération des configurations depuis la BDD
         $mask_subject = DB::table('subject')->where('id', $idSubject)->value('ipaddressingplan');
         $mask_site = DB::table('localisation')->where('id', $idLocalisation)->value('ipaddressingplan');
+        $category = DB::table('subject')->where('id', $idSubject)->value('description');
+        $storage = DB::table('storage')->where('id', $storage_id)->value('name');
+
+
 
         // Vérifier d'abord la disponibilité d'une plage d'IP
         $query = "
@@ -44,7 +51,7 @@ class EventController extends Controller
         LIMIT :limit
     ";
 
-        $ipAvailable = DB::select($query, ['limit' => $request->input('nb_vm')]);
+        $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
 
         if (empty($ipAvailable)) {
             // Si aucune plage d'IP disponible, renvoyer une erreur
@@ -52,24 +59,27 @@ class EventController extends Controller
         }
 
         $dataForYAML = [];
-        $templateVMID = 104; // Exemple de valeur, ajustez selon vos besoins
-        $vmIDStart = 200; // ID de départ pour les VMs, ajustez selon vos besoins
-        $storage = "local-lvm"; // Exemple de valeur, ajustez selon vos besoins
-        $category = "beta application gestion"; // Exemple de valeur, ajustez selon vos besoins
-        $cloneNamePrefix = "AO-devTest-Beta";
 
+        $vmIDStart = DB::table('events')->max('vmid') + 1;
 
         foreach ($ipAvailable as $index => $ip) {
-            $vmid = $vmIDStart + $index; // Ajustez l'ID de VM dynamiquement
+            $vmid = $vmIDStart + $index;
             $dataForYAML[] = [
                 'template_vmid' => $templateVMID,
                 'vmid' => $vmid,
                 'static_ip' => $ip->available_ip,
-                'gateway' => "10.10.48.1", // Exemple de passerelle, ajustez selon vos besoins
-                'cloneName' => $cloneNamePrefix . "-" . $vmid,
-                'storage' => $storage,
-                'category' => $category
+                'gateway' => "10.{$mask_site}.{$mask_subject}.1",
+                'cloneName' => $category,
             ];
+            $event = new Event();
+            $event->id_typeofvm = $templateVMID;
+            $event->id_user = $request->input('id_user');
+            $event->id_storage = $storage_id;
+            $event->vmid = $vmid;
+            $event->scheduledexpiry = $request->input('end_date');
+            $event->ip = $ip->available_ip;
+            $event->active = true;
+            $event->save();
         }
 
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
@@ -80,22 +90,6 @@ class EventController extends Controller
         $output = shell_exec($command);
         echo $output;
 
-        foreach ($ipAvailable as $ip) {
-            // Créer un nouvel événement pour chaque adresse IP disponible
-            $event = new Event();
-            $event->id_typeofvm = $request->input('id_typeofvm');
-            $event->id_user = $request->input('id_user');
-            $event->id_storage = $request->input('id_storage');
-            $event->vmid = 3;
-            $event->scheduledexpiry = $request->input('end_date');
-            $event->ip = $ip->available_ip;
-            $event->active = true;
-            $event->save();
-        }
-
-
-
-        // Renvoyer un message de succès
         return response()->json(['message' => 'Events created successfully'], 201);
     }
 
