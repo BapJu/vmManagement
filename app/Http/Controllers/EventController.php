@@ -70,6 +70,7 @@ class EventController extends Controller
                 'static_ip' => $ip->available_ip,
                 'gateway' => "10.{$mask_site}.{$mask_subject}.1",
                 'cloneName' => $category,
+                'storage' => $storage,
             ];
             $event = new Event();
             $event->id_typeofvm = $templateVMID;
