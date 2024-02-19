@@ -60,7 +60,7 @@ class EventController extends Controller
 
         $dataForYAML = [];
 
-        $vmIDStart = DB::table('events')->max('vmid') + 1;
+        $vmIDStart = DB::table('event')->max('vmid') + 1;
 
         foreach ($ipAvailable as $index => $ip) {
             $vmid = $vmIDStart + $index;
