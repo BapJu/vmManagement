@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+
 
 
 export default function Dashboard({ auth }) {
@@ -11,9 +11,6 @@ export default function Dashboard({ auth }) {
     const [templates, setTemplates] = useState([]);
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
-
-    const [isLoading, setIsLoading] = useState(false); // État pour contrôler l'affichage de l'écran de chargement
-    const navigate = useNavigate(); // Hook pour la redirection
 
 
 
@@ -104,7 +101,7 @@ export default function Dashboard({ auth }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setIsLoading(true); // Affiche l'écran de chargement
+        console.log('Creating VMs:', data);
         fetch('/api/event', {
             method: 'POST',
             headers: {
@@ -115,15 +112,12 @@ export default function Dashboard({ auth }) {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                setIsLoading(false); // Masque l'écran de chargement
-                navigate('/dashboard'); // Utilisez navigate au lieu de history.push
             })
             .catch((error) => {
                 console.error('Error:', error);
-                setIsLoading(false); // Masquez l'écran de chargement en cas d'erreur
             });
-    };
 
+    }
 
     console.log(data);
     return (
