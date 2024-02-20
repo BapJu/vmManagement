@@ -72,51 +72,54 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            <div className="overflow-x-auto">
-                <h3>VMs List</h3>
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                    <tr>
-                        <th scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Name
-                        </th>
-                        <th scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Last update
-                        </th>
-                        <th scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                    {events.map(event => (
-                        <tr key={event.id}>
-                            <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                                {event.active ? (
-                                    <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
-                                                     className="cursor-pointer mr-2"/>
-                                ) : (
-                                    <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
-                                                     className="cursor-pointer mr-2"/>
-                                )}
-                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                 className="cursor-pointer"/>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
+            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Last update
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                            {events.map(event => (
+                                <tr key={event.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        {event.active ? (
+                                            <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                             className="cursor-pointer mr-2"/>
+                                        ) : (
+                                            <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                             className="cursor-pointer mr-2"/>
+                                        )}
+                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                         className="cursor-pointer"/>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </AuthenticatedLayout>
-    );
+);
 }
