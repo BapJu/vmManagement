@@ -1,15 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-
 import { Button } from 'react-bootstrap';
-
-
 
 export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
-
 
     useEffect(() => {
         // Effectuer une requête pour récupérer les événements de l'utilisateur
@@ -25,7 +20,6 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
-
 
     useEffect(() => {
         fetch('/api/typeOfVms', {
@@ -66,33 +60,31 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            <div>
+            <div className="table-responsive">
                 <h3>VMs List</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {events.map(event => (
-                                <tr key={event.id}>
-                                    <td>{getTemplateDescription(event.id_typeofvm)}</td>
-                                    <td>{event.active ? 'Active' : 'Inactive'}</td>
-                                    <td>
-                                        <Button onClick={() => handleStartVM(event.id)}>Start</Button>
-                                        <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
-                                        <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {events.map(event => (
+                        <tr key={event.id}>
+                            <td>{getTemplateDescription(event.id_typeofvm)}</td>
+                            <td>{event.active ? 'Active' : 'Inactive'}</td>
+                            <td>
+                                <Button onClick={() => handleStartVM(event.id)}>Start</Button>
+                                <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
+                                <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         </AuthenticatedLayout>
     );
 }
-
