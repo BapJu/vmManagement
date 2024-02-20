@@ -60,22 +60,28 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            <div className="table-responsive">
+            <div className="overflow-x-auto">
                 <h3>VMs List</h3>
-                <table className="table">
-                    <thead>
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
                     <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Name
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-white divide-y divide-gray-200">
                     {events.map(event => (
                         <tr key={event.id}>
-                            <td>{getTemplateDescription(event.id_typeofvm)}</td>
-                            <td>{event.active ? 'Active' : 'Inactive'}</td>
-                            <td>
+                            <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
                                 <Button onClick={() => handleStartVM(event.id)}>Start</Button>
                                 <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
                                 <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
