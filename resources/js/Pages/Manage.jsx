@@ -8,6 +8,8 @@ export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
 
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         // Effectuer une requête pour récupérer les événements de l'utilisateur
         fetch('/api/events', {
@@ -67,6 +69,11 @@ export default function Manage({ auth }) {
         return `${day}-${month}-${year}`;
     }
 
+
+    const filteredEvents = events.filter(event => {
+        return event.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -75,6 +82,13 @@ export default function Manage({ auth }) {
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="p-2 border border-gray-300 rounded-md"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
@@ -121,5 +135,5 @@ export default function Manage({ auth }) {
                 </div>
             </div>
         </AuthenticatedLayout>
-);
+    );
 }
