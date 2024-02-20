@@ -57,7 +57,7 @@ export default function Manage({ auth }) {
     };
 
     const getTemplateDescription = (id) => {
-        const template = typeOfVms.find(template => template.id === id); // Utilisez la casse correcte pour les noms de variables
+        const template = typeofvms.find(template => template.id === id);
         return template ? template.description : '';
     };
 
