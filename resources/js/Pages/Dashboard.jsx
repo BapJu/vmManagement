@@ -13,7 +13,7 @@ export default function Dashboard({ auth }) {
     const [vmCount, setVmCount] = useState(1);
 
     const [isLoading, setIsLoading] = useState(false); // État pour contrôler l'affichage de l'écran de chargement
-    const history = useNavigate(); // Hook pour la redirection
+    const navigate = useNavigate(); // Hook pour la redirection
 
 
 
