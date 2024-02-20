@@ -76,7 +76,7 @@ class EventController extends Controller
                 'pool' => 'Serveurs',
             ];
             $event = new Event();
-            $event->id_typeofvm = $templateVMID;
+            $event->id_typeofvm = $typeOfVm;
             $event->id_user = $request->input('id_user');
             $event->id_storage = $storage_id;
             $event->vmid = str_replace('.', '', $ip->available_ip);
