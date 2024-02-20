@@ -115,14 +115,15 @@ export default function Dashboard({ auth }) {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                setIsLoading(false);
-                history.push('/dashboard');
+                setIsLoading(false); // Masque l'écran de chargement
+                navigate('/dashboard'); // Utilisez navigate au lieu de history.push
             })
             .catch((error) => {
                 console.error('Error:', error);
-                setIsLoading(false);
+                setIsLoading(false); // Masquez l'écran de chargement en cas d'erreur
             });
     };
+
 
     console.log(data);
     return (
