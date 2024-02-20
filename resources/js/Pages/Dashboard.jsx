@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 
 
 export default function Dashboard({ auth }) {
@@ -13,7 +13,7 @@ export default function Dashboard({ auth }) {
     const [vmCount, setVmCount] = useState(1);
 
     const [isLoading, setIsLoading] = useState(false); // État pour contrôler l'affichage de l'écran de chargement
-    const history = useHistory(); // Hook pour la redirection
+    const history = useNavigate(); // Hook pour la redirection
 
 
 
