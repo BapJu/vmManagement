@@ -3,12 +3,12 @@ import {Head, useForm} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'
+
 
 
 export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
-    const navigateTo = useNavigate();
+
 
     useEffect(() => {
         // Effectuer une requête pour récupérer les événements de l'utilisateur
