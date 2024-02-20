@@ -66,7 +66,7 @@ class EventController extends Controller
             $vmid = $vmIDStart + $index;
             $dataForYAML[] = [
                 'template_vmid' => $templateVMID,
-                'vmid' => $ip->available_ip,
+                'vmid' => str_replace('.', '', $ip->available_ip),
                 'static_ip' => $ip->available_ip,
                 'gateway' => "10.{$mask_site}.{$mask_subject}.1",
                 'cloneName' => $category,
@@ -77,7 +77,7 @@ class EventController extends Controller
             $event->id_typeofvm = $templateVMID;
             $event->id_user = $request->input('id_user');
             $event->id_storage = $storage_id;
-            $event->vmid = $vmid;
+            $event->vmid = str_replace('.', '', $ip->available_ip);
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
             $event->active = true;
