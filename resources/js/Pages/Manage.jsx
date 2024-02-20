@@ -20,7 +20,7 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data.events); // Mettre à jour l'état avec les événements récupérés
+                setEvents(data.events);
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
@@ -47,16 +47,20 @@ export default function Manage({ auth }) {
         >
             <div>
                 <h3>VMs List</h3>
-                <ul>
-                    {events.map(event => (
-                        <li key={event.id}>
-                            <span>{event.name}</span>
-                            <Button onClick={() => handleStartVM(event.id)}>Start</Button>
-                            <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
-                            <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
-                        </li>
-                    ))}
-                </ul>
+                {events.length > 0 ? (
+                    <ul>
+                        {events.map(event => (
+                            <li key={event.id}>
+                                <span>{event.name}</span>
+                                <Button onClick={() => handleStartVM(event.id)}>Start</Button>
+                                <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
+                                <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No events found.</p>
+                )}
             </div>
         </AuthenticatedLayout>
     );
