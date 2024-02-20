@@ -7,6 +7,7 @@ import { faPlay, faStop, faTrash } from '@fortawesome/free-solid-svg-icons';
 export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
+    const [subjects, setSubjects] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -39,6 +40,20 @@ export default function Manage({ auth }) {
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
 
+    useEffect(() => {
+        fetch('/api/subjects', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${auth.token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setSubjects(data);
+            })
+            .catch(error => console.error('Error fetching typeofdata:', error));
+    }, [auth.token]);
+
     const handleStartVM = (vmId) => {
         // Effectuer une requête pour démarrer la VM avec l'ID vmId
         console.log('Starting VM with ID:', vmId);
@@ -59,6 +74,11 @@ export default function Manage({ auth }) {
         return template ? template.description : '';
 
 
+    };
+
+    const getSubjectsDescription = (id) => {
+        const subject = subjects.find(subject => subject.id === id);
+        return subject ? subject.description : '';
     };
 
     function formatDate(isoDateString) {
@@ -113,7 +133,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 <tr key={event.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
