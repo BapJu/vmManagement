@@ -56,6 +56,11 @@ export default function Manage({ auth }) {
         console.log('Deleting VM with ID:', vmId);
     };
 
+    const getTemplateDescription = (id) => {
+        const template = typeofvms.find(template => template.id === id);
+        return template ? template.description : '';
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -74,7 +79,7 @@ export default function Manage({ auth }) {
                         <tbody>
                             {events.map(event => (
                                 <tr key={event.id}>
-                                    <td>{event.name}</td>
+                                    <td>{getTemplateDescription(event.id_subject)}</td>
                                     <td>{event.active ? 'Active' : 'Inactive'}</td>
                                     <td>
                                         <Button onClick={() => handleStartVM(event.id)}>Start</Button>
