@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/manage', function () {
-    return Inertia::render('manage');
+    return Inertia::render('Manage');
 })->middleware(['auth', 'verified'])->name('manage');
 
 Route::middleware('auth')->group(function () {
