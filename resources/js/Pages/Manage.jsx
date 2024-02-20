@@ -57,7 +57,7 @@ export default function Manage({ auth }) {
     };
 
     const getTemplateDescription = (id) => {
-        const template = typeofvms.find(template => template.id === id);
+        const template = typeOfVms.find(template => template.id === id); // Utilisez la casse correcte pour les noms de variables
         return template ? template.description : '';
     };
 
@@ -79,7 +79,7 @@ export default function Manage({ auth }) {
                         <tbody>
                             {events.map(event => (
                                 <tr key={event.id}>
-                                    <td>{getTemplateDescription(event.id_subject)}</td>
+                                    <td>{getTemplateDescription(event.id_typeofvm)}</td>
                                     <td>{event.active ? 'Active' : 'Inactive'}</td>
                                     <td>
                                         <Button onClick={() => handleStartVM(event.id)}>Start</Button>
