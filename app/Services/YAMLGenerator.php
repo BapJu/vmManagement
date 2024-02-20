@@ -13,7 +13,7 @@ class YAMLGenerator
             $yaml .= "    gateway: " . $clone['gateway'] . "\n";
             $yaml .= "    cloneName: " . $clone['cloneName'] . "\n";
             $yaml .= "    storage: " . $clone['storage'] . "\n";
-            $yaml .= "    category: " . $clone['category'] . "\n\n";
+            $yaml .= "    pool: " . $clone['pool'] . "\n\n";
         }
         return $yaml;
     }
