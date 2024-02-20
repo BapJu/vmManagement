@@ -28,7 +28,7 @@ export default function Manage({ auth }) {
 
 
     useEffect(() => {
-        fetch('/api/typeofvms', {
+        fetch('/api/typeOfVms', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.token}`,
