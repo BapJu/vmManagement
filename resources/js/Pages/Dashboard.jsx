@@ -12,6 +12,9 @@ export default function Dashboard({ auth }) {
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
 
+    const [isLoading, setIsLoading] = useState(false); // État pour contrôler l'affichage de l'écran de chargement
+    const history = useHistory(); // Hook pour la redirection
+
 
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
@@ -101,7 +104,7 @@ export default function Dashboard({ auth }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Creating VMs:', data);
+        setIsLoading(true); // Affiche l'écran de chargement
         fetch('/api/event', {
             method: 'POST',
             headers: {
@@ -112,12 +115,14 @@ export default function Dashboard({ auth }) {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setIsLoading(false);
+                history.push('/dashboard');
             })
             .catch((error) => {
                 console.error('Error:', error);
+                setIsLoading(false);
             });
-
-    }
+    };
 
     console.log(data);
     return (
