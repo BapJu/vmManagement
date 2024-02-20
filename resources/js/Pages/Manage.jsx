@@ -87,10 +87,13 @@ export default function Manage({ auth }) {
                             <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                                <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
-                                                 className="cursor-pointer mr-2"/>
-                                <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
-                                                 className="cursor-pointer mr-2"/>
+                                {event.active ? (
+                                    <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                     className="cursor-pointer mr-2"/>
+                                ) : (
+                                    <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                     className="cursor-pointer mr-2"/>
+                                )}
                                 <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
                                                  className="cursor-pointer"/>
                             </td>
