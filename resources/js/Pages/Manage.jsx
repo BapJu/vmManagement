@@ -77,6 +77,10 @@ export default function Manage({ auth }) {
                         </th>
                         <th scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Last update
+                        </th>
+                        <th scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
@@ -84,8 +88,9 @@ export default function Manage({ auth }) {
                     <tbody className="bg-white divide-y divide-gray-200">
                     {events.map(event => (
                         <tr key={event.id}>
-                            <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{event.updated_at}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {event.active ? (
                                     <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
