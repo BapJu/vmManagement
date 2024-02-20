@@ -23,8 +23,10 @@ class EventController extends Controller
         $idLocalisation = $request->input('id_localisation');
         $idSubject = $request->input('id_subject');
         $nb_vm = $request->input('nb_vm');
-        $templateVMID = $request->input('id_typeofvm');
+        $typeOfVm = $request->input('id_typeofvm');
         $storage_id =  $request->input('id_storage');
+
+        $templateVMID = DB::table('type_of_vm')->where('id', $typeOfVm)->value('template_id');
 
         // Récupération des configurations depuis la BDD
         $mask_subject = DB::table('subject')->where('id', $idSubject)->value('ipaddressingplan');
