@@ -55,7 +55,17 @@ export default function Manage({ auth }) {
     const getTemplateDescription = (id) => {
         const template = typeofvms.find(template => template.id === id);
         return template ? template.description : '';
+
+
     };
+
+    function formatDate(isoDateString) {
+        const date = new Date(isoDateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
 
     return (
         <AuthenticatedLayout
@@ -88,9 +98,9 @@ export default function Manage({ auth }) {
                     <tbody className="bg-white divide-y divide-gray-200">
                     {events.map(event => (
                         <tr key={event.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{event.updated_at}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {event.active ? (
                                     <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
