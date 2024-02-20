@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faStop, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
