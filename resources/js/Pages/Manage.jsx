@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 
 export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
+    const [typeofvms, setTypeOfVms] = useState([]);
 
 
     useEffect(() => {
@@ -24,6 +25,21 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
+
+
+    useEffect(() => {
+        fetch('/api/typeofvms', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${auth.token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setTypeOfVms(data);
+            })
+            .catch(error => console.error('Error fetching typeofdata:', error));
+    }, [auth.token]);
 
     const handleStartVM = (vmId) => {
         // Effectuer une requête pour démarrer la VM avec l'ID vmId
@@ -47,18 +63,28 @@ export default function Manage({ auth }) {
         >
             <div>
                 <h3>VMs List</h3>
-                    <ul>
-                        {events.map(event => (
-                            <li key={event.id}>
-                                <span>{event.name}</span>
-                                <Button onClick={() => handleStartVM(event.id)}>Start</Button>
-                                <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
-                                <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No events found.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {events.map(event => (
+                                <tr key={event.id}>
+                                    <td>{event.name}</td>
+                                    <td>{event.active ? 'Active' : 'Inactive'}</td>
+                                    <td>
+                                        <Button onClick={() => handleStartVM(event.id)}>Start</Button>
+                                        <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
+                                        <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
             </div>
         </AuthenticatedLayout>
