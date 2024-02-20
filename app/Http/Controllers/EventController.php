@@ -66,7 +66,7 @@ class EventController extends Controller
             $vmid = $vmIDStart + $index;
             $dataForYAML[] = [
                 'template_vmid' => $templateVMID,
-                'vmid' => $vmid,
+                'vmid' => $ip->available_ip,
                 'static_ip' => $ip->available_ip,
                 'gateway' => "10.{$mask_site}.{$mask_subject}.1",
                 'cloneName' => $category,
