@@ -47,7 +47,6 @@ export default function Manage({ auth }) {
         >
             <div>
                 <h3>VMs List</h3>
-                {events.length > 0 ? (
                     <ul>
                         {events.map(event => (
                             <li key={event.id}>
@@ -60,7 +59,7 @@ export default function Manage({ auth }) {
                     </ul>
                 ) : (
                     <p>No events found.</p>
-                )}
+
             </div>
         </AuthenticatedLayout>
     );
