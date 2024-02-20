@@ -71,7 +71,7 @@ export default function Manage({ auth }) {
 
 
     const filteredEvents = events.filter(event => {
-        return event.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     return (
