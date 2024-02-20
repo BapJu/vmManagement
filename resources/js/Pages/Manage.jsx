@@ -20,7 +20,7 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data.events);
+                setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
