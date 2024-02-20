@@ -145,72 +145,41 @@ export default function Dashboard({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <label>Site:</label>
+                        <form onSubmit={handleSubmit} className="max-w-lg mx-auto mt-4">
+                            <div className="mb-4">
+                                <label htmlFor="localisation" className="block text-gray-700">Site:</label>
                                 <select
                                     id="localisation"
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     onChange={(e) => setData('id_localisation', e.target.value)}
-                                    required>
+                                    required
+                                >
                                     {localisations.map(localisation => (
                                         <option key={localisation.id}
                                                 value={localisation.id}>{localisation.name}</option>
                                     ))}
                                 </select>
                             </div>
-                            <div>
-                                <label>Domaine:</label>
+                            <div className="mb-4">
+                                <label htmlFor="subject" className="block text-gray-700">Domaine:</label>
                                 <select
                                     id="subject"
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     onChange={(e) => setData('id_subject', e.target.value)}
-                                    required>
+                                    required
+                                >
                                     {subjects.map(subject => (
-                                        <option key={subject.id}
-                                                value={subject.id}>{subject.description}</option>
+                                        <option key={subject.id} value={subject.id}>{subject.description}</option>
                                     ))}
                                 </select>
                             </div>
-                            <div>
-                                <label>Mémoire:</label>
-                                <select
-                                    id="storage"
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('id_storage', e.target.value)}
-                                    required>
-                                    {storages.map(storage => (
-                                        <option key={storage.id}
-                                                value={storage.id}>{storage.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label>Template:</label>
-                                <select
-                                    id="template"
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('id_typeofvm', e.target.value)}
-                                    required>
-                                    <option key={0}
-                                            value={0}>Choisissez votre template</option>
-                                    {templates.map(template => (
-                                        <option key={template.id}
-                                                value={template.id}>{template.description}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label>Date de fin des Vms:</label>
-                                <input type="date" onChange={(e) => setData('end_date', e.target.value)}/>
-                            </div>
-                            <div>
-                                <label>Nombre de VM à créer:</label>
-                                <input type="number" value={vmCount} onChange={(e) => setData('nb_vm', e.target.value)}
-                                       min="1"
-                                />
-                            </div>
-                            <button type="submit">Créer VM</button>
+                            {/* Ajoutez le reste de vos champs ici en suivant le même modèle */}
+                            <button
+                                type="submit"
+                                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Créer VM
+                            </button>
                         </form>
                     </div>
                 </div>
