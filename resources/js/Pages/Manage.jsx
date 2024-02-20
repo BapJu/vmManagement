@@ -65,13 +65,16 @@ export default function Manage({ auth }) {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                     <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Name
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
@@ -82,9 +85,12 @@ export default function Manage({ auth }) {
                             <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                                <Button onClick={() => handleStartVM(event.id)}>Start</Button>
-                                <Button onClick={() => handleStopVM(event.id)}>Stop</Button>
-                                <Button onClick={() => handleDeleteVM(event.id)}>Delete</Button>
+                                <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                 className="cursor-pointer mr-2"/>
+                                <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                 className="cursor-pointer mr-2"/>
+                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                 className="cursor-pointer"/>
                             </td>
                         </tr>
                     ))}
