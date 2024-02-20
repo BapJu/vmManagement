@@ -143,9 +143,9 @@ export default function Dashboard({ auth }) {
             </div>
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900">
+                    <div className="max-w-lg mx-auto mt-4">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
-                        <form onSubmit={handleSubmit} className="max-w-lg mx-auto mt-4">
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="localisation" className="block text-gray-700">Site:</label>
                                 <select
