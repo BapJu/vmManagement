@@ -53,6 +53,20 @@ Route::get('/manage', function () {
     return Inertia::render('Manage');
 })->middleware(['auth', 'verified'])->name('manage');
 
+Route::get('/manage-admin', function () {
+    if (Auth::check()) {
+        $userRole = Auth::user()->id_role;
+
+        if ($userRole == 1) {
+            return Inertia::render('ManageAdmin');
+        } else {
+            return redirect()->route('manage')->with('error', 'Accès interdit');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->middleware(['auth', 'verified'])->name('manage-admin');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
