@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Redirector;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +32,26 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::get('/dashboard-admin', function () {
-    return Inertia::render('DashboardAdmin');
+    // Vérifier si l'utilisateur est authentifié
+    if (Auth::check()) {
+        // Récupérer le rôle de l'utilisateur depuis la base de données
+        $userRole = Auth::user()->role_id;
+
+        // Vérifier le rôle de l'utilisateur (par exemple, si le rôle est 1 pour administrateur)
+        if ($userRole == 1) {
+            // Autoriser l'accès à la page DashboardAdmin
+            return Inertia::render('DashboardAdmin');
+        } else {
+            // Rediriger ou renvoyer une page d'erreur, selon vos besoins
+            return redirect()->route('dashboard')->with('error', 'Accès interdit');
+        }
+    } else {
+        // Rediriger l'utilisateur non authentifié vers la page de connexion
+        return redirect()->route('login');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard-admin');
 
 
