@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->rememberToken();
                 $table->timestamps();
 
+
                 // Définition de la clé étrangère pour id_role
                 $table->foreign('id_role')->references('id')->on('role');
             });

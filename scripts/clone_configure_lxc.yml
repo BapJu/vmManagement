@@ -1,0 +1,32 @@
+# clone_configure_lxc.yml
+---
+- name: Clone and configure LXC containers in Proxmox
+  hosts: all
+  vars:
+    clones_file: "clones.yml"
+
+  tasks:
+    - name: 'Clone LXC Containers'
+      include_vars:
+        file: "{{ clones_file }}"
+        name: clones
+
+    - name: 'Clone LXC Containers'
+      command: >
+        pct clone {{ item.template_vmid }} {{ item.vmid }}
+        --hostname ansible-lxc-{{ item.vmid }}
+        --pool {{ item.resource_pool }}
+        --hostname {{ item.cloneName }}
+      delegate_to: 10.10.48.9
+      ignore_errors: yes
+      with_items: "{{ clones.clones }}"
+
+    - name: 'Configure Static IP Address'
+      lineinfile:
+        path: "/etc/pve/nodes/ens10pxcv/lxc/{{ item.vmid }}.conf"
+        regexp: '^net0'
+        line: "net0: name=eth0,ip={{ item.static_ip }}/24,gw={{ item.gateway }},bridge=vmbr0"
+        create: yes
+      delegate_to: 10.10.48.9
+      with_items: "{{ clones.clones }}"
+

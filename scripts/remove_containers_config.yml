@@ -1,0 +1,5 @@
+# remove_containers_config.yml
+remove_containers:
+  - start_vmid: 200
+    end_vmid: 202
+

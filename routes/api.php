@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // Routes pour 'role'
-Route::get('/roles', [RoleController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/roles', [RoleController::class, 'index']);
 Route::post('/role', [RoleController::class,'store']);
 Route::get('/role/{id}', [RoleController::class,'show']);
 Route::put('/role/{id}', [RoleController::class, 'update']);

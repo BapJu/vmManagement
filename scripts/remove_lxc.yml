@@ -1,0 +1,24 @@
+# remove_lxc.yml
+---
+- name: Remove LXC containers in Proxmox
+  hosts: all
+  vars:
+    remove_containers_file: "/var/www/html/vmManagement/scripts/remove_containers_config.yml"
+
+  tasks:
+    - name: 'Load Remove Containers Configuration'
+      include_vars:
+        file: "{{ remove_containers_file }}"
+        name: remove_containers_config
+
+    - name: 'Generate VMIDs to Remove'
+      set_fact:
+        vmids_to_remove: "{{ range(remove_containers_config.remove_containers[0].start_vmid, remove_containers_config.remove_containers[0].end_vmid + 1)|list }}"
+
+    - name: 'Remove LXC Containers'
+      command: >
+        pct destroy {{ item }}
+      delegate_to: 10.10.48.9
+      ignore_errors: yes
+      with_items: "{{ vmids_to_remove }}"
+
