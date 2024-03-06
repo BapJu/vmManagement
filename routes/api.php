@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -70,4 +71,7 @@ Route::post('/storage', [StorageController::class, 'store']);
 Route::get('/storage/{id}', [StorageController::class, 'show']);
 Route::put('/storage/{id}', [StorageController::class, 'update']);
 Route::delete('/storage/{id}', [StorageController::class, 'destroy']);
+
+// Route pour la création de token
+Route::post('/tokens/create',[AuthApiController::class, 'register']);
 
