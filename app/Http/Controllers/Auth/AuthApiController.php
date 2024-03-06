@@ -14,7 +14,7 @@ class AuthApiController extends Controller
     public function register(Request $request){
         $fields = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users,email',
+            'email' => 'required|string|email|unique:user,email',
             'password' => 'required|string|confirmed'
         ]);
 
