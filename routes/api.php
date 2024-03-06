@@ -72,6 +72,7 @@ Route::get('/storage/{id}', [StorageController::class, 'show']);
 Route::put('/storage/{id}', [StorageController::class, 'update']);
 Route::delete('/storage/{id}', [StorageController::class, 'destroy']);
 
-// Route pour la création de token
+// Route pour la gestion des tokens
 Route::post('/tokens/create',[AuthApiController::class, 'register']);
-
+Route::middleware('auth:sanctum')->post('/tokens/logout',[AuthApiController::class, 'logout']);
+Route::post('/tokens/login',[AuthApiController::class, 'login']);
