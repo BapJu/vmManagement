@@ -29,6 +29,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/dashboard-admin', function () {
+    return Inertia::render('DashboardAdmin');
+})->middleware(['auth', 'verified'])->name('dashboard-admin');
+
 
 Route::get('/manage', function () {
     return Inertia::render('Manage');
