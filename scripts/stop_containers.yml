@@ -1,0 +1,19 @@
+# stop_containers.yml
+---
+- name: Stop LXC containers in Proxmox
+  hosts: all
+  vars:
+    start_vmid: 105
+    end_vmid: 106  # ajustez la fin de la plage selon vos besoins
+
+  tasks:
+    - name: 'Generate VMIDs to Stop'
+      set_fact:
+        vmids_to_stop: "{{ range(start_vmid, end_vmid + 1)|list }}"
+
+    - name: 'Stop LXC Containers'
+      command: >
+        pct stop {{ item }}
+      delegate_to: 10.10.48.9
+      ignore_errors: yes
+      with_items: "{{ vmids_to_stop }}"

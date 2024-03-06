@@ -1,0 +1,9 @@
+clones:
+  - template_vmid: 104
+    vmid: 200
+    static_ip: 10.10.48.1
+    gateway: 10.10.48.1
+    cloneName: AO-devTest-Beta-200
+    storage: local-lvm
+    category: beta application gestion
+

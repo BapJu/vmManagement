@@ -1,0 +1,19 @@
+# start_containers.yml
+---
+- name: Start LXC containers in Proxmox
+  hosts: all
+  vars:
+    start_vmid: 105
+    end_vmid: 106  # ajustez la fin de la plage selon vos besoins
+
+  tasks:
+    - name: 'Generate VMIDs to Start'
+      set_fact:
+        vmids_to_start: "{{ range(start_vmid, end_vmid + 1)|list }}"
+
+    - name: 'Start LXC Containers'
+      command: >
+        pct start {{ item }}
+      delegate_to: 10.10.48.9
+      ignore_errors: yes
+      with_items: "{{ vmids_to_start }}"

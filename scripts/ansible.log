@@ -1,0 +1,83 @@
+2024-02-02 10:25:06,486 p=21628 u=root |  10.10.48.9 | FAILED! => {
+    "changed": false,
+    "module_stderr": "Shared connection to 10.10.48.9 closed.\r\n",
+    "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n",
+    "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error",
+    "rc": 127
+}
+2024-02-02 10:26:33,541 p=21690 u=root |  10.10.48.9 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2024-02-02 10:29:59,246 p=21766 u=root |  PLAY [Clone and configure LXC containers in Proxmox] ****************************************
+2024-02-02 10:29:59,255 p=21766 u=root |  TASK [Gathering Facts] **********************************************************************
+2024-02-02 10:30:00,583 p=21766 u=root |  ok: [10.10.48.9]
+2024-02-02 10:30:00,609 p=21766 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:30:00,656 p=21766 u=root |  ok: [10.10.48.9]
+2024-02-02 10:30:00,700 p=21766 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:30:00,719 p=21766 u=root |  fatal: [10.10.48.9]: FAILED! => {"msg": "'dict object' has no attribute 'clones'"}
+2024-02-02 10:30:00,720 p=21766 u=root |  ...ignoring
+2024-02-02 10:30:00,761 p=21766 u=root |  TASK [Configure Static IP Address] **********************************************************
+2024-02-02 10:30:00,780 p=21766 u=root |  fatal: [10.10.48.9]: FAILED! => {"msg": "'dict object' has no attribute 'clones'"}
+2024-02-02 10:30:00,788 p=21766 u=root |  	to retry, use: --limit @/var/www/ansible/clone_configure_lxc.retry
+
+2024-02-02 10:30:00,788 p=21766 u=root |  PLAY RECAP **********************************************************************************
+2024-02-02 10:30:00,788 p=21766 u=root |  10.10.48.9                 : ok=3    changed=0    unreachable=0    failed=1   
+2024-02-02 10:32:22,417 p=21837 u=root |  PLAY [Clone and configure LXC containers in Proxmox] ****************************************
+2024-02-02 10:32:22,427 p=21837 u=root |  TASK [Gathering Facts] **********************************************************************
+2024-02-02 10:32:23,785 p=21837 u=root |  ok: [10.10.48.9]
+2024-02-02 10:32:23,811 p=21837 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:32:23,858 p=21837 u=root |  ok: [10.10.48.9]
+2024-02-02 10:32:23,901 p=21837 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:32:23,922 p=21837 u=root |  fatal: [10.10.48.9]: FAILED! => {"msg": "'dict object' has no attribute 'clones'"}
+2024-02-02 10:32:23,922 p=21837 u=root |  ...ignoring
+2024-02-02 10:32:23,962 p=21837 u=root |  TASK [Configure Static IP Address] **********************************************************
+2024-02-02 10:32:23,983 p=21837 u=root |  fatal: [10.10.48.9]: FAILED! => {"msg": "'dict object' has no attribute 'clones'"}
+2024-02-02 10:32:23,990 p=21837 u=root |  	to retry, use: --limit @/var/www/ansible/clone_configure_lxc.retry
+
+2024-02-02 10:32:23,990 p=21837 u=root |  PLAY RECAP **********************************************************************************
+2024-02-02 10:32:23,990 p=21837 u=root |  10.10.48.9                 : ok=3    changed=0    unreachable=0    failed=1   
+2024-02-02 10:34:44,748 p=21947 u=root |  PLAY [Clone and configure LXC containers in Proxmox] ****************************************
+2024-02-02 10:34:44,758 p=21947 u=root |  TASK [Gathering Facts] **********************************************************************
+2024-02-02 10:34:46,141 p=21947 u=root |  ok: [10.10.48.9]
+2024-02-02 10:34:46,160 p=21947 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:34:46,214 p=21947 u=root |  ok: [10.10.48.9]
+2024-02-02 10:34:46,258 p=21947 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-02 10:34:49,070 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:51,378 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 106, 'static_ip': '10.10.48.202', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:51,420 p=21947 u=root |  TASK [Configure Static IP Address] **********************************************************
+2024-02-02 10:34:51,863 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:52,118 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 106, 'static_ip': '10.10.48.202', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:52,161 p=21947 u=root |  TASK [Configure Clone Name, Storage, and Category] ******************************************
+2024-02-02 10:34:52,485 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:52,738 p=21947 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 106, 'static_ip': '10.10.48.202', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-02 10:34:52,746 p=21947 u=root |  PLAY RECAP **********************************************************************************
+2024-02-02 10:34:52,746 p=21947 u=root |  10.10.48.9                 : ok=5    changed=3    unreachable=0    failed=0   
+2024-02-06 14:06:19,955 p=77284 u=root |  PLAY [Clone and configure LXC containers in Proxmox] ****************************************
+2024-02-06 14:06:19,968 p=77284 u=root |  TASK [Gathering Facts] **********************************************************************
+2024-02-06 14:06:21,380 p=77284 u=root |  ok: [10.10.48.9]
+2024-02-06 14:06:21,411 p=77284 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-06 14:06:21,459 p=77284 u=root |  ok: [10.10.48.9]
+2024-02-06 14:06:21,507 p=77284 u=root |  TASK [Clone LXC Containers] *****************************************************************
+2024-02-06 14:06:24,225 p=77284 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-06 14:06:24,272 p=77284 u=root |  TASK [Configure Static IP Address] **********************************************************
+2024-02-06 14:06:24,700 p=77284 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-06 14:06:24,748 p=77284 u=root |  TASK [Configure Clone Name, Storage, and Category] ******************************************
+2024-02-06 14:06:25,063 p=77284 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-06 14:06:25,077 p=77284 u=root |  PLAY RECAP **********************************************************************************
+2024-02-06 14:06:25,077 p=77284 u=root |  10.10.48.9                 : ok=5    changed=3    unreachable=0    failed=0   
+2024-02-13 15:56:26,195 p=73888 u=root |  ERROR! Missing target hosts
+2024-02-13 17:50:44,113 p=76302 u=root |  ERROR! the playbook: /var/www/html/vmManagement/scripts/ansible/clone_configure_lxc.yml could not be found
+2024-02-13 17:50:55,031 p=76311 u=root |  PLAY [Clone and configure LXC containers in Proxmox] ****************************************************************************************************************************************
+2024-02-13 17:50:55,043 p=76311 u=root |  TASK [Gathering Facts] **********************************************************************************************************************************************************************
+2024-02-13 17:50:56,373 p=76311 u=root |  ok: [10.10.48.9]
+2024-02-13 17:50:56,403 p=76311 u=root |  TASK [Clone LXC Containers] *****************************************************************************************************************************************************************
+2024-02-13 17:50:56,453 p=76311 u=root |  ok: [10.10.48.9]
+2024-02-13 17:50:56,499 p=76311 u=root |  TASK [Clone LXC Containers] *****************************************************************************************************************************************************************
+2024-02-13 17:50:58,872 p=76311 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-13 17:50:58,917 p=76311 u=root |  TASK [Configure Static IP Address] **********************************************************************************************************************************************************
+2024-02-13 17:50:59,348 p=76311 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-13 17:50:59,394 p=76311 u=root |  TASK [Configure Clone Name, Storage, and Category] ******************************************************************************************************************************************
+2024-02-13 17:50:59,712 p=76311 u=root |  changed: [10.10.48.9 -> 10.10.48.9] => (item={'template_vmid': 104, 'vmid': 105, 'static_ip': '10.10.48.201', 'gateway': '10.10.48.1', 'cloneName': 'AO-devTest-Beta', 'storage': 'local-lvm', 'category': 'beta application gestion'})
+2024-02-13 17:50:59,732 p=76311 u=root |  PLAY RECAP **********************************************************************************************************************************************************************************
+2024-02-13 17:50:59,732 p=76311 u=root |  10.10.48.9                 : ok=5    changed=3    unreachable=0    failed=0   
