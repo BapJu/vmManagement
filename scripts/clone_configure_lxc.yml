@@ -15,6 +15,8 @@
       command: >
         pct clone {{ item.template_vmid }} {{ item.vmid }}
         --hostname ansible-lxc-{{ item.vmid }}
+        --pool {{ item.resource_pool }}
+        --hostname {{ item.cloneName }}
       delegate_to: 10.10.48.9
       ignore_errors: yes
       with_items: "{{ clones.clones }}"
@@ -27,15 +29,4 @@
         create: yes
       delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
-      
-    - name: 'Configure Clone Name, Storage, and Category'
-      lineinfile:
-        path: "/etc/pve/nodes/ens10pxcv/lxc/{{ item.vmid }}.conf"
-        regexp: '^# Additional Configurations$'
-        line: |
-          # Additional Configurations
-          hostname: {{ item.cloneName }}
-          storage: {{ item.storage }}
-          category: {{ item.category }}
-      delegate_to: 10.10.48.9
-      with_items: "{{ clones.clones }}"
+

@@ -1,0 +1,5 @@
+# stop_containers_config.yml
+stop_containers:
+  - start_vmid: 200
+    end_vmid: 202
+
