@@ -75,10 +75,7 @@ export default function Manage({ auth }) {
             },
             body: JSON.stringify(action),
         })
-            .then(response => {
-                console.log(response);
-                return response.json();
-            })
+
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
