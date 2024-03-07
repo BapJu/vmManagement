@@ -127,8 +127,8 @@ class EventController extends Controller
         }
 
         $action = $request->input('action');
-        if ($action === 'stop') {
 
+        if ($action === 'stop') {
             $event->save();
 
             return response()->json(['message' => 'Event stopped successfully']);
@@ -137,6 +137,7 @@ class EventController extends Controller
             return response()->json(['message' => 'Invalid action specified'], 400);
         }
     }
+
 
 
     // Méthode pour supprimer un rôle
