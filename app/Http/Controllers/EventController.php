@@ -122,13 +122,11 @@ class EventController extends Controller
             return response()->json(['message' => 'Event not found'], 404);
         }
 
-        $requestData = json_decode($request->getContent(), true);
-
-        if (!$requestData->has('action')) {
+        if (!$request->has('action')) {
             return response()->json(['message' => 'Action not specified in the request'], 400);
         }
 
-        $action = $requestData->input('action');
+        $action = $request->input('action');
 
         // Action de stop (unité par unité)
         if ($action === 'stop') {
