@@ -41,16 +41,15 @@ export default function Login({ status, canResetPassword }) {
         })
             .then(data => {
                 localStorage.setItem('bearerToken', data.token);
-
-                // Redirection ou mise à jour de l'interface utilisateur après la connexion réussie
                 console.log('Login success:', data);
+                post(route('login'));
             })
             .catch(error => {
                 console.error('Login error:', error);
                 setLoginError('Failed to login');
             });
 
-    post(route('login'));
+
     };
 
     return (
