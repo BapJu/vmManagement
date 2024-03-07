@@ -132,12 +132,12 @@ class EventController extends Controller
         if ($action === 'stop') {
             $event->save();
 
-            $dataForYAML[] = [
+            $dataForStopYAML[] = [
                 'start_vmid' => $id,
                 'end_vmid' => $id,
             ];
 
-            $yamlContent = YAMLGenerator::generateStopYAML($dataForYAML);
+            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
             file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
 
 
