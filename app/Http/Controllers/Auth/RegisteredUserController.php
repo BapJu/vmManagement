@@ -41,14 +41,26 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'api_token' => Str::random(60)
+            'password' => Hash::make($request->password)
         ]);
+
+
+
 
         event(new Registered($user));
 
         Auth::login($user);
+        // Création du personal access token pour l'utilisateur.
+        $token = $user->createToken('api_token')->plainTextToken;
 
-        return redirect(RouteServiceProvider::HOME);
+
+        // Sauvegarder dans une session ou le renvoyer avec la réponse.
+        // Pour cet exemple, disons que vous voulez juste rediriger l'utilisateur
+        // vers la page d'accueil et attacher le token à la session (ou en flash session).
+        session()->flash('api_token', $token);
+
+        return redirect(RouteServiceProvider::HOME)->with('api_token', $token);
+
+        //return redirect(RouteServiceProvider::HOME);
     }
 }

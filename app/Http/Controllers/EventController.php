@@ -16,6 +16,13 @@ class EventController extends Controller
         return response()->json($Events);
     }
 
+    public function index_current_user()
+    {
+        $Events = Event::where('id_user', auth()->user()->id)->get();
+        return response()->json($Events);
+
+    }
+
     // Méthode pour créer un nouveau event
     public function store(Request $request)
     {
