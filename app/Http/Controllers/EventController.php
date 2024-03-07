@@ -117,16 +117,27 @@ class EventController extends Controller
     // Méthode pour mettre à jour un rôle
     public function update(Request $request, $id)
     {
-        $Event = Event::find($id);
-        if (!$Event) {
+        $event = Event::find($id);
+        if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
         }
 
-        $Event->name = $request->input('name'); // Assurez-vous d'avoir un champ 'name' dans votre formulaire
-        $Event->save();
+        if (!$request->has('action')) {
+            return response()->json(['message' => 'Action not specified in the request'], 400);
+        }
 
-        return response()->json(['message' => 'Event updated successfully']);
+        $action = $request->input('action');
+        if ($action === 'stop') {
+
+            $event->save();
+
+            return response()->json(['message' => 'Event stopped successfully']);
+        } else {
+
+            return response()->json(['message' => 'Invalid action specified'], 400);
+        }
     }
+
 
     // Méthode pour supprimer un rôle
     public function destroy($id)
