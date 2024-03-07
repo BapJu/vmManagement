@@ -8,7 +8,7 @@ export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
     const [subjects, setSubjects] = useState([]);
-
+    const [action, setAction] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -60,9 +60,28 @@ export default function Manage({ auth }) {
     };
 
     const handleStopVM = (vmId) => {
-        // Effectuer une requête pour arrêter la VM avec l'ID vmId
-        console.log('Stopping VM with ID:', vmId);
+        // Définissez l'action à "stop"
+        const action = { action: "stop" };
+
+        // Effectuez une requête pour arrêter la VM avec l'ID vmId
+        fetch(`/api/event/${vmId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(action),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Vous pouvez ajouter ici du code pour mettre à jour l'interface utilisateur en fonction de la réponse
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Gérez les erreurs ici
+            });
     };
+
 
     const handleDeleteVM = (vmId) => {
         // Effectuer une requête pour supprimer la VM avec l'ID vmId
