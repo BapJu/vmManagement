@@ -65,7 +65,7 @@ export default function Manage({ auth }) {
 
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
