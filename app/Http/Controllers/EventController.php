@@ -142,7 +142,7 @@ class EventController extends Controller
 
 
 
-            return response()->json(['message' => 'Event stopped successfully']);
+            return response()->json(['message' => 'Event stopped successfully'])->header('Content-Type', 'application/json');
         } else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
