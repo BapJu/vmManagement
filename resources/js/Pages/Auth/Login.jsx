@@ -33,7 +33,7 @@ export default function Login({ status, canResetPassword }) {
                 password: data.password,
             }),
         })
-        then(response => {
+            .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
