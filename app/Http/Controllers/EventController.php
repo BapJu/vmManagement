@@ -132,7 +132,19 @@ class EventController extends Controller
         if ($action === 'stop') {
             $event->save();
 
+            $dataForStopYAML[] = [
+                'start_vmid' => $id,
+                'end_vmid' => $id,
+            ];
 
+            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
+            file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
+
+            /*
+            $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
+            $output = shell_exec($command);
+            echo $output;
+            */
 
             return response()->json(['message' => 'Event stopped successfully']);
         } else {
