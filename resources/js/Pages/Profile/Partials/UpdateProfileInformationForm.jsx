@@ -21,7 +21,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        fetch('/api/roles')
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/roles'),{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
             .then(response => response.json())
             .then(data => {
                 setRoles(data);
