@@ -12,11 +12,11 @@ export default function Manage({ auth }) {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        // Effectuer une requête pour récupérer les événements de l'utilisateur
-        fetch('/api/events', {
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/events/current_user', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
