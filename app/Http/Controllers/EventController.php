@@ -128,8 +128,19 @@ class EventController extends Controller
 
         $action = $request->input('action');
 
+        // Action de stop (unité par unité)
         if ($action === 'stop') {
             $event->save();
+
+            $dataForYAML[] = [
+                'start_vmid' => $id,
+                'end_vmid' => $id,
+            ];
+
+            $yamlContent = YAMLGenerator::generateStopYAML($dataForYAML);
+            file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
+
+
 
             return response()->json(['message' => 'Event stopped successfully']);
         } else {
