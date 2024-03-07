@@ -28,6 +28,13 @@ pipeline {
                 sh 'vendor/bin/phpunit'
             }
         }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
+                    sh 'mvn clean verify sonar:sonar'
+                }
+            }
+        }
     }
 
     post {
