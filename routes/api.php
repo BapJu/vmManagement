@@ -26,43 +26,44 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // Routes pour 'role'
-Route::middleware('auth:sanctum')->get('/roles', [RoleController::class, 'index']);
-Route::post('/role', [RoleController::class,'store']);
+Route::get('/roles', [RoleController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/role', [RoleController::class,'store']);
 Route::get('/role/{id}', [RoleController::class,'show']);
-Route::put('/role/{id}', [RoleController::class, 'update']);
-Route::delete('/role/{id}', [RoleController::class, 'destroy']);
+Route::middleware('auth:sanctum')->put('/role/{id}', [RoleController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/role/{id}', [RoleController::class, 'destroy']);
 
 // Routes pour 'localisation'
 Route::get('/localisations', [LocationController::class, 'index']);
-Route::post('/localisation', [LocationController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/localisation', [LocationController::class, 'store']);
 Route::get('/localisation/{id}', [LocationController::class, 'show']);
-Route::put('/localisation/{id}', [LocationController::class, 'update']);
-Route::delete('/localisation/{id}', [LocationController::class, 'destroy']);
+Route::middleware('auth:sanctum')->put('/localisation/{id}', [LocationController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/localisation/{id}', [LocationController::class, 'destroy']);
 
 // Routes pour 'Subject'
 Route::get('/subjects', [SubjectController::class, 'index']);
-Route::post('/subject', [SubjectController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/subject', [SubjectController::class, 'store']);
 Route::get('/subject/{id}', [SubjectController::class, 'show']);
-Route::put('/subject/{id}', [SubjectController::class, 'update']);
-Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
+Route::middleware('auth:sanctum')->put('/subject/{id}', [SubjectController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 
 // Routes pour 'type_of_vm'
 Route::get('/typeOfVms', [TypeOfVmController::class, 'index']);
 Route::get('/typeOfVms/location={idLocalisation}/subject={idSubject}', [TypeOfVmController::class, 'filter']);
-Route::post('/typeOfVm', [TypeOfVmController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/typeOfVm', [TypeOfVmController::class, 'store']);
 Route::get('/typeOfVm/{id}', [TypeOfVmController::class, 'show']);
-Route::put('/typeOfVm/{id}', [TypeOfVmController::class, 'update']);
-Route::delete('/typeOfVm/{id}', [TypeOfVmController::class, 'destroy']);
+Route::middleware('auth:sanctum')->put('/typeOfVm/{id}', [TypeOfVmController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/typeOfVm/{id}', [TypeOfVmController::class, 'destroy']);
 
 
 // Routes pour 'event'
-Route::get('/events', [EventController::class, 'index']);
-Route::post('/event', [EventController::class, 'store']);
-Route::get('/event/{id}', [EventController::class, 'show']);
-Route::put('/event/{id}', [EventController::class, 'update']);
-Route::delete('/event/{id}', [EventController::class, 'destroy']);
-Route::get('/event/user/{idUser}', [EventController::class, 'filter']);
+Route::middleware('auth:sanctum')->get('/events', [EventController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/events/current_user', [EventController::class, 'index_current_user']);
+Route::middleware('auth:sanctum')->post('/event', [EventController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/event/{id}', [EventController::class, 'show']);
+Route::middleware('auth:sanctum')->put('/event/{id}', [EventController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/event/{id}', [EventController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/event/user/{idUser}', [EventController::class, 'filter']);
 
 
 // Routes pour 'storage'
