@@ -101,11 +101,13 @@ export default function Dashboard({ auth }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(data),
         })

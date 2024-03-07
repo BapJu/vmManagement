@@ -28,10 +28,11 @@ export default function Manage({ auth }) {
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
         fetch('/api/typeOfVms', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
@@ -42,10 +43,11 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
         fetch('/api/subjects', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
@@ -63,12 +65,12 @@ export default function Manage({ auth }) {
     const handleStopVM = (vmId) => {
         // Définissez l'action à "stop"
         const action = { action: "stop" };
-
+        const token = localStorage.getItem('bearerToken');
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(action),
         })
