@@ -30,9 +30,11 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv('My SonarQube Server') {
-                    sh 'mvn clean verify sonar:sonar'
-                }
+              withSonarQubeEnv('sonarqube-server') {
+                  sh" ${SCANNER_HOME**}**}/bin/sonar-scanner \
+                  -Dsonar.projectKey=simple_webapp \
+                  -Dsonar.sources=. "
+              }
             }
         }
     }
