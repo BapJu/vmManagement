@@ -58,8 +58,34 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     const handleStartVM = (vmId) => {
-        // Effectuer une requête pour démarrer la VM avec l'ID vmId
-        console.log('Starting VM with ID:', vmId);
+        const action = { action: "start" };
+        const token = localStorage.getItem('bearerToken');
+
+        // Mettez à jour l'état local immédiatement
+        setEvents(prevEvents => {
+            return prevEvents.map(event =>
+                event.id === vmId ? { ...event, active: true } : event
+            );
+        });
+
+        // Effectuez une requête pour arrêter la VM avec l'ID vmId
+        fetch(`/api/event/${vmId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(action),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Vous pouvez effectuer d'autres actions ici si nécessaire
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Gérez les erreurs ici
+            });
     };
 
     const handleStopVM = (vmId) => {

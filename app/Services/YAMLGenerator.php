@@ -18,7 +18,7 @@ class YAMLGenerator
         return $yaml;
     }
 
-    public static function generateStopYAML($data) {
+    public static function generateStopStartYAML($data) {
         $yaml = "stop_containers:\n";
         foreach ($data as $clone) {
             $yaml .= "  - start_vmid: " . $clone['start_vmid'] . "\n";

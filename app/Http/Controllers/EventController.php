@@ -144,7 +144,7 @@ class EventController extends Controller
                 'end_vmid' => $id,
             ];
 
-            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
+            $yamlContent = YAMLGenerator::generateStopStartYAML($dataForStopYAML);
             file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
 
 
@@ -152,7 +152,26 @@ class EventController extends Controller
             exec($command);
 
             return response()->json(['message' => 'Event stopped successfully'],201);
-        } else {
+        } elseif ($action === 'start'){
+            $event->active = true;
+            $event->save();
+
+            $dataForStopYAML[] = [
+                'start_vmid' => $id,
+                'end_vmid' => $id,
+            ];
+
+            $yamlContent = YAMLGenerator::generateStopStartYAML($dataForStopYAML);
+            file_put_contents(base_path('/scripts/start_containers_config.yml'), $yamlContent);
+
+
+            $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml');
+            exec($command);
+
+            return response()->json(['message' => 'Event started successfully'],201);
+
+        }
+        else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
         }
