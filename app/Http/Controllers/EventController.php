@@ -141,8 +141,8 @@ class EventController extends Controller
             $event->save();
 
             $dataForStopYAML[] = [
-                'start_vmid' => $id,
-                'end_vmid' => $id,
+                'start_vmid' => $event->vmid,
+                'end_vmid' => $event->vmid,
             ];
 
             $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
@@ -158,8 +158,8 @@ class EventController extends Controller
             $event->save();
 
             $dataForStopYAML[] = [
-                'start_vmid' => $id,
-                'end_vmid' => $id,
+                'start_vmid' => $event->vmid,
+                'end_vmid' => $event->vmid,
             ];
 
             $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
