@@ -11,6 +11,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    PointElement,
 } from 'chart.js';
 
 // Enregistrement des composants nécessaires pour les graphiques
@@ -21,7 +22,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    PointElement,
 );
 
 function VmStatsGraph({ auth }) {
