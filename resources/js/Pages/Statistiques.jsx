@@ -12,6 +12,8 @@ import {
     Tooltip,
     Legend,
     PointElement,
+    PieController,
+    ArcElement,
 } from 'chart.js';
 
 // Enregistrement des composants nécessaires pour les graphiques
@@ -24,6 +26,8 @@ ChartJS.register(
     Tooltip,
     Legend,
     PointElement,
+    PieController,
+    ArcElement,
 );
 
 function VmStatsGraph({ auth }) {
@@ -83,15 +87,15 @@ function VmStatsGraph({ auth }) {
                                 },
                                 layout: {
                                     padding: {
-                                        left: 50, // Ajustez selon vos besoins
-                                        right: 50, // Ajustez selon vos besoins
+                                        left: 50,
+                                        right: 50,
                                         top: 0,
                                         bottom: 0,
                                     },
                                 },
                             }}
                         />
-                        <Bar
+                        <PieController
                             data={distributionData}
                             options={{
                                 plugins: {
