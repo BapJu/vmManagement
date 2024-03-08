@@ -65,7 +65,7 @@ function VmStatsGraph({ auth }) {
         >
             <Head title="Statistiques"/>
             <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div className="overflow-x-auto">
+                <div className=" min-w-full divide-y divide-gray-200 overflow-x-auto">
                     <div className="chart">
                         <Line
                             data={evolutionData}
