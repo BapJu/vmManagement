@@ -144,11 +144,15 @@ class EventController extends Controller
             $output = shell_exec($command);
             echo $output;
 
+            $event->active = false;
+            $event->save();
             return response()->json(['message' => 'Event stopped successfully']);
         } else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
         }
+
+
 
     }
 
