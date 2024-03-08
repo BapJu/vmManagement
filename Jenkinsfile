@@ -28,7 +28,13 @@ pipeline {
                 sh 'vendor/bin/phpunit'
             }
         }
+        stage('Check SonarQube Connection') {
+            steps {
+                sh 'curl -s -f http://10.10.48.204/api/system/status'
+            }
+        }
         stage('SonarQube analysis') {
+
             steps {
                   withSonarQubeEnv('sonarqube-server') {
                       sh "${env.SCANNER_HOME}/bin/sonar-scanner \
