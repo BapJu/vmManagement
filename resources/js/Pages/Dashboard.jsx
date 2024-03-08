@@ -78,7 +78,14 @@ export default function Dashboard({auth}) {
 
 
     useEffect(() => {
-        fetch(`api/event/user/${auth.user.id}`)
+        const token = localStorage.getItem('bearerToken');
+        fetch(`api/event/user/${auth.user.id}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+
             .then(response => response.json())
             .then(data => {
                 // Calculate the total number of VMs created
