@@ -6,7 +6,7 @@ export default function Welcome({ auth }) {
             <Head title="VM Management - ISEN Brest" />
             <div className="relative min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
                 <div className="sm:flex sm:justify-center sm:items-center p-6">
-                    <div className="sm:fixed sm:top-0 sm:right-0 text-end">
+                    <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-end">
                         {auth.user ? (
                             <Link
                                 href={route('dashboard')}
@@ -35,8 +35,10 @@ export default function Welcome({ auth }) {
 
                     <div className="max-w-7xl mx-auto p-6 lg:p-8">
                         <div className="text-center">
-                            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">Bienvenue sur VM Management</h1>
-                            <p className="mt-4 text-gray-600 dark:text-gray-300">La plateforme de gestion des machines virtuelles de l'ISEN Brest</p>
+                            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">Bienvenue sur VM
+                                Management</h1>
+                            <p className="mt-4 text-gray-600 dark:text-gray-300">La plateforme de gestion des machines
+                                virtuelles de l'ISEN Brest</p>
                         </div>
                     </div>
                 </div>
