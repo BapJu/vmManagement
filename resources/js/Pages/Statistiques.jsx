@@ -65,12 +65,12 @@ function VmStatsGraph({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Statistiques Globales des Vms</h2>}
         >
-            <Head title="Statistiques"/>
-            <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div className=" min-w-full divide-y divide-gray-200 overflow-x-auto">
-                    <div className="chart">
+            <Head title="Statistiques" />
+            <div className="mt-8 px-4 py-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-white rounded-lg shadow-xs">
                         <Line
                             data={evolutionData}
                             options={{
@@ -87,14 +87,16 @@ function VmStatsGraph({ auth }) {
                                 },
                                 layout: {
                                     padding: {
-                                        left: 50,
-                                        right: 50,
+                                        left: 20,
+                                        right: 20,
                                         top: 0,
                                         bottom: 0,
                                     },
                                 },
                             }}
                         />
+                    </div>
+                    <div className="p-4 bg-white rounded-lg shadow-xs">
                         <Pie
                             data={distributionData}
                             options={{
@@ -108,13 +110,13 @@ function VmStatsGraph({ auth }) {
                                         display: true,
                                         position: 'bottom',
                                     },
-                                    layout: {
-                                        padding: {
-                                            left: 50, // Ajustez selon vos besoins
-                                            right: 50, // Ajustez selon vos besoins
-                                            top: 0,
-                                            bottom: 0,
-                                        },
+                                },
+                                layout: {
+                                    padding: {
+                                        left: 20,
+                                        right: 20,
+                                        top: 0,
+                                        bottom: 0,
                                     },
                                 },
                             }}
