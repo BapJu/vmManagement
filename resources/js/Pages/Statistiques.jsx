@@ -3,7 +3,6 @@ import { Bar } from 'react-chartjs-2';
 
 function VmStatsGraph() {
     const [chartData, setChartData] = useState({});
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -27,17 +26,9 @@ function VmStatsGraph() {
                         hoverBorderColor: '#000'
                     }]
                 });
-                setLoading(false);
             })
-            .catch(error => {
-                console.error('Error:', error);
-                setLoading(false);
-            });
+            .catch(error => console.error('Error:', error));
     }, []);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="chart">
