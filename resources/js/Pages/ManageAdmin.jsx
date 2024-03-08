@@ -8,15 +8,16 @@ export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
     const [subjects, setSubjects] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        // Effectuer une requête pour récupérer les événements de l'utilisateur
+        const token = localStorage.getItem('bearerToken');
         fetch('/api/events', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
@@ -27,10 +28,11 @@ export default function Manage({ auth }) {
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
         fetch('/api/typeOfVms', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
@@ -41,15 +43,46 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
         fetch('/api/subjects', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then(response => response.json())
             .then(data => {
                 setSubjects(data);
+            })
+            .catch(error => console.error('Error fetching typeofdata:', error));
+    }, [auth.token]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/subjects', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setSubjects(data);
+            })
+            .catch(error => console.error('Error fetching typeofdata:', error));
+    }, [auth.token]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setUsers(data);
             })
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
@@ -72,8 +105,11 @@ export default function Manage({ auth }) {
     const getTemplateDescription = (id) => {
         const template = typeofvms.find(template => template.id === id);
         return template ? template.description : '';
+    };
 
-
+    const getNameUser = (id) => {
+        const user = users.find(users => user.id === id);
+        return user ? user.name : '';
     };
 
     const getSubjectsDescription = (id) => {
@@ -139,7 +175,7 @@ export default function Manage({ auth }) {
                                 <tr key={event.id}>
                                 <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{event.id_user}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getNameUser(event.id_user)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         {event.active ? (
