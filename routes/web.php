@@ -55,7 +55,7 @@ Route::get('/manage', function () {
 
 Route::get('/statistiques', function () {
     return Inertia::render('Statistiques');
-})->middleware(['auth', 'verified'])->name('Statistiques');
+})->middleware(['auth', 'verified'])->name('statistiques');
 
 Route::get('/manage-admin', function () {
     if (Auth::check()) {
