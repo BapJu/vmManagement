@@ -64,42 +64,44 @@ function VmStatsGraph({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
         >
             <Head title="Statistiques"/>
-            <div className="chart">
-                <Line
-                    data={evolutionData}
-                    options={{
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Evolution of Online VMs',
-                                fontSize: 25,
+            <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="chart">
+                    <Line
+                        data={evolutionData}
+                        options={{
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Evolution of Online VMs',
+                                    fontSize: 25,
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                },
                             },
-                            legend: {
-                                display: true,
-                                position: 'bottom',
+                        }}
+                    />
+                    <Bar
+                        data={distributionData}
+                        options={{
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'VM Distribution by Type',
+                                    fontSize: 25,
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                },
                             },
-                        },
-                    }}
-                />
-                <Bar
-                    data={distributionData}
-                    options={{
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'VM Distribution by Type',
-                                fontSize: 25,
-                            },
-                            legend: {
-                                display: true,
-                                position: 'bottom',
-                            },
-                        },
-                    }}
-                />
+                        }}
+                    />
+                </div>
             </div>
         </AuthenticatedLayout>
-    );
+);
 }
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
