@@ -147,7 +147,7 @@ class EventController extends Controller
             echo $output;
 
 
-            return response()->json(['message' => 'Event stopped successfully']);
+            return response()->json(['message' => 'Event stopped successfully'],201);
         } else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
