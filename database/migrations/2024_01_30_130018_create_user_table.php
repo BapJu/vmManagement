@@ -19,7 +19,6 @@ return new class extends Migration
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
                 $table->unsignedBigInteger('id_role')->nullable();
-                $table->rememberToken();
                 $table->timestamps();
 
                 // Définition de la clé étrangère pour id_role
