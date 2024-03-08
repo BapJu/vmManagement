@@ -1,11 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 
-
-export default function Dashboard({ auth }) {
-    const [vmStats, setVmStats] = useState({ totalCreated: 0, totalActive: 0 });
+export default function Dashboard({auth}) {
+    const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
     const [site, setSite] = useState('');
     const [domain, setDomain] = useState('');
     const [templates, setTemplates] = useState([]);
@@ -13,8 +12,7 @@ export default function Dashboard({ auth }) {
     const [vmCount, setVmCount] = useState(1);
 
 
-
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
         id_subject: 1,
         id_typeofvm: null,
@@ -68,16 +66,15 @@ export default function Dashboard({ auth }) {
     const [storages, setStorage] = useState([]);
 
     useEffect(() => {
-            fetch(`/api/storages`)
-                .then(response => response.json())
-                .then(data => {
-                    setStorage(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching roles:', error);
-                });
+        fetch(`/api/storages`)
+            .then(response => response.json())
+            .then(data => {
+                setStorage(data);
+            })
+            .catch(error => {
+                console.error('Error fetching roles:', error);
+            });
     }, [data]);
-
 
 
     useEffect(() => {
@@ -91,7 +88,7 @@ export default function Dashboard({ auth }) {
                 const totalActive = data.filter(vm => vm.active).length;
 
                 // Update the vmStats state with these calculated values
-                setVmStats({ totalCreated, totalActive });
+                setVmStats({totalCreated, totalActive});
             })
             .catch(error => {
                 console.error('Error fetching roles:', error);
@@ -196,7 +193,7 @@ export default function Dashboard({ auth }) {
                                     onChange={(e) => setData('id_typeofvm', e.target.value)}
                                     required
                                 >
-                                    <option key={0} value={0}>Choisissez votre template</option>
+                                    <option value="">Choisissez votre template</option>
                                     {templates.map(template => (
                                         <option key={template.id} value={template.id}>{template.description}</option>
                                     ))}
@@ -209,7 +206,6 @@ export default function Dashboard({ auth }) {
                                     type="date"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     onChange={(e) => setData('end_date', e.target.value)}
-                                    required
                                 />
                             </div>
                             <div className="mb-4">
