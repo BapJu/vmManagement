@@ -95,7 +95,7 @@ function VmStatsGraph({ auth }) {
                                 },
                             }}
                         />
-                        <PieController
+                        <Pie
                             data={distributionData}
                             options={{
                                 plugins: {
