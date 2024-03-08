@@ -77,6 +77,10 @@ export default function Manage({ auth }) {
         })
 
             .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Vous pouvez ajouter ici du code pour mettre à jour l'interface utilisateur en fonction de la réponse
+            })
             .catch((error) => {
                 console.error('Error:', error);
                 // Gérez les erreurs ici
