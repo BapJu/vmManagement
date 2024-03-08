@@ -76,9 +76,12 @@ export default function Manage({ auth }) {
             body: JSON.stringify(action),
         })
 
-            .then(response => response.json())
+            .then(response => {
+                console.log('Raw Response:', response);
+                return response.json();
+            })
             .then(data => {
-                //console.log('Success:', data);
+                console.log('Success:', data);
                 // Vous pouvez ajouter ici du code pour mettre à jour l'interface utilisateur en fonction de la réponse
             })
             .catch((error) => {
