@@ -73,4 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::post('/update-event/{id}', 'EventController@updateEvent');
+
 require __DIR__.'/auth.php';
