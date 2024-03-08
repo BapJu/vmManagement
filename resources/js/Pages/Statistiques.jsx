@@ -65,7 +65,7 @@ function VmStatsGraph({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Statistiques</h2>}
         >
             <Head title="Statistiques" />
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
