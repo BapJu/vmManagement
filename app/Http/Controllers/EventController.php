@@ -130,7 +130,7 @@ class EventController extends Controller
 
         // Action de stop (unité par unité)
         if ($action === 'stop') {
-            $event->active = true;
+            $event->active = false;
             $event->save();
 
             $dataForStopYAML[] = [
