@@ -118,6 +118,9 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = Event::find($id);
+        $event->active = false;
+        $event->save();
+
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
         }
@@ -142,8 +145,7 @@ class EventController extends Controller
             $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
             $output = shell_exec($command);
             echo $output;
-            $event->active = false;
-            $event->save();
+
             return response()->json(['message' => 'Event stopped successfully']);
         } else {
 
