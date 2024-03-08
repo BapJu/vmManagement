@@ -65,39 +65,41 @@ function VmStatsGraph({ auth }) {
         >
             <Head title="Statistiques"/>
             <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div className="chart">
-                    <Line
-                        data={evolutionData}
-                        options={{
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Evolution of Online VMs',
-                                    fontSize: 25,
+                <div className="overflow-x-auto">
+                    <div className="chart">
+                        <Line
+                            data={evolutionData}
+                            options={{
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Evolution of Online VMs',
+                                        fontSize: 25,
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                    },
                                 },
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
+                            }}
+                        />
+                        <Bar
+                            data={distributionData}
+                            options={{
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'VM Distribution by Type',
+                                        fontSize: 25,
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                    },
                                 },
-                            },
-                        }}
-                    />
-                    <Bar
-                        data={distributionData}
-                        options={{
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'VM Distribution by Type',
-                                    fontSize: 25,
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                },
-                            },
-                        }}
-                    />
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
