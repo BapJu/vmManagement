@@ -118,8 +118,6 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = Event::find($id);
-        $event->active = false;
-        $event->save();
 
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
