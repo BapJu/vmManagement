@@ -43,7 +43,7 @@ export default function Welcome({auth}) {
 
                             </div>
                             <div className="flex justify-center">
-                                <img src="/logo.png" alt="ISEN Brest" className="w-1/2"/>
+                                <img src="/logo.png" alt="ISEN Brest" className="w-1/4"/>
                             </div>
 
                             <div className="mt-12">
