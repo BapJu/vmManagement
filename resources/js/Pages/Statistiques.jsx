@@ -22,20 +22,30 @@ ChartJS.register(
 );
 
 function VmStatsGraph({ auth }) {
-    const [vmStats, setVmStats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [localisationData, setLocalisationData] = useState([]);
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch('/api/vm/stats', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setVmStats(data);
+        Promise.all([
+            fetch('/api/localisations', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }),
+            fetch('/api/users', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }),
+        ])
+            .then(responses => Promise.all(responses.map(res => res.json())))
+            .then(([localisationsData, usersData]) => {
+                setLocalisationData(localisationsData);
+                setUserData(usersData);
                 setLoading(false);
             })
             .catch(error => {
@@ -48,16 +58,30 @@ function VmStatsGraph({ auth }) {
         return <div>Loading...</div>;
     }
 
-    // Ici, vous devez transformer les données vmStats en données utilisables par les graphiques.
-    // Cela dépend de la structure de vos données. Voici un exemple simplifié pour un seul graphique.
-
-    const dataForGraph = {
-        labels: vmStats.map(stat => stat.label), // Par exemple, dates pour le nombre de VM en ligne
+    // Transformation des données pour le graphique des localisations
+    const localisationLabels = localisationData.map(item => item.name); // Assurez-vous que 'name' est la propriété correcte
+    const localisationValues = localisationData.map(item => item.vmCount); // Assurez-vous que 'vmCount' est la propriété correcte
+    const localisationChartData = {
+        labels: localisationLabels,
         datasets: [{
-            label: 'Nombre de VM en ligne',
-            data: vmStats.map(stat => stat.value), // Les valeurs correspondantes
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: '#777',
+            label: 'Répartitions des VMs par lieu',
+            data: localisationValues,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+        }]
+    };
+
+    // Transformation des données pour le graphique des utilisateurs
+    const userLabels = userData.map(item => item.name); // Assurez-vous que 'name' est la propriété correcte
+    const userValues = userData.map(item => item.vmCount); // Assurez-vous que 'vmCount' est la propriété correcte
+    const userChartData = {
+        labels: userLabels,
+        datasets: [{
+            label: 'Répartitions des VMs par utilisateurs',
+            data: userValues,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
         }]
     };
@@ -69,22 +93,8 @@ function VmStatsGraph({ auth }) {
         >
             <Head title="Statistiques"/>
             <div className="chart">
-                <Bar
-                    data={dataForGraph}
-                    options={{
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'VM Statistics',
-                                fontSize: 25,
-                            },
-                            legend: {
-                                display: true,
-                                position: 'right',
-                            },
-                        },
-                    }}
-                />
+                <Bar data={localisationChartData} options={{ maintainAspectRatio: false }} />
+                <Bar data={userChartData} options={{ maintainAspectRatio: false }} />
             </div>
         </AuthenticatedLayout>
     );
