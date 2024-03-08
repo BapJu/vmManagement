@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-function VmStatsGraph() {
+function VmStatsGraph({auth}) {
     const [chartData, setChartData] = useState({});
     const [loading, setLoading] = useState(true);
 
