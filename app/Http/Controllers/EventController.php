@@ -169,7 +169,7 @@ class EventController extends Controller
             file_put_contents(base_path('/scripts/' . $randomFileName), $yamlContent);
             */
 
-            $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars \"param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}\"";
+            $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
 
             return response()->json(['message' => 'Event started successfully'],201);
