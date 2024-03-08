@@ -33,6 +33,7 @@ ChartJS.register(
 function VmStatsGraph({ auth }) {
     const [evolutionData, setEvolutionData] = useState({});
     const [distributionData, setDistributionData] = useState({});
+    const [distributionUserData, setDistributionUserData] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -47,9 +48,11 @@ function VmStatsGraph({ auth }) {
             .then(eventsData => {
                 const evolutionChartData = processEvolutionData(eventsData);
                 const distributionChartData = processDistributionData(eventsData);
+                const distributionChartDataUser = processDistributionDataUser(eventsData);
 
                 setEvolutionData(evolutionChartData);
                 setDistributionData(distributionChartData);
+                setDistributionUserData(distributionChartDataUser)
                 setLoading(false);
             })
             .catch(error => {
@@ -106,6 +109,32 @@ function VmStatsGraph({ auth }) {
                                             title: {
                                                 display: true,
                                                 text: 'VM Distribution by Type',
+                                                fontSize: 25,
+                                            },
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom',
+                                            },
+                                        },
+                                        layout: {
+                                            padding: {
+                                                left: 20,
+                                                right: 20,
+                                                top: 0,
+                                                bottom: 0,
+                                            },
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className="bg-white overflow-hidden rounded-lg shadow-xs">
+                                <Pie
+                                    data={distributionUserData}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'VM Distribution by User',
                                                 fontSize: 25,
                                             },
                                             legend: {
@@ -184,6 +213,40 @@ function processDistributionData(eventsData) {
     // Préparer les données pour le graphique
     const labels = Object.keys(distributionByType);
     const data = Object.values(distributionByType);
+
+    // Générer des couleurs aléatoires pour chaque type de VM
+    const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
+    const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
+
+    return {
+        labels: labels, // Les types de VM
+        datasets: [{
+            label: 'VMs by Type',
+            data: data, // Les données calculées
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1,
+        }],
+    };
+}
+
+
+function processDistributionDataUser(eventsData) {
+    let distributionByUser = {};
+    // Compter le nombre de VMs actives par type
+    eventsData.forEach(event => {
+        if (event.active) {
+            const vmUser = event.id_user;
+            if (!distributionByUser[vmUser]) {
+                distributionByUser[vmUser] = 0;
+            }
+            distributionByUser[vmUser] += 1;
+        }
+    });
+
+    // Préparer les données pour le graphique
+    const labels = Object.keys(distributionByUser);
+    const data = Object.values(distributionByUser);
 
     // Générer des couleurs aléatoires pour chaque type de VM
     const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
