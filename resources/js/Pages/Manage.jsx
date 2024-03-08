@@ -63,38 +63,29 @@ export default function Manage({ auth }) {
     };
 
     const handleStopVM = (vmId) => {
+        // Définissez l'action à "stop"
         const action = { action: "stop" };
         const token = localStorage.getItem('bearerToken');
-
+        // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
+                'Content-Type' : 'application/json',
             },
             body: JSON.stringify(action),
         })
+
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-
-                // Mettez à jour l'état de la machine virtuelle dans la liste des événements
-                const updatedEvents = events.map(event => {
-                    if (event.id === vmId) {
-                        return { ...event, active: false }; // Mettez à jour l'état à inactif
-                    }
-                    return event;
-                });
-
-                // Mettez à jour l'état avec la nouvelle liste d'événements
-                setEvents(updatedEvents);
+                // Vous pouvez ajouter ici du code pour mettre à jour l'interface utilisateur en fonction de la réponse
             })
             .catch((error) => {
                 console.error('Error:', error);
                 // Gérez les erreurs ici
             });
     };
-
 
 
     const handleDeleteVM = (vmId) => {
