@@ -65,67 +65,72 @@ function VmStatsGraph({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Statistiques Globales des Vms</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
         >
             <Head title="Statistiques" />
-            <div className="mt-8 px-4 py-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-white rounded-lg shadow-xs">
-                        <Line
-                            data={evolutionData}
-                            options={{
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Evolution of Online VMs',
-                                        fontSize: 25,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'bottom',
-                                    },
-                                },
-                                layout: {
-                                    padding: {
-                                        left: 20,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 0,
-                                    },
-                                },
-                            }}
-                        />
-                    </div>
-                    <div className="p-4 bg-white rounded-lg shadow-xs">
-                        <Pie
-                            data={distributionData}
-                            options={{
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'VM Distribution by Type',
-                                        fontSize: 25,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'bottom',
-                                    },
-                                },
-                                layout: {
-                                    padding: {
-                                        left: 20,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 0,
-                                    },
-                                },
-                            }}
-                        />
+            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div className="p-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div className="bg-white overflow-hidden rounded-lg shadow-xs">
+                                <Line
+                                    data={evolutionData}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'Evolution of Online VMs',
+                                                fontSize: 25,
+                                            },
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom',
+                                            },
+                                        },
+                                        layout: {
+                                            padding: {
+                                                left: 20,
+                                                right: 20,
+                                                top: 0,
+                                                bottom: 0,
+                                            },
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className="bg-white overflow-hidden rounded-lg shadow-xs">
+                                <Pie
+                                    data={distributionData}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'VM Distribution by Type',
+                                                fontSize: 25,
+                                            },
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom',
+                                            },
+                                        },
+                                        layout: {
+                                            padding: {
+                                                left: 20,
+                                                right: 20,
+                                                top: 0,
+                                                bottom: 0,
+                                            },
+                                        },
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
-);
+
+    );
 }
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
