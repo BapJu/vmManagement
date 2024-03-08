@@ -53,6 +53,10 @@ Route::get('/manage', function () {
     return Inertia::render('Manage');
 })->middleware(['auth', 'verified'])->name('manage');
 
+Route::get('/statistiques', function () {
+    return Inertia::render('Statistiques');
+})->middleware(['auth', 'verified'])->name('Statistiques');
+
 Route::get('/manage-admin', function () {
     if (Auth::check()) {
         $userRole = Auth::user()->id_role;
