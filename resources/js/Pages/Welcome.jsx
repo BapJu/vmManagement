@@ -1,5 +1,5 @@
 import {Link, Head} from '@inertiajs/react';
-
+import logo from '/img/logo.png';
 export default function Welcome({auth}) {
     return (
         <>
@@ -43,7 +43,7 @@ export default function Welcome({auth}) {
 
                             </div>
                             <div className="flex justify-center">
-                                <img src="/img/logo.png" alt="ISEN Brest" className="w-1/2"/>
+                                <img src={logo} alt="ISEN Brest" className="w-1/2"/>
                             </div>
 
                             <div className="mt-12">
