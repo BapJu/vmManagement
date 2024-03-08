@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
@@ -99,6 +98,7 @@ function VmStatsGraph({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
         >
+            <Head title="Statistiques"/>
         <div className="chart">
             <Bar
                 data={chartData}
