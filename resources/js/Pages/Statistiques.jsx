@@ -81,6 +81,14 @@ function VmStatsGraph({ auth }) {
                                         position: 'bottom',
                                     },
                                 },
+                                layout: {
+                                    padding: {
+                                        left: 50, // Ajustez selon vos besoins
+                                        right: 50, // Ajustez selon vos besoins
+                                        top: 0,
+                                        bottom: 0,
+                                    },
+                                },
                             }}
                         />
                         <Bar
@@ -95,6 +103,14 @@ function VmStatsGraph({ auth }) {
                                     legend: {
                                         display: true,
                                         position: 'bottom',
+                                    },
+                                    layout: {
+                                        padding: {
+                                            left: 50, // Ajustez selon vos besoins
+                                            right: 50, // Ajustez selon vos besoins
+                                            top: 0,
+                                            bottom: 0,
+                                        },
                                     },
                                 },
                             }}
