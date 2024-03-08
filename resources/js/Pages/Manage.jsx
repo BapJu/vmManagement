@@ -190,7 +190,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 <tr key={event.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.id}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
