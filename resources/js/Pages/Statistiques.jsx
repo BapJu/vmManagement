@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import {Head, useForm} from '@inertiajs/react';
+import {useEffect, useState} from 'react';
+
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -33,6 +38,18 @@ function VmStatsGraph({ auth }) {
                 },
             }),
             fetch('/api/subjects', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }),
+            fetch('/api/localisations', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }),
+            fetch('/api/users', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -78,6 +95,10 @@ function VmStatsGraph({ auth }) {
     }
 
     return (
+        <AuthenticatedLayout
+            user={auth.user}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
+        >
         <div className="chart">
             <Bar
                 data={chartData}
@@ -96,6 +117,7 @@ function VmStatsGraph({ auth }) {
                 }}
             />
         </div>
+        </AuthenticatedLayout>
     );
 }
 
