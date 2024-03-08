@@ -130,7 +130,6 @@ class EventController extends Controller
 
         // Action de stop (unité par unité)
         if ($action === 'stop') {
-            $event->save();
 
             $dataForStopYAML[] = [
                 'start_vmid' => $id,
@@ -144,7 +143,7 @@ class EventController extends Controller
             $output = shell_exec($command);
             echo $output;
 
-
+            $event->save();
             return response()->json(['message' => 'Event stopped successfully']);
         } else {
 
