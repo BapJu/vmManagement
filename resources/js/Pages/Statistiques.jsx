@@ -1,51 +1,52 @@
-import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { Bar } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
+import { Bar, Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     BarElement,
+    LineElement,
     Title,
     Tooltip,
     Legend,
 } from 'chart.js';
 
+// Enregistrement des composants nécessaires pour les graphiques
 ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
+    LineElement,
     Title,
     Tooltip,
     Legend
 );
 
 function VmStatsGraph({ auth }) {
+    const [evolutionData, setEvolutionData] = useState({});
+    const [distributionData, setDistributionData] = useState({});
     const [loading, setLoading] = useState(true);
-    const [localisationData, setLocalisationData] = useState([]);
-    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        Promise.all([
-            fetch('/api/localisations', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            }),
-            fetch('/api/users', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            }),
-        ])
-            .then(responses => Promise.all(responses.map(res => res.json())))
-            .then(([localisationsData, usersData]) => {
-                setLocalisationData(localisationsData);
-                setUserData(usersData);
+        fetch(`api/events/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(eventsData => {
+                // Logique pour l'évolution des VMs en ligne
+                const evolutionChartData = processEvolutionData(eventsData);
+
+                // Logique pour la répartition des VMs par type
+                const distributionChartData = processDistributionData(eventsData);
+
+                setEvolutionData(evolutionChartData);
+                setDistributionData(distributionChartData);
                 setLoading(false);
             })
             .catch(error => {
@@ -58,46 +59,87 @@ function VmStatsGraph({ auth }) {
         return <div>Loading...</div>;
     }
 
-    // Transformation des données pour le graphique des localisations
-    const localisationLabels = localisationData.map(item => item.name); // Assurez-vous que 'name' est la propriété correcte
-    const localisationValues = localisationData.map(item => item.vmCount); // Assurez-vous que 'vmCount' est la propriété correcte
-    const localisationChartData = {
-        labels: localisationLabels,
-        datasets: [{
-            label: 'Répartitions des VMs par lieu',
-            data: localisationValues,
-            backgroundColor: 'rgba(255, 99, 132, 0.6)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-        }]
-    };
-
-    // Transformation des données pour le graphique des utilisateurs
-    const userLabels = userData.map(item => item.name); // Assurez-vous que 'name' est la propriété correcte
-    const userValues = userData.map(item => item.vmCount); // Assurez-vous que 'vmCount' est la propriété correcte
-    const userChartData = {
-        labels: userLabels,
-        datasets: [{
-            label: 'Répartitions des VMs par utilisateurs',
-            data: userValues,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-        }]
-    };
-
     return (
         <AuthenticatedLayout
-            auth={auth}
+            user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Admin Manage VMs</h2>}
         >
             <Head title="Statistiques"/>
             <div className="chart">
-                <Bar data={localisationChartData} options={{ maintainAspectRatio: false }} />
-                <Bar data={userChartData} options={{ maintainAspectRatio: false }} />
+                <Line
+                    data={evolutionData}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Evolution of Online VMs',
+                                fontSize: 25,
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                        },
+                    }}
+                />
+                <Bar
+                    data={distributionData}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'VM Distribution by Type',
+                                fontSize: 25,
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                        },
+                    }}
+                />
             </div>
         </AuthenticatedLayout>
     );
+}
+
+// Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
+function processEvolutionData(eventsData) {
+    // Cette fonction devrait implémenter la logique de traitement des données
+    // pour le graphique d'évolution des VMs en ligne.
+    return {
+        labels: [], // Les dates
+        datasets: [{
+            label: 'Online VMs',
+            data: [], // Les données calculées
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        }],
+    };
+}
+
+// Supposons que cette fonction traite les données pour la répartition par type
+function processDistributionData(eventsData) {
+    // Cette fonction devrait implémenter la logique de traitement des données
+    // pour le graphique de répartition des VMs par type.
+    return {
+        labels: [], // Les types de VM
+        datasets: [{
+            label: 'VMs by Type',
+            data: [], // Les données calculées
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                // Ajoutez d'autres couleurs au besoin
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                // Ajoutez d'autres bordures au besoin
+            ],
+            borderWidth: 1,
+        }],
+    };
 }
 
 export default VmStatsGraph;
