@@ -41,10 +41,7 @@ function VmStatsGraph({ auth }) {
         })
             .then(res => res.json())
             .then(eventsData => {
-                // Logique pour l'évolution des VMs en ligne
                 const evolutionChartData = processEvolutionData(eventsData);
-
-                // Logique pour la répartition des VMs par type
                 const distributionChartData = processDistributionData(eventsData);
 
                 setEvolutionData(evolutionChartData);
@@ -107,41 +104,71 @@ function VmStatsGraph({ auth }) {
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
 function processEvolutionData(eventsData) {
-    // Cette fonction devrait implémenter la logique de traitement des données
-    // pour le graphique d'évolution des VMs en ligne.
+    // Trier les événements par date de création
+    const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+    // Compter le nombre de VMs actives pour chaque jour
+    let countsByDate = {};
+    sortedEvents.forEach(event => {
+        if (event.active) {
+            // Format de la date à 'yyyy-mm-dd'
+            const date = event.created_at.split('T')[0];
+            if (!countsByDate[date]) {
+                countsByDate[date] = 0;
+            }
+            countsByDate[date] += 1;
+        }
+    });
+
+    // Préparer les données pour le graphique
+    const labels = Object.keys(countsByDate);
+    const data = Object.values(countsByDate);
+
     return {
-        labels: [], // Les dates
+        labels: labels, // Les dates
         datasets: [{
             label: 'Online VMs',
-            data: [], // Les données calculées
+            data: data, // Les données calculées
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
         }],
     };
 }
 
+
 // Supposons que cette fonction traite les données pour la répartition par type
 function processDistributionData(eventsData) {
-    // Cette fonction devrait implémenter la logique de traitement des données
-    // pour le graphique de répartition des VMs par type.
+    let distributionByType = {};
+    // Compter le nombre de VMs actives par type
+    eventsData.forEach(event => {
+        if (event.active) {
+            const vmType = event.id_typeofvm;
+            if (!distributionByType[vmType]) {
+                distributionByType[vmType] = 0;
+            }
+            distributionByType[vmType] += 1;
+        }
+    });
+
+    // Préparer les données pour le graphique
+    const labels = Object.keys(distributionByType);
+    const data = Object.values(distributionByType);
+
+    // Générer des couleurs aléatoires pour chaque type de VM
+    const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
+    const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
+
     return {
-        labels: [], // Les types de VM
+        labels: labels, // Les types de VM
         datasets: [{
             label: 'VMs by Type',
-            data: [], // Les données calculées
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                // Ajoutez d'autres couleurs au besoin
-            ],
-            borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                // Ajoutez d'autres bordures au besoin
-            ],
+            data: data, // Les données calculées
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
             borderWidth: 1,
         }],
     };
 }
+
 
 export default VmStatsGraph;
