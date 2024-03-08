@@ -162,14 +162,10 @@ class EventController extends Controller
                 'end_vmid' => $event->vmid,
             ];
 
-            $randomFileName = 'start_containers_config_' . uniqid() . '.yml';
-            $yamlFilePath = base_path('/scripts/' . $randomFileName);
-            $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
-            file_put_contents($yamlFilePath, $yamlContent);
 
-            $command = "sudo ansible-playbook " . $yamlFilePath;
-            exec($command, $output, $returnVar);
-            unlink($yamlFilePath);
+            $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
+            $command = "echo '" . addslashes($yamlContent) . "' | sudo ansible-playbook -";
+            exec($command);
 
             return response()->json(['message' => 'Event started successfully'],201);
 
