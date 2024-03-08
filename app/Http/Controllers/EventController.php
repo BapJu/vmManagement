@@ -145,9 +145,6 @@ class EventController extends Controller
             $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
             exec($command);
 
-
-
-
             return response()->json(['message' => 'Event stopped successfully'],201);
         } else {
 
