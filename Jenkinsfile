@@ -30,11 +30,11 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-              withSonarQubeEnv('sonarqube-server') {
-                  sh" ${SCANNER_HOME**}**}/bin/sonar-scanner \
-                  -Dsonar.projectKey=simple_webapp \
-                  -Dsonar.sources=. "
-              }
+                  withSonarQubeEnv('sonarqube-server') {
+                      sh" ${SCANNER_HOME**}**}/bin/sonar-scanner \
+                      -Dsonar.projectKey=simple_webapp \
+                      -Dsonar.sources=. "
+                  }
             }
         }
     }
