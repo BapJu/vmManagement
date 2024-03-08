@@ -145,7 +145,7 @@ class EventController extends Controller
                 'end_vmid' => $id,
             ];
 
-            $yamlContent = YAMLGenerator::generateStopStartYAML($dataForStopYAML);
+            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
             file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
 
 
@@ -162,7 +162,7 @@ class EventController extends Controller
                 'end_vmid' => $id,
             ];
 
-            $yamlContent = YAMLGenerator::generateStopStartYAML($dataForStopYAML);
+            $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
             file_put_contents(base_path('/scripts/start_containers_config.yml'), $yamlContent);
 
 
