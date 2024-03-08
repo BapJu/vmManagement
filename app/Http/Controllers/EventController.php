@@ -136,7 +136,7 @@ class EventController extends Controller
         $action = $request->input('action');
 
         // Action de stop (unité par unité)
-        if ($action === 'stop') {
+        if ($action === 'start') {
             $event->active = false;
             $event->save();
 
@@ -145,15 +145,23 @@ class EventController extends Controller
                 'end_vmid' => $id,
             ];
 
-            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
-            file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
+            $randomFileName = 'start_containers_config_' . uniqid() . '.yml';
+            $yamlFilePath = base_path('/scripts/' . $randomFileName);
+            $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
+            file_put_contents($yamlFilePath, $yamlContent);
 
+            $command = "sudo ansible-playbook " . $yamlFilePath;
+            exec($command, $output, $returnVar);
+            unlink($yamlFilePath);
+            if ($returnVar === 0) {
 
-            $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
-            exec($command);
+                echo "L'exécution a réussi.\n";
+            } else {
+                echo "L'exécution a échoué.\n";
+            }
 
             return response()->json(['message' => 'Event stopped successfully'],201);
-        } elseif ($action === 'start'){
+        } elseif ($action === 'stop'){
             $event->active = true;
             $event->save();
 
