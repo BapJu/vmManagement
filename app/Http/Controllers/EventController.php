@@ -118,7 +118,6 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = Event::find($id);
-
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
         }
@@ -132,6 +131,7 @@ class EventController extends Controller
         // Action de stop (unité par unité)
         if ($action === 'stop') {
             $event->save();
+
             $dataForStopYAML[] = [
                 'start_vmid' => $id,
                 'end_vmid' => $id,
@@ -139,22 +139,18 @@ class EventController extends Controller
 
             $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
             file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
+
             /*
             $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
             $output = shell_exec($command);
             echo $output;
-
-
-            $event->active = false;
             */
-            return response()->json(['message' => 'Event stopped successfully'], 200);
 
+            return response()->json(['message' => 'Event stopped successfully']);
         } else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
         }
-
-
 
     }
 
