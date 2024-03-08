@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
 
-function VmStatsGraph({auth}) {
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+function VmStatsGraph({ auth }) {
     const [chartData, setChartData] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -53,7 +71,7 @@ function VmStatsGraph({auth}) {
                 console.error('Error:', error);
                 setLoading(false);
             });
-    }, []);
+    }, [auth.user.id]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -64,15 +82,17 @@ function VmStatsGraph({auth}) {
             <Bar
                 data={chartData}
                 options={{
-                    title: {
-                        display: true,
-                        text: 'VM Statistics',
-                        fontSize: 25
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'VM Statistics',
+                            fontSize: 25,
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        },
                     },
-                    legend: {
-                        display: true,
-                        position: 'right'
-                    }
                 }}
             />
         </div>
