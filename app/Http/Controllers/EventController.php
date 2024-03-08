@@ -80,7 +80,7 @@ class EventController extends Controller
                 'gateway' => "10.{$mask_site}.{$mask_subject}.1",
                 'cloneName' => $category,
                 'storage' => $storage,
-                'pool' => 'Serveurs',
+                'ressource_pool' => 'Serveurs',
             ];
             $event = new Event();
             $event->id_typeofvm = $typeOfVm;
