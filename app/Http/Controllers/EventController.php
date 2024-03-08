@@ -163,9 +163,15 @@ class EventController extends Controller
             ];
 
 
+            $randomFileName = 'start_containers_config_' . uniqid() . '.yml';
+
             $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
-            $command = "echo '" . addslashes($yamlContent) . "' | sudo ansible-playbook -";
-            exec($command);
+            file_put_contents(base_path('/scripts/' . $randomFileName), $yamlContent);
+            $command = "sudo ansible-playbook " . base_path('/scripts/' . $randomFileName);
+            exec($command, $output, $returnCode);
+            if ($returnCode === 0) {
+                unlink(base_path('/scripts/' . $randomFileName));
+            }
 
             return response()->json(['message' => 'Event started successfully'],201);
 
