@@ -64,7 +64,12 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $Users = User::all();
-        return response()->json($Users);
+        $userRole = Auth::user()->id_role;
+        if ($userRole == 1) {
+            $Users = User::all();
+            return response()->json($Users);
+        }
+
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 }
