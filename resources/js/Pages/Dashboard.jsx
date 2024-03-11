@@ -139,7 +139,7 @@ export default function Dashboard({auth}) {
 
     function getSubjectDescription(id) {
         const subject = subjects.find(subject => subject.id === Number(id));
-        return subject ? subject.description : "Inconnu";
+        return subject ? subject.description.substring(0, 7) : "Inconnu";
 
     }
     return (<AuthenticatedLayout
