@@ -38,8 +38,14 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
+        if (e.target.value.endsWith("@isen-ouest.yncrea.fr")) {
+            setEmailError('');
+            post(route('register'));
+        } else {
+            setEmailError('Vous devez utilisez une adresse ISEN pour vous inscrire');
+        }
 
-        post(route('register'));
+
     };
 
 
@@ -90,13 +96,9 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoComplete="username"
                         onChange={(e) => {
-                            if (e.target.value.endsWith("@isen-ouest.yncrea.fr")) {
-                                setData('email', e.target.value);
-                                setEmailError('');
-                            } else {
-                                setEmailError('Vous devez utilisez une adresse ISEN pour vous inscrire');
+                            setData('email', e.target.value);
                             }
-                        }}
+                        }
                         required
                     />
                         {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
