@@ -35,10 +35,10 @@ export default function Register() {
             reset('password', 'password_confirmation');
         };
     }, []);
-
+    console.log(data);
     const submit = (e) => {
         e.preventDefault();
-        if (data.email.value.endsWith("@isen-ouest.yncrea.fr")) {
+        if (data.email.endsWith("@isen-ouest.yncrea.fr")) {
             setEmailError('');
             post(route('register'));
         } else {
