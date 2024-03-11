@@ -137,7 +137,10 @@ export default function Dashboard({auth}) {
             });
     };
 
-    console.log(data);
+    function getSubjectDescription(id) {
+        return subjects.find(subject => subject.id === id).description;
+
+    }
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
@@ -239,7 +242,7 @@ export default function Dashboard({auth}) {
                                             <div className="flex">
                                                 <input
                                                     type="text"
-                                                    value={initials}
+                                                    value={initials}"-"{getSubjectDescription(data.id_subject)}"-"
                                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
@@ -248,6 +251,12 @@ export default function Dashboard({auth}) {
                                                     type="text"
                                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     onChange={(e) => setData('name_vm', e.target.value)}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    value="-IP"
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    disabled
                                                 />
                                             </div>
                                         </div>
