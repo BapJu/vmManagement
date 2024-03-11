@@ -81,6 +81,7 @@ export default function Register() {
                         onChange={(e) => setData('id_localisation', e.target.value)}
                         required
                     >
+                        <option value="">Choisissez votre Site</option>
                         {localisations.map(localisation => (<option key={localisation.id}
                                                                     value={localisation.id}>{localisation.name}</option>))}
                     </select>
