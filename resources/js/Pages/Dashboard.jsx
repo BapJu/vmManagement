@@ -108,10 +108,10 @@ export default function Dashboard({auth}) {
             });
     }, []); // Removed vmStats from dependency array to prevent re-fetching
 
-
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
-        const navigate = useNavigate();
+
         const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
