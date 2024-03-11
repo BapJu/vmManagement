@@ -224,7 +224,7 @@ export default function Manage({ auth }) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {events.map(event => (
+                            {events.filter(event => event.ip !== null && event.ip !== "").map(event => (
                                 <tr key={event.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
@@ -243,6 +243,7 @@ export default function Manage({ auth }) {
                                 </tr>
                             ))}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
