@@ -183,9 +183,9 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto mb-4">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -238,6 +238,11 @@ export default function Manage({ auth }) {
                     </div>
                 </div>
             </div>
+            <footer className="py-6 bg-gray-100 dark:bg-gray-800">
+                <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Created by Baptiste & Alexis - Projet M1 2024
+                </div>
+            </footer>
         </AuthenticatedLayout>
     );
 }
