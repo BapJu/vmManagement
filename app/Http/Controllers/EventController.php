@@ -153,6 +153,13 @@ class EventController extends Controller
 
             return response()->json(['message' => 'Event started successfully'],201);
         }
+        elseif ($action === 'destroy'){
+
+            $command = "sudo ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
+            exec($command);
+
+            return response()->json(['message' => 'Event started successfully'],201);
+        }
         else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
