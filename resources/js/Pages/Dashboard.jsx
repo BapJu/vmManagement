@@ -2,7 +2,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
 
-
 export default function Dashboard({auth}) {
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
     const [site, setSite] = useState('');
