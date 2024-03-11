@@ -106,7 +106,7 @@ class EventController extends Controller
 
         $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
         $output = shell_exec($command);
-        echo $output;
+        //echo $output;
 
         return response()->json(['message' => 'Events created successfully'], 201);
     }
