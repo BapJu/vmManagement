@@ -126,13 +126,12 @@ export default function Manage({ auth }) {
         const token = localStorage.getItem('bearerToken');
 
         // Mettez à jour l'état local immédiatement
-        /*
         setEvents(prevEvents => {
             return prevEvents.map(event =>
                 event.id === vmId ? { ...event, active: false } : event
             );
         });
-        */
+
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
             method: 'PUT',
