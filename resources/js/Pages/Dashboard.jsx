@@ -3,7 +3,6 @@ import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
 
 
-
 export default function Dashboard({auth}) {
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
     const [site, setSite] = useState('');
@@ -18,10 +17,16 @@ export default function Dashboard({auth}) {
         id_subject: 1,
         id_typeofvm: null,
         id_storage: 1,
-        nb_vm: useState(1),
+        nb_vm: vmCount,
         id_user: auth.user.id,
         end_date: null,
     });
+
+    const handleVmCountChange = (e) => {
+        const newCount = e.target.value;
+        setVmCount(newCount); // Met à jour l'état local
+        setData('nb_vm', newCount); // Met à jour la valeur dans `data` pour le formulaire
+    };
 
     const [localisations, setLocalisation] = useState([]);
 
@@ -80,7 +85,7 @@ export default function Dashboard({auth}) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch(`api/event/user/${auth.user.id}`,{
+        fetch(`api/event/user/${auth.user.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -223,9 +228,10 @@ export default function Dashboard({auth}) {
                                     type="number"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     value={vmCount}
-                                    onChange={(e) => setData('nb_vm', e.target.value)}
+                                    onChange={handleVmCountChange} // Utilisez handleVmCountChange pour gérer les changements
                                     required
                                 />
+
                             </div>
                             <button
                                 type="submit"
@@ -240,5 +246,6 @@ export default function Dashboard({auth}) {
             </div>
         </AuthenticatedLayout>
 
-    );
+    )
+        ;
 }
