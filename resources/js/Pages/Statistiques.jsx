@@ -70,7 +70,7 @@ function VmStatsGraph({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Statistiques</h2>}
         >
-            <Head title="Statistiques" />
+            <Head title="Statistiques"/>
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                     <div className="p-6">
@@ -157,6 +157,11 @@ function VmStatsGraph({ auth }) {
                     </div>
                 </div>
             </div>
+            <footer className="py-6 bg-gray-100 dark:bg-gray-800">
+                <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Created by Baptiste & Alexis - Projet M1 2024
+                </div>
+            </footer>
         </AuthenticatedLayout>
 
     );
