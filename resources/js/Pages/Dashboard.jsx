@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
+import { router } from '@inertiajs/vue3'
 
 export default function Dashboard({auth}) {
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
