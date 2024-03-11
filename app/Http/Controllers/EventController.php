@@ -143,7 +143,8 @@ class EventController extends Controller
             $event->save();
 
             return response()->json(['message' => 'Event stopped successfully'],201);
-        } elseif ($action === 'start'){
+        }
+        elseif ($action === 'start'){
             $event->active = true;
 
             $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
