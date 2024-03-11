@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
-import  { useNavigate  } from 'react-router-dom'
 
 export default function Dashboard({auth}) {
     const navigate = useNavigate();
@@ -126,8 +125,6 @@ export default function Dashboard({auth}) {
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
-                } else {
-                    navigate('/manage');
                 }
             })
     };
