@@ -159,6 +159,7 @@ export default function Dashboard({auth}) {
                     <div className="max-w-lg mx-auto mt-4 mb-4">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
                         <div className="flex justify-center items-center" style={{minHeight: '500px'}}>
+                            {!showForm &&(
                             <div className="flex justify-center items-center mt-4">
                                 <button
                                     className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
@@ -167,6 +168,7 @@ export default function Dashboard({auth}) {
                                     Déployer des VMs
                                 </button>
                             </div>
+                            )}
                             {showForm && (
                                 isLoading ? (
                                     <div
