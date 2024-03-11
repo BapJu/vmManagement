@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
+    const [localisations, setLocalisation] = useState([]);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         id_localisation: localisations[0].id ?? '',
@@ -15,7 +16,6 @@ export default function Register() {
         password_confirmation: '',
     });
 
-    const [localisations, setLocalisation] = useState([]);
 
     const [emailError, setEmailError] = useState('');
 
