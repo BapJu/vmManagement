@@ -183,9 +183,9 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto mb-4">
                         <input
                             type="text"
                             placeholder="Search..."
