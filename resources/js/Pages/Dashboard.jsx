@@ -242,13 +242,14 @@ export default function Dashboard({auth}) {
                                             <div className="flex">
                                                 <input
                                                     type="text"
-                                                    value={`${initials}-${getSubjectDescription(data.id_subject)}-`}
+                                                    value={`${initials}-${getSubjectDescription(data.id_subject || 1) }-`}
                                                     className="mt-1 block w-1/4 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
                                                 <input
                                                     id="name_vm"
                                                     type="text"
+                                                    maxLength="7"
                                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     onChange={(e) => setData('name_vm', e.target.value)}
                                                 />
