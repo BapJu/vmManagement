@@ -38,7 +38,7 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-        if (e.target.value.endsWith("@isen-ouest.yncrea.fr")) {
+        if (data.email.value.endsWith("@isen-ouest.yncrea.fr")) {
             setEmailError('');
             post(route('register'));
         } else {
