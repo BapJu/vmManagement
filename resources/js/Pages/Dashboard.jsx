@@ -86,8 +86,7 @@ export default function Dashboard({auth}) {
         const token = localStorage.getItem('bearerToken');
         fetch(`api/event/user/${auth.user.id}`, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`,
             },
         })
 
@@ -114,13 +113,9 @@ export default function Dashboard({auth}) {
         const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
-            redirect: 'follow',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
+            redirect: 'follow', method: 'POST', headers: {
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`,
+            }, body: JSON.stringify(data),
         })
             .then(response => {
                 if (response.redirected) {
@@ -136,8 +131,7 @@ export default function Dashboard({auth}) {
     };
 
     console.log(data);
-    return (
-        <AuthenticatedLayout
+    return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
 
@@ -161,97 +155,99 @@ export default function Dashboard({auth}) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="max-w-lg mx-auto mt-4">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="localisation" className="block text-gray-700">Site:</label>
-                                <select
-                                    id="localisation"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={(e) => setData('id_localisation', e.target.value)}
-                                    required
-                                >
-                                    {localisations.map(localisation => (
-                                        <option key={localisation.id}
-                                                value={localisation.id}>{localisation.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="subject" className="block text-gray-700">Domaine:</label>
-                                <select
-                                    id="subject"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={(e) => setData('id_subject', e.target.value)}
-                                    required
-                                >
-                                    {subjects.map(subject => (
-                                        <option key={subject.id} value={subject.id}>{subject.description}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="storage" className="block text-gray-700">Mémoire:</label>
-                                <select
-                                    id="storage"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={(e) => setData('id_storage', e.target.value)}
-                                    required
-                                >
-                                    {storages.map(storage => (
-                                        <option key={storage.id} value={storage.id}>{storage.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="template" className="block text-gray-700">Template:</label>
-                                <select
-                                    id="template"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={(e) => setData('id_typeofvm', e.target.value)}
-                                    required
-                                >
-                                    <option value="">Choisissez votre template</option>
-                                    {templates.map(template => (
-                                        <option key={template.id} value={template.id}>{template.description}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="end_date" className="block text-gray-700">Date de fin des Vms:</label>
-                                <input
-                                    id="end_date"
-                                    type="date"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={(e) => setData('end_date', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="vmCount" className="block text-gray-700">Nombre de VM à créer:</label>
-                                <input
-                                    id="vmCount"
-                                    type="number"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    value={vmCount}
-                                    onChange={handleVmCountChange} // Utilisez handleVmCountChange pour gérer les changements
-                                    required
-                                />
+                        {isLoading ? (<div
+                                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                role="status">
+                                <span
+                                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                >Loading...</span>
+                            </div>) : (<form onSubmit={handleSubmit}>
+                                <div className="mb-4">
+                                    <label htmlFor="localisation" className="block text-gray-700">Site:</label>
+                                    <select
+                                        id="localisation"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        onChange={(e) => setData('id_localisation', e.target.value)}
+                                        required
+                                    >
+                                        {localisations.map(localisation => (<option key={localisation.id}
+                                                                                    value={localisation.id}>{localisation.name}</option>))}
+                                    </select>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="subject" className="block text-gray-700">Domaine:</label>
+                                    <select
+                                        id="subject"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        onChange={(e) => setData('id_subject', e.target.value)}
+                                        required
+                                    >
+                                        {subjects.map(subject => (<option key={subject.id}
+                                                                          value={subject.id}>{subject.description}</option>))}
+                                    </select>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="storage" className="block text-gray-700">Mémoire:</label>
+                                    <select
+                                        id="storage"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        onChange={(e) => setData('id_storage', e.target.value)}
+                                        required
+                                    >
+                                        {storages.map(storage => (
+                                            <option key={storage.id} value={storage.id}>{storage.name}</option>))}
+                                    </select>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="template" className="block text-gray-700">Template:</label>
+                                    <select
+                                        id="template"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        onChange={(e) => setData('id_typeofvm', e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Choisissez votre template</option>
+                                        {templates.map(template => (<option key={template.id}
+                                                                            value={template.id}>{template.description}</option>))}
+                                    </select>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="end_date" className="block text-gray-700">Date de fin des
+                                        Vms:</label>
+                                    <input
+                                        id="end_date"
+                                        type="date"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        onChange={(e) => setData('end_date', e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="vmCount" className="block text-gray-700">Nombre de VM à
+                                        créer:</label>
+                                    <input
+                                        id="vmCount"
+                                        type="number"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        value={vmCount}
+                                        onChange={handleVmCountChange} // Utilisez handleVmCountChange pour gérer les changements
+                                        required
+                                    />
 
-                            </div>
-                            <button
-                                type="submit"
-                                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                disabled={isLoading}
-                            >
-                                Créer VM
-                            </button>
-                            {isLoading && <div>Loading...</div>}
-                        </form>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    disabled={isLoading}
+                                >
+                                    Créer VM
+                                </button>
+                                {isLoading && <div>Loading...</div>}
+                            </form>)}
 
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
 
-    )
-        ;
+    );
 }
