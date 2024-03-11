@@ -3,7 +3,6 @@ import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
 
 export default function Dashboard({auth}) {
-    const navigate = useNavigate();
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
     const [site, setSite] = useState('');
     const [domain, setDomain] = useState('');
