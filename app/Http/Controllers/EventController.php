@@ -108,7 +108,8 @@ class EventController extends Controller
         $output = shell_exec($command);
         //echo $output;
 
-        return response()->json(['message' => 'Events created successfully'], 201);
+        //return response()->json(['message' => 'Events created successfully'], 201);
+        return redirect('/manage');
     }
 
     // Méthode pour afficher un rôle spécifique
