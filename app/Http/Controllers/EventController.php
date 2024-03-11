@@ -160,6 +160,7 @@ class EventController extends Controller
             exec($command);
 
             $event->update(['ip' => null]);
+            $event->save();
 
             return response()->json(['message' => 'Event destroyed successfully'],201);
         }
