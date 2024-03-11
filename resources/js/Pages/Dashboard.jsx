@@ -114,6 +114,7 @@ export default function Dashboard({auth}) {
         const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
+            redirect: 'follow',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
