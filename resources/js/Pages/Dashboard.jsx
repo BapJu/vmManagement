@@ -123,6 +123,9 @@ export default function Dashboard({auth}) {
             body: JSON.stringify(data),
         })
             .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
