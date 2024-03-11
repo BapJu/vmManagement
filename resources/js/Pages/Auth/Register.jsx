@@ -17,6 +17,8 @@ export default function Register() {
 
     const [localisations, setLocalisation] = useState([]);
 
+    const [emailError, setEmailError] = useState('');
+
     useEffect(() => {
         fetch('/api/localisations')
             .then(response => response.json())
@@ -65,7 +67,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="localisation" className="block text-gray-700">Site:</label>
+                    <InputLabel htmlFor="id_localisation" value="Site"/>
                     <select
                         id="localisation"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -87,9 +89,17 @@ export default function Register() {
                         value={data.email}
                         className="mt-1 block w-full"
                         autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.endsWith("@isen-ouest.yncrea.fr")) {
+                                setData('email', e.target.value);
+                                setEmailError('');
+                            } else {
+                                setEmailError('Vous devez utilisez une adresse ISEN pour vous inscrire');
+                            }
+                        }}
                         required
                     />
+                        {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
 
                     <InputError message={errors.email} className="mt-2"/>
                 </div>
