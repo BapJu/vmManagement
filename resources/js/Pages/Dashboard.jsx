@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
-import { Unstable_NumberInput as NumberInput } from '@mui/base';
+
 
 
 export default function Dashboard({auth}) {
