@@ -10,7 +10,7 @@ export default function Register() {
     const [localisations, setLocalisation] = useState([]);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        id_localisation: localisations[0].id ?? '',
+        id_localisation: localisations[0] ?? '',
         email: '',
         password: '',
         password_confirmation: '',
