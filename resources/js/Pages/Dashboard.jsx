@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
+import { Unstable_NumberInput as NumberInput } from '@mui/base';
 
 
 export default function Dashboard({auth}) {
@@ -17,7 +18,7 @@ export default function Dashboard({auth}) {
         id_subject: 1,
         id_typeofvm: null,
         id_storage: 1,
-        nb_vm: 1,
+        nb_vm: useState(1),
         id_user: auth.user.id,
         end_date: null,
     });
@@ -221,7 +222,7 @@ export default function Dashboard({auth}) {
                                     id="vmCount"
                                     type="number"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    value="1"
+                                    value={vmCount}
                                     onChange={(e) => setData('nb_vm', e.target.value)}
                                     required
                                 />
