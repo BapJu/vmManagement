@@ -174,9 +174,10 @@ export default function Manage({ auth }) {
     }
 
 
-    const filteredEvents = events.filter(event => {
-        return getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase());
-    });
+    const filteredEvents = historiqueChecked
+        ? events.filter(event => event.ip === null)
+        : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+
 
     return (
         <AuthenticatedLayout
@@ -224,25 +225,28 @@ export default function Manage({ auth }) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {events.filter(event => event.ip !== null && event.ip !== "").map(event => (
-                                <tr key={event.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        {event.active ? (
-                                            <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
-                                                             className="cursor-pointer mr-2"/>
-                                        ) : (
-                                            <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
-                                                             className="cursor-pointer mr-2"/>
-                                        )}
-                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                         className="cursor-pointer"/>
-                                    </td>
-                                </tr>
+                            {filteredEvents.map(event => (
+                                (historiqueChecked || event.ip !== null) && (
+                                    <tr key={event.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {event.active ? (
+                                                <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                                 className="cursor-pointer mr-2"/>
+                                            ) : (
+                                                <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                                 className="cursor-pointer mr-2"/>
+                                            )}
+                                            <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                             className="cursor-pointer"/>
+                                        </td>
+                                    </tr>
+                                )
                             ))}
                             </tbody>
+
 
                         </table>
                     </div>
