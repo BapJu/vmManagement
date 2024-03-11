@@ -149,6 +149,16 @@ export default function Dashboard({auth}) {
         >
 
             <Head title="Dashboard"/>
+            {!auth.user.id_role (
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900">
+                            <h3 className="font-semibold text-lg">Vous n'avez pas les droits de modification, merci de prendre contact avec un admin </h3>
+                        </div>
+                    </div>
+                </div>
+
+            )}
 
             <div className="py-2">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
