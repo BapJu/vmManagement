@@ -19,10 +19,12 @@ return new class extends Migration
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
                 $table->unsignedBigInteger('id_role')->nullable();
+                $table->unsignedBigInteger('id_localisation')->nullable();
                 $table->timestamps();
 
                 // Définition de la clé étrangère pour id_role
                 $table->foreign('id_role')->references('id')->on('role');
+                $table->foreign('id_localisation')->references('id')->on('localisation');
             });
         }
     }
