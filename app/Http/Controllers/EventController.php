@@ -138,42 +138,20 @@ class EventController extends Controller
         // Action de stop (unité par unité)
         if ($action === 'stop') {
             $event->active = false;
-            $event->save();
 
-            $dataForStopYAML[] = [
-                'start_vmid' => $event->vmid,
-                'end_vmid' => $event->vmid,
-            ];
-
-            $yamlContent = YAMLGenerator::generateStopYAML($dataForStopYAML);
-            file_put_contents(base_path('/scripts/stop_containers_config.yml'), $yamlContent);
-
-
-            $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml');
+            $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
+            $event->save();
 
             return response()->json(['message' => 'Event stopped successfully'],201);
         } elseif ($action === 'start'){
             $event->active = true;
-            $event->save();
-
-            $dataForStopYAML[] = [
-                'start_vmid' => $event->vmid,
-                'end_vmid' => $event->vmid,
-            ];
-
-            /*
-            $randomFileName = 'start_containers_config_' . uniqid() . '.yml';
-
-            $yamlContent = YAMLGenerator::generateStartYAML($dataForStopYAML);
-            file_put_contents(base_path('/scripts/' . $randomFileName), $yamlContent);
-            */
 
             $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
+            $event->save();
 
             return response()->json(['message' => 'Event started successfully'],201);
-
         }
         else {
 
