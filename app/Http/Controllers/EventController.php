@@ -78,17 +78,19 @@ class EventController extends Controller
 
         $vmIDStart = DB::table('event')->max('vmid') + 1;
 
+        $firstVmid = null;
+        $lastVmid = null;
+
         foreach ($ipAvailable as $index => $ip) {
             $vmid = $vmIDStart + $index;
-            $dataForYAML[] = [
-                'template_vmid' => $templateVMID,
-                'vmid' => str_replace('.', '', $ip->available_ip),
-                'static_ip' => $ip->available_ip,
-                'gateway' => "10.{$mask_site}.{$mask_subject}.1",
-                'cloneName' => $category,
-                'storage' => $storage,
-                'resource_pool' => 'Serveurs',
-            ];
+
+            if ($index === 0) {
+                // Stockez la première vmid
+                $firstVmid = $vmid;
+            }
+
+            // ... (restez avec le reste du code)
+
             $event = new Event();
             $event->id_typeofvm = $typeOfVm;
             $event->id_user = $request->input('id_user');
@@ -98,7 +100,12 @@ class EventController extends Controller
             $event->ip = $ip->available_ip;
             $event->active = true;
             $event->save();
+
+            // Stockez la dernière vmid à chaque itération
+            $lastVmid = $vmid;
         }
+
+        $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$firstVmid} param_end_vmid={$lastVmid}'";
 
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
