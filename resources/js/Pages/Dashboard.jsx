@@ -152,7 +152,7 @@ export default function Dashboard({auth}) {
                 </div>
             </div>
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
-                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                     <div className="max-w-lg mx-auto mt-4">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
                         <div className="flex justify-center items-center" style={{minHeight: '500px'}}>
