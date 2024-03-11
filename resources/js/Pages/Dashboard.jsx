@@ -109,7 +109,7 @@ export default function Dashboard({auth}) {
             });
     }, []); // Removed vmStats from dependency array to prevent re-fetching
 
-
+    console.log(auth.user);
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -230,7 +230,7 @@ export default function Dashboard({auth}) {
                                             </select>
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="name_vm" className="block text-gray-700">Nom de la VM {auth.name}</label>
+                                            <label htmlFor="name_vm" className="block text-gray-700">Nom de la VM</label>
                                             <input
                                                 id="end_date"
                                                 type="texte"
