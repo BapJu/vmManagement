@@ -234,14 +234,22 @@ export default function Dashboard({auth}) {
                                             </select>
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="name_vm" className="block text-gray-700">Nom de la VM</label>
-                                            <input
-                                                id="end_date"
-                                                type="texte"
-                                                value={initials}
-                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                onChange={(e) => setData('end_date', e.target.value)}
-                                            />
+                                            <label htmlFor="name_vm" className="block text-gray-700">Nom de la
+                                                VM</label>
+                                            <div className="flex">
+                                                <input
+                                                    type="text"
+                                                    value={initials}
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    disabled
+                                                />
+                                                <input
+                                                    id="name_vm"
+                                                    type="text"
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    onChange={(e) => setData('name_vm', e.target.value)}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="mb-4">
                                             <label htmlFor="end_date" className="block text-gray-700">Date de fin des
