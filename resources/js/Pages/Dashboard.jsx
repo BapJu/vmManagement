@@ -121,15 +121,21 @@ export default function Dashboard({auth}) {
             },
             body: JSON.stringify(data),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Success:', data);
+                // Utilisez Inertia pour rediriger ici
+                Inertia.visit('/manage');
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-
-    }
+    };
 
     console.log(data);
     return (
