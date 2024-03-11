@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
-import  { Redirect } from 'react-router-dom'
+import  { useNavigate  } from 'react-router-dom'
 
 export default function Dashboard({auth}) {
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
@@ -111,6 +111,7 @@ export default function Dashboard({auth}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const navigate = useNavigate();
         const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
@@ -125,7 +126,7 @@ export default function Dashboard({auth}) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 } else {
-                    return <Redirect to='/manage'></Redirect>
+                    navigate('/manage');
                 }
             })
     };
