@@ -159,9 +159,11 @@ class EventController extends Controller
             $command = "sudo ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
 
-            $event->update(['ip' => null]);
+            $event->ip = null;
+            $event->save();
 
-            return response()->json(['message' => 'Event destroyed successfully'],201);
+
+            return response()->json(['message' => 'Event deleted successfully'],201);
         }
         else {
 
@@ -171,7 +173,7 @@ class EventController extends Controller
     }
 
 
-
+    /*
     // Méthode pour supprimer un rôle
     public function destroy($id)
     {
@@ -184,7 +186,7 @@ class EventController extends Controller
 
         return response()->json(['message' => 'Event deleted successfully']);
     }
-
+    */
 
     public function filter($idUser)
     {
