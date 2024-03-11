@@ -135,7 +135,6 @@ class EventController extends Controller
 
         $action = $request->input('action');
 
-        // Action de stop (unité par unité)
         if ($action === 'stop') {
             $event->active = false;
 
