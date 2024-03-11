@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import  { useNavigate  } from 'react-router-dom'
 
 export default function Dashboard({auth}) {
+    const navigate = useNavigate();
     const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
     const [site, setSite] = useState('');
     const [domain, setDomain] = useState('');
@@ -108,7 +109,7 @@ export default function Dashboard({auth}) {
             });
     }, []); // Removed vmStats from dependency array to prevent re-fetching
 
-    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
