@@ -105,17 +105,17 @@ class EventController extends Controller
             $lastVmid = $vmid;
         }
 
-        $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$firstVmid} param_end_vmid={$lastVmid}'";
 
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
 
 
         $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
-        $output = shell_exec($command);
-        //echo $output;
+        exec($command);
 
-        //return response()->json(['message' => 'Events created successfully'], 201);
+        $commandExec = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$firstVmid} param_end_vmid={$lastVmid}'";
+        exec($commandExec);
+
         return redirect('/manage');
     }
 
