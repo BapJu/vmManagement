@@ -242,7 +242,7 @@ export default function Dashboard({auth}) {
                                             <div className="flex">
                                                 <input
                                                     type="text"
-                                                    value={initials}"-"{getSubjectDescription(data.id_subject)}"-"
+                                                    value={`${initials}-${getSubjectDescription(data.id_subject)}-`}
                                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
