@@ -71,8 +71,8 @@ function VmStatsGraph({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Statistiques</h2>}
         >
             <Head title="Statistiques" />
-            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+                <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                     <div className="p-6">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
