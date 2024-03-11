@@ -193,6 +193,14 @@ export default function Manage({ auth }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={historiqueChecked}
+                                onChange={() => setHistoriqueChecked(!historiqueChecked)}
+                            />
+                            Historique
+                        </label>
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
@@ -240,7 +248,7 @@ export default function Manage({ auth }) {
             </div>
             <footer className="py-6 bg-gray-100 dark:bg-gray-800">
                 <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-                    Created by Baptiste & Alexis - Projet M1 2024
+                Created by Baptiste & Alexis - Projet M1 2024
                 </div>
             </footer>
         </AuthenticatedLayout>
