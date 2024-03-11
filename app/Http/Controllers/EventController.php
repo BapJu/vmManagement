@@ -160,6 +160,7 @@ class EventController extends Controller
             exec($command);
 
             $event->ip = null;
+            $event->effectiveexpiry = now();
             $event->save();
 
 
