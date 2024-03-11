@@ -142,6 +142,10 @@ export default function Dashboard({auth}) {
         return subject ? subject.description.substring(0, 7) : "Inconnu";
 
     }
+
+    if (!auth.user.id_role){
+        setIsLoading(true);
+    }
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
