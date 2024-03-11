@@ -193,14 +193,7 @@ export default function Manage({ auth }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={historiqueChecked}
-                                onChange={() => setHistoriqueChecked(!historiqueChecked)}
-                            />
-                            Historique
-                        </label>
+
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
