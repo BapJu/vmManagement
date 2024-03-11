@@ -9,7 +9,7 @@ export default function Dashboard({auth}) {
     const [templates, setTemplates] = useState([]);
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
@@ -110,7 +110,7 @@ export default function Dashboard({auth}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        setIsLoading(true);
         const token = localStorage.getItem('bearerToken');
         console.log('Creating VMs:', data);
         fetch('/api/event', {
@@ -130,6 +130,9 @@ export default function Dashboard({auth}) {
                     throw new Error('Network response was not ok');
                 }
             })
+            .finally(() => {
+                setIsLoading(false); // Réactiver le bouton et cacher l'écran de chargement une fois la requête terminée
+            });
     };
 
     console.log(data);
@@ -237,9 +240,11 @@ export default function Dashboard({auth}) {
                             <button
                                 type="submit"
                                 className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                disabled={isLoading}
                             >
                                 Créer VM
                             </button>
+                            {isLoading && <div>Loading...</div>}
                         </form>
 
                     </div>
