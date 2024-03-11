@@ -243,7 +243,7 @@ export default function Dashboard({auth}) {
                                                 <input
                                                     type="text"
                                                     value={`${initials}-${getSubjectDescription(data.id_subject)}-`}
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    className="mt-1 block w-1/6 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
                                                 <input
@@ -254,8 +254,8 @@ export default function Dashboard({auth}) {
                                                 />
                                                 <input
                                                     type="text"
-                                                    value="-IP"
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    value="-XXXXXXX"
+                                                    className="mt-1 block w-1/6 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
                                             </div>
