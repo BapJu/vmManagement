@@ -10,6 +10,9 @@ export default function Dashboard({auth}) {
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
+    const [showForm, setShowForm] = useState(false);
+
+    const toggleFormDisplay = () => setShowForm(!showForm);
 
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
@@ -156,6 +159,14 @@ export default function Dashboard({auth}) {
                     <div className="max-w-lg mx-auto mt-4 mb-4">
                         <h3 className="font-semibold text-lg">Créer une VM</h3>
                         <div className="flex justify-center items-center" style={{minHeight: '500px'}}>
+                            <div className="flex justify-center items-center mt-4">
+                                <button
+                                    className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={toggleFormDisplay} // Lorsqu'on clique, on change l'état pour afficher le formulaire
+                                >
+                                    Déployer des VMs
+                                </button>
+                            </div>
                             {isLoading ? (<div
                                 className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                 role="status">
