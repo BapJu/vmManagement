@@ -159,7 +159,7 @@ class EventController extends Controller
             $command = "sudo ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
 
-            $event->update(['ip' => null]);
+            $event->update(['ip' => '0.0.0.0']);
             $event->save();
 
             return response()->json(['message' => 'Event destroyed successfully'],201);
