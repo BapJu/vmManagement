@@ -12,6 +12,10 @@ export default function Dashboard({auth}) {
     const [isLoading, setIsLoading] = useState(false);
     const [showForm, setShowForm] = useState(false);
 
+    console.log(auth.user);
+    const nameParts = auth.user.name.split(' ');
+    const initials = nameParts.map(part => part.charAt(0)).join('');
+
     const toggleFormDisplay = () => setShowForm(!showForm);
 
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
@@ -109,7 +113,7 @@ export default function Dashboard({auth}) {
             });
     }, []); // Removed vmStats from dependency array to prevent re-fetching
 
-    console.log(auth.user);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -234,6 +238,7 @@ export default function Dashboard({auth}) {
                                             <input
                                                 id="end_date"
                                                 type="texte"
+                                                value={initials}'-'
                                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                 onChange={(e) => setData('end_date', e.target.value)}
                                             />
