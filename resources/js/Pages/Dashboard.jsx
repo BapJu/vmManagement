@@ -138,10 +138,8 @@ export default function Dashboard({auth}) {
             });
     };
 
-    function getSubjectDescription(id) {
-        if (id==null) {
-            return "Inconnu";
-        }
+    async function getSubjectDescription(id) {
+        await delay(3);
         const subject = subjects.find(subject => subject.id === Number(id));
         return subject ? subject.description.substring(0, 7) : "Inconnu";
 
