@@ -26,7 +26,7 @@ export default function Dashboard({auth}) {
         id_user: auth.user.id,
         end_date: null,
         nom_vm: null,
-        prefix_name_vm: null,
+        prefix_name_vm: `${initials}-${getSubjectDescription(data.id_subject || 1) }-`,
     });
 
     const handleVmCountChange = (e) => {
@@ -257,7 +257,6 @@ export default function Dashboard({auth}) {
                                                     type="text"
                                                     value={`${initials}-${getSubjectDescription(data.id_subject || 1) }-`}
                                                     className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                    onChange={(e) => setData('prefix_name_vm', e.target.value)}
                                                     disabled
                                                 />
                                                 <input
