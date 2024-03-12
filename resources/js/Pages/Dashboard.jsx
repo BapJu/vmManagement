@@ -17,7 +17,6 @@ export default function Dashboard({auth}) {
 
     const [showForm, setShowForm] = useState(false);
 
-    console.log(auth.user);
     const nameParts = auth.user.name.split(' ');
     const initials = nameParts.map(part => part.charAt(0)).join('');
 
