@@ -12,7 +12,6 @@ export default function Dashboard({auth}) {
     const [isLoading, setIsLoading] = useState(if (!auth.user.id_role);
     const [showForm, setShowForm] = useState(false);
 
-    console.log(auth.user);
     const nameParts = auth.user.name.split(' ');
     const initials = nameParts.map(part => part.charAt(0)).join('');
 
