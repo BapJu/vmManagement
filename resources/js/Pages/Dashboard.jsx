@@ -19,7 +19,7 @@ export default function Dashboard({auth}) {
     let prefix_name_vm = null
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
-        id_subject: 1,
+        id_subject: null,
         id_typeofvm: null,
         id_storage: 1,
         nb_vm: vmCount,
@@ -139,6 +139,9 @@ export default function Dashboard({auth}) {
     };
 
     function getSubjectDescription(id) {
+        if (id==null) {
+            return "Inconnu";
+        }
         const subject = subjects.find(subject => subject.id === Number(id));
         return subject ? subject.description.substring(0, 7) : "Inconnu";
 
@@ -255,7 +258,7 @@ export default function Dashboard({auth}) {
                                             <div className="flex">
                                                 <input
                                                     type="text"
-                                                    value={`${initials}-${getSubjectDescription(data.id_subject || 1) }-`}
+                                                    value={`${initials}-${getSubjectDescription(data.id_subject ) }-`}
                                                     className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
