@@ -34,11 +34,15 @@ function VmStatsGraph({ auth }) {
     const [evolutionData, setEvolutionData] = useState({});
     const [distributionData, setDistributionData] = useState({});
     const [distributionUserData, setDistributionUserData] = useState({});
+
+
+    const [eventsData, setEventsData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch(`api/events/`, {
+        // You can also use Promise.all to fetch both datasets in parallel if they are independent
+        fetch(`api/events/`, { // Adjust the API endpoint as necessary
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -46,21 +50,21 @@ function VmStatsGraph({ auth }) {
         })
             .then(res => res.json())
             .then(eventsData => {
+                // Assume you have already fetched `typeofvms` as shown above
                 const evolutionChartData = processEvolutionData(eventsData);
-                const distributionChartData = processDistributionData(eventsData);
-                const distributionChartDataUser = processDistributionDataUser(eventsData);
+                const distributionChartData = processDistributionData(eventsData, typeofvms); // Adjusted to pass typeofvms
+                const distributionChartDataUser = processDistributionDataUser(eventsData, typeofvms); // Adjusted to pass typeofvms
 
                 setEvolutionData(evolutionChartData);
-
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser)
-                setLoading(false);
+                setDistributionUserData(distributionChartDataUser);
             })
             .catch(error => {
                 console.error('Error:', error);
-                setLoading(false);
-            });
-    }, [auth.user.id]);
+            })
+            .finally(() => setLoading(false));
+    }, [typeofvms]); // Depend on typeofvms to ensure it's loaded
+
 
     if (loading) {
         return <div>Loading...</div>;
