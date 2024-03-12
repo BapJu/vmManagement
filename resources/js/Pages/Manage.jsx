@@ -224,36 +224,30 @@ export default function Manage({ auth }) {
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="bg-white divide-y divide-gray-200">
                             {filteredEvents.map(event => (
-                                <tr key={event.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        {getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        {historiqueChecked && !event.ip ? (
-                                            // Hide buttons when historique is checked and event.ip is null
-                                        ) : (
-                                            <>
-                                                {event.active ? (
-                                                    <FontAwesomeIcon icon={faStop}
-                                                                     onClick={() => handleStopVM(event.id)}
-                                                                     className="cursor-pointer mr-2"/>
-                                                ) : (
-                                                    <FontAwesomeIcon icon={faPlay}
-                                                                     onClick={() => handleStartVM(event.id)}
-                                                                     className="cursor-pointer mr-2"/>
-                                                )}
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                                 className="cursor-pointer"/>
-                                            </>
-                                        )}
-                                    </td>
-                                </tr>
+                                (historiqueChecked || event.ip !== null) && (
+                                    <tr key={event.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {event.active ? (
+                                                <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                                 className="cursor-pointer mr-2"/>
+                                            ) : (
+                                                <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                                 className="cursor-pointer mr-2"/>
+                                            )}
+                                            <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                             className="cursor-pointer"/>
+                                        </td>
+                                    </tr>
+                                )
                             ))}
                             </tbody>
+
+
                         </table>
                     </div>
                 </div>
