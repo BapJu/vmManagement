@@ -40,6 +40,7 @@ class EventController extends Controller
         $typeOfVm = $request->input('id_typeofvm');
         $storage_id =  $request->input('id_storage');
 
+
         $templateVMID = DB::table('typeofvm')->where('id', $typeOfVm)->value('template_id');
 
         // Récupération des configurations depuis la BDD
@@ -97,6 +98,7 @@ class EventController extends Controller
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
             $event->active = true;
+            $event->$request->input('prefix_name_vm')+$request->input('name_vm');
             $event->save();
         }
 
