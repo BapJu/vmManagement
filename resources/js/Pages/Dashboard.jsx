@@ -26,7 +26,7 @@ export default function Dashboard({auth}) {
         id_user: auth.user.id,
         end_date: null,
         nom_vm: null,
-        prefix_name_vm: `${initials}-${getSubjectDescription(data.id_subject || 1) }-`,
+        prefix_name_vm: `${initials}-${getSubjectDescription(id_subject || 1) }-`,
     });
 
     const handleVmCountChange = (e) => {
