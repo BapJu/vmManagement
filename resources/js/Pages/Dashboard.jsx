@@ -28,7 +28,7 @@ export default function Dashboard({auth}) {
         nom_vm: null,
         prefix_name_vm: prefix_name_vm,
     });
-    prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
+
     const handleVmCountChange = (e) => {
         const newCount = e.target.value;
         setVmCount(newCount); // Met à jour l'état local
@@ -139,15 +139,11 @@ export default function Dashboard({auth}) {
     };
 
     function getSubjectDescription(id, retryCount = 0) {
-        try {
-            const subject = subjects.find(subject => subject.id === Number(id));
-            return subject ? subject.description.substring(0, 7) : "Inconnu";
-        } catch (error) {
-            console.error('Error in getSubjectDescription:', error);
-
-            return getSubjectDescription(id, retryCount + 1);
-        }
+        const subject = subjects.find(subject => subject.id === Number(id));
+        return subject ? subject.description.substring(0, 7) : "Inconnu";
     }
+
+    prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
 
     return (<AuthenticatedLayout
             user={auth.user}
