@@ -16,7 +16,7 @@ export default function Dashboard({auth}) {
     const initials = nameParts.map(part => part.charAt(0)).join('');
 
     const toggleFormDisplay = () => setShowForm(!showForm);
-    let prefix_vm ='';
+    let prefix_name_vm = null
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
         id_subject: 1,
@@ -25,12 +25,10 @@ export default function Dashboard({auth}) {
         nb_vm: vmCount,
         id_user: auth.user.id,
         end_date: null,
-        nom_vm: '',
-        prefix_name_vm: prefix_vm,
+        nom_vm: null,
+        prefix_name_vm: prefix_name_vm,
     });
-
-    prefix_vm =`${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
-
+    prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
     const handleVmCountChange = (e) => {
         const newCount = e.target.value;
         setVmCount(newCount); // Met à jour l'état local
@@ -141,9 +139,6 @@ export default function Dashboard({auth}) {
     };
 
     function getSubjectDescription(id) {
-        if (!subjects) {
-            return "Inconnu";
-        }
         const subject = subjects.find(subject => subject.id === Number(id));
         return subject ? subject.description.substring(0, 7) : "Inconnu";
 
