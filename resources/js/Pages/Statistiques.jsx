@@ -66,7 +66,7 @@ function VmStatsGraph({ auth }) {
         return <div>Loading...</div>;
     }
 
-    function getDescr(id) {
+    function getDescr(id, typeofvms) {
         return typeofvms.find(template => template.id === id).description;
     }
 
@@ -108,7 +108,7 @@ function VmStatsGraph({ auth }) {
 
     function processDistributionData(eventsData) {
         let distributionByType = {};
-        // Compter le nombre de VMs actives par type
+
         eventsData.forEach(event => {
             if (event.active) {
                 const vmType = event.id_typeofvm;
@@ -146,11 +146,12 @@ function VmStatsGraph({ auth }) {
         // Compter le nombre de VMs actives par type
         eventsData.forEach(event => {
             if (event.active) {
-                const vmUser = event.id_user;
-                if (!distributionByUser[vmUser]) {
-                    distributionByUser[vmUser] = 0;
+                const vmType = event.id_typeofvm;
+                const vmTypeDescription = getDescr(vmType, typeofvms);
+                if (!distributionByType[vmTypeDescription]) {
+                    distributionByType[vmTypeDescription] = 0;
                 }
-                distributionByUser[vmUser] += 1;
+                distributionByType[vmTypeDescription] += 1;
             }
         });
 
