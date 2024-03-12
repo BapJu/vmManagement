@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('id_user');
             $table->integer('id_typeofvm');
             $table->integer('id_storage');
+            $table->string('namevm', 20)->nullable();
         });
     }
 
