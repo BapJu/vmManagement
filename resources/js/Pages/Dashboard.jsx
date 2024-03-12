@@ -141,6 +141,9 @@ export default function Dashboard({auth}) {
     };
 
     function getSubjectDescription(id) {
+        if (!subjects) {
+            return "Inconnu";
+        }
         const subject = subjects.find(subject => subject.id === Number(id));
         return subject ? subject.description.substring(0, 7) : "Inconnu";
 
