@@ -218,10 +218,12 @@ export default function Manage({ auth }) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Last update
                                 </th>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
-                                </th>
+                                {!historiqueChecked && (
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                )}
+
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -229,15 +231,17 @@ export default function Manage({ auth }) {
                                 (historiqueChecked || event.ip !== null) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{event.active ? 'Active' : 'Inactive'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Supprimé' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                         {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
-                                                    <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)}
+                                                    <FontAwesomeIcon icon={faStop}
+                                                                     onClick={() => handleStopVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 ) : (
-                                                    <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)}
+                                                    <FontAwesomeIcon icon={faPlay}
+                                                                     onClick={() => handleStartVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 )}
                                                 <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
