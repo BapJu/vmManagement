@@ -67,8 +67,14 @@ function VmStatsGraph({ auth }) {
     }
 
     function getDescr(id, typeofvms) {
-        return typeofvms.find(template => template.id === id).description;
+        if (!typeofvms) {
+            console.error('getDescr was called with undefined typeofvms');
+            return 'Unknown Description'; // Or handle this case as appropriate for your application
+        }
+        const vmTemplate = typeofvms.find(template => template.id === id);
+        return vmTemplate ? vmTemplate.description : 'Unknown';
     }
+
 
 
     function processEvolutionData(eventsData) {
