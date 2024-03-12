@@ -138,19 +138,21 @@ export default function Dashboard({auth}) {
             });
     };
 
-    function getSubjectDescription(id) {
+    function getSubjectDescription(id, retryCount = 0) {
         try {
             const subject = subjects.find(subject => subject.id === Number(id));
             return subject ? subject.description.substring(0, 7) : "Inconnu";
         } catch (error) {
-
             console.error('Error in getSubjectDescription:', error);
-            return "Inconnu";
-
+            if (retryCount < 3) { // Limit the number of retries to 3
+                console.log(`Retrying getSubjectDescription (${retryCount + 1})...`);
+                return getSubjectDescription(id, retryCount + 1);
+            } else {
+                console.log('Max retries reached for getSubjectDescription');
+                return "Inconnu";
+            }
         }
-
     }
-
 
     return (<AuthenticatedLayout
             user={auth.user}
