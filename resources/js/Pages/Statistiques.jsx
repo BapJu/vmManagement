@@ -51,7 +51,6 @@ function VmStatsGraph({ auth }) {
                 const distributionChartDataUser = processDistributionDataUser(eventsData);
 
                 setEvolutionData(evolutionChartData);
-
                 setDistributionData(distributionChartData);
                 setDistributionUserData(distributionChartDataUser)
                 setLoading(false);
@@ -64,10 +63,6 @@ function VmStatsGraph({ auth }) {
 
     if (loading) {
         return <div>Loading...</div>;
-    }
-
-    function getDescr(id) {
-        return typeofvms.find(template => template.id === id).description;
     }
 
     return (
@@ -172,7 +167,7 @@ function VmStatsGraph({ auth }) {
     );
 }
 
-
+// Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
 function processEvolutionData(eventsData) {
     // Trier les événements par date de création
     const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
@@ -206,7 +201,6 @@ function processEvolutionData(eventsData) {
 }
 
 
-
 // Supposons que cette fonction traite les données pour la répartition par type
 function processDistributionData(eventsData) {
     let distributionByType = {};
@@ -214,11 +208,10 @@ function processDistributionData(eventsData) {
     eventsData.forEach(event => {
         if (event.active) {
             const vmType = event.id_typeofvm;
-            const vmTypeDescription = getDescr(vmType);
-            if (!distributionByType[vmTypeDescription]) {
-                distributionByType[vmTypeDescription] = 0;
+            if (!distributionByType[vmType]) {
+                distributionByType[vmType] = 0;
             }
-            distributionByType[vmTypeDescription] += 1;
+            distributionByType[vmType] += 1;
         }
     });
 
