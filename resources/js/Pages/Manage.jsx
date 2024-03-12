@@ -218,7 +218,7 @@ export default function Manage({ auth }) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Last update
                                 </th>
-                                {event.ip !== null && (
+                                {filteredEvents[0].ip !== null && (
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
