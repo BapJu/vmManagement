@@ -29,7 +29,7 @@ export default function Dashboard({auth}) {
         prefix_name_vm: prefix_vm,
     });
 
-    prefix_vm =`${initials}-${getSubjectDescription(id_subject || 1) }-`;
+    prefix_vm =`${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
 
     const handleVmCountChange = (e) => {
         const newCount = e.target.value;
