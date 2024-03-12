@@ -144,13 +144,8 @@ export default function Dashboard({auth}) {
             return subject ? subject.description.substring(0, 7) : "Inconnu";
         } catch (error) {
             console.error('Error in getSubjectDescription:', error);
-            if (retryCount < 3) { // Limit the number of retries to 3
-                console.log(`Retrying getSubjectDescription (${retryCount + 1})...`);
-                return getSubjectDescription(id, retryCount + 1);
-            } else {
-                console.log('Max retries reached for getSubjectDescription');
-                return "Inconnu";
-            }
+
+            return getSubjectDescription(id, retryCount + 1);
         }
     }
 
