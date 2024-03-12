@@ -16,16 +16,16 @@ export default function Dashboard({auth}) {
     const initials = nameParts.map(part => part.charAt(0)).join('');
 
     const toggleFormDisplay = () => setShowForm(!showForm);
-
+    let id_subject = 1;
     const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         id_localisation: 1,
-        id_subject: 1,
+        id_subject: id_subject,
         id_typeofvm: null,
         id_storage: 1,
         nb_vm: vmCount,
         id_user: auth.user.id,
         end_date: null,
-        nom_vm: null,
+        nom_vm: '',
         prefix_name_vm: `${initials}-${getSubjectDescription(id_subject || 1) }-`,
     });
 
