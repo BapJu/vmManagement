@@ -9,7 +9,12 @@ export default function Dashboard({auth}) {
     const [templates, setTemplates] = useState([]);
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
-    const [isLoading, setIsLoading] = useState(if (!auth.user.id_role);
+    const [isLoading, setIsLoading] = useState(() => {
+        // Check if user role exists and set isLoading accordingly
+        return !auth.user.id_role;
+    });
+
+
     const [showForm, setShowForm] = useState(false);
 
     console.log(auth.user);
