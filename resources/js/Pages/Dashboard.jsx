@@ -9,7 +9,7 @@ export default function Dashboard({auth}) {
     const [templates, setTemplates] = useState([]);
     const [selectedTemplate, setSelectedTemplate] = useState('');
     const [vmCount, setVmCount] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(if (!auth.user.id_role);
     const [showForm, setShowForm] = useState(false);
 
     console.log(auth.user);
@@ -143,9 +143,7 @@ export default function Dashboard({auth}) {
 
     }
 
-    if (!auth.user.id_role){
-        setIsLoading(true);
-    }
+
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
