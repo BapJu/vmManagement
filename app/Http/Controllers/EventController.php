@@ -13,15 +13,24 @@ class EventController extends Controller
 {
     public function index()
     {
+        // Récupérer l'utilisateur authentifié
+        $user = Auth::user();
 
-        $userRole = Auth::user()->id_role;
+        // Récupérer le rôle de l'utilisateur depuis la base de données
+        $userRole = $user->id_role;
+
+        // Vérifier si l'utilisateur est administrateur (id_role === 1)
         if ($userRole == 1) {
+            // Si l'utilisateur est administrateur, récupérer toutes les VMs
             $Events = Event::all();
-            return response()->json($Events);
+            return response()->json(['events' => $Events, 'isAdmin' => true]);
+        } else {
+            // Si l'utilisateur n'est pas administrateur, récupérer seulement ses propres VMs
+            $Events = Event::where('id_user', $user->id)->get();
+            return response()->json(['events' => $Events, 'isAdmin' => false]);
         }
-        return response()->json(['message' => 'Unauthorized'], 401);
-
     }
+
 
     public function index_current_user()
     {

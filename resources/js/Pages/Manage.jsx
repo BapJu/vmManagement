@@ -16,6 +16,7 @@ export default function Manage({ auth }) {
     const [showAllVMs, setShowAllVMs] = useState(false);
 
 
+
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
 
@@ -79,6 +80,7 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]);
+
 
 
 
@@ -209,17 +211,6 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            {isAdmin && (
-                <div className="flex items-center mb-4">
-                    <label htmlFor="showAllVMs" className="mr-2">Toutes les VMs</label>
-                    <input
-                        type="checkbox"
-                        id="showAllVMs"
-                        checked={showAllVMs}
-                        onChange={() => setShowAllVMs(!showAllVMs)}
-                    />
-                </div>
-            )}
 
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -239,6 +230,18 @@ export default function Manage({ auth }) {
                             onChange={() => setHistoriqueChecked(!historiqueChecked)}
                         />
                         <label htmlFor="historiqueCheckbox">Historique</label>
+
+                        {isAdmin && (
+                            <div className="flex items-center mb-4">
+                                <label htmlFor="showAllVMs" className="mr-2">Toutes les VMs</label>
+                                <input
+                                    type="checkbox"
+                                    id="showAllVMs"
+                                    checked={showAllVMs}
+                                    onChange={() => setShowAllVMs(!showAllVMs)}
+                                />
+                            </div>
+                        )}
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
