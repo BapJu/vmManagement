@@ -66,9 +66,13 @@ export default function Manage({ auth }) {
         fetch('/api/users')
             .then(response => response.json())
             .then(data => {
+                // Mettre à jour l'état local avec les données des utilisateurs
                 setUsers(data);
             })
-            .catch(error => console.error('Error fetching users:', error));
+            .catch(error => {
+                // Gérer les erreurs de requête
+                console.error('Error fetching users:', error);
+            });
     }, []);
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
