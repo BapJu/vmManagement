@@ -197,9 +197,10 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : showAllVMChecked
-            ? events // Si showAllVMChecked est vrai, afficher toutes les VMs
-            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+        : !showAllVMChecked
+            ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
+            : events;
+
 
 
 
@@ -227,12 +228,11 @@ export default function Manage({ auth }) {
                                     checked={showAllVMChecked}
                                     onChange={() => {
                                         setShowAllVMChecked(!showAllVMChecked);
-                                        if (!showAllVMChecked) { // Appel de handleShowAllVM uniquement si la case est cochée
+                                        if (!showAllVMChecked) {
                                             handleShowAllVM();
                                         }
                                     }}
                                 />
-
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
