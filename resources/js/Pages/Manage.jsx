@@ -104,6 +104,7 @@ export default function Manage({ auth }) {
 
 
 
+
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
         const token = localStorage.getItem('bearerToken');
