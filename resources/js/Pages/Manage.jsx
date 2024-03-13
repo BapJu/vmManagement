@@ -75,8 +75,11 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data.event);
-                setIsAdmin(data.isAdmin);
+                // Vérifier si les données sont définies avant de les utiliser
+                if (data && data.event && data.isAdmin !== undefined) {
+                    setEvents(data.event);
+                    setIsAdmin(data.isAdmin);
+                }
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]);
