@@ -197,9 +197,10 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : !showAllVMChecked
-            ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
-            : events;
+        : showAllVMChecked
+            ? events
+            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+
 
 
 
@@ -226,12 +227,7 @@ export default function Manage({ auth }) {
                                     id="showAllVMCheckbox"
                                     className="mr-2"
                                     checked={showAllVMChecked}
-                                    onChange={() => {
-                                        setShowAllVMChecked(!showAllVMChecked);
-                                        if (!showAllVMChecked) {
-                                            handleShowAllVM();
-                                        }
-                                    }}
+                                    onChange={() => setShowAllVMChecked(!showAllVMChecked)}
                                 />
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
