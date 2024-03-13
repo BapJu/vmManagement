@@ -13,19 +13,15 @@ class EventController extends Controller
 {
     public function index()
     {
-        $userRole = Auth::user()->id_role;
 
+        $userRole = Auth::user()->id_role;
         if ($userRole == 1) {
-            // Si l'utilisateur est administrateur, récupérez toutes les VMs
             $Events = Event::all();
             return response()->json($Events);
-        } else {
-            // Si l'utilisateur n'est pas administrateur, récupérez seulement ses propres VMs
-            $Events = Event::where('id_user', auth()->user()->id)->get();
-            return response()->json($Events);
         }
-    }
+        return response()->json(['message' => 'Unauthorized'], 401);
 
+    }
 
     public function index_current_user()
     {

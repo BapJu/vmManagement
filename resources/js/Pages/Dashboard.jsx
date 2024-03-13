@@ -12,6 +12,7 @@ export default function Dashboard({auth}) {
     const [isLoading, setIsLoading] = useState(() => {return !auth.user.id_role;});
     const [showForm, setShowForm] = useState(false);
 
+
     const nameParts = auth.user.name.split(' ');
     const initials = nameParts.map(part => part.charAt(0)).join('');
 
@@ -36,6 +37,11 @@ export default function Dashboard({auth}) {
     };
 
     const [localisations, setLocalisation] = useState([]);
+
+
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [events, setEvents] = useState([]);
+    const [showAllVMs, setShowAllVMs] = useState(false);
 
     useEffect(() => {
         fetch('/api/localisations')
@@ -114,6 +120,22 @@ export default function Dashboard({auth}) {
             });
     }, []); // Removed vmStats from dependency array to prevent re-fetching
 
+    useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
+
+        fetch('/api/events/current_user', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data.events);
+                setIsAdmin(data.isAdmin);
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    }, [auth.token]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -150,7 +172,17 @@ export default function Dashboard({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
 
         >
-
+        {isAdmin && (
+            <div className="flex items-center mb-4">
+                <label htmlFor="showAllVMs" className="mr-2">Toutes les VMs</label>
+                <input
+                    type="checkbox"
+                    id="showAllVMs"
+                    checked={showAllVMs}
+                    onChange={() => setShowAllVMs(!showAllVMs)}
+                />
+            </div>
+        )}
             <Head title="Dashboard"/>
             {!auth.user.id_role && (
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
