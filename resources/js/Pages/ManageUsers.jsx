@@ -84,7 +84,7 @@ export default function Manage({auth}) {
                             <select
                                 id="role"
                                 className="mt-1 block w-full"
-                                value={user.role_id} // Assurez-vous que cette valeur correspond à la propriété correcte de l'utilisateur
+                                value={auth.user.role_id} // Assurez-vous que cette valeur correspond à la propriété correcte de l'utilisateur
                                 onChange={(e) => handleRoleChange(user.id, e.target.value)} // Appeler handleRoleChange lorsqu'un nouveau rôle est sélectionné
                             >
                                 {roles.map(role => (
