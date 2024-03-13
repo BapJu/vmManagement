@@ -62,8 +62,9 @@ export default function Manage({ auth }) {
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
 
+    //use effect de récupération de tous les users
     useEffect(() => {
-        fetch('/api/user')
+        fetch('/api/users')
             .then(response => response.json())
             .then(data => {
                 setUsers(data);

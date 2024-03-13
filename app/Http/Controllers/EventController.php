@@ -11,6 +11,12 @@ use App\Services\YAMLGenerator;
 
 class EventController extends Controller
 {
+
+    public function getAllUserNames()
+    {
+        $userNames = DB::table('users')->pluck('name');
+        return response()->json($userNames);
+    }
     public function index()
     {
         $userRole = Auth::user()->id_role;
