@@ -82,14 +82,7 @@ export default function Manage({ auth }) {
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
         const token = localStorage.getItem('bearerToken');
-        let url = '/api/events';
-
-        // Si un utilisateur est sélectionné et que la case "Show All VMs" est cochée, filtrez par l'ID de l'utilisateur
-        if (showAllVMChecked && selectedUser !== '') {
-            url += `?user_id=${selectedUser}`;
-        }
-
-        fetch(url, {
+        fetch('/api/events', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -101,8 +94,6 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching all events:', error));
     };
-
-
 
 
     const handleStartVM = (vmId) => {
