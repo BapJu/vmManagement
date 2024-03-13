@@ -219,7 +219,7 @@ export default function Manage({ auth }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-
+                        {auth.user.id_role === 1 && (
                         <input
                             type="checkbox"
                             id="showAllVMCheckbox"
@@ -230,6 +230,7 @@ export default function Manage({ auth }) {
                                 handleShowAllVM();
                             }}
                         />
+                        )}
                         <label htmlFor="showAllVMCheckbox">Show All VMs</label>
 
                         <input
