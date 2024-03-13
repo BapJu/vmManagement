@@ -62,7 +62,7 @@ Route::get('/manage-users', function () {
     } else {
         return redirect()->route('login');
     }
-})->middleware(['auth', 'verified'])->name('dashboard-admin');
+})->middleware(['auth', 'verified'])->name('manage-users');
 
 
 Route::get('/manage', function () {
