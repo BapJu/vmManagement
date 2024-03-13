@@ -31,7 +31,7 @@ export default function Dashboard({ auth }) {
 
     const handleVmCountChange = (e) => {
         const newCount = e.target.value;
-        setData('nb_vm', newCount); // Met à jour la valeur dans `data` pour le formulaire
+        setData('nb_vm', newCount);
     };
 
     const getSubjectDescription = useCallback((id) => {
@@ -104,6 +104,7 @@ export default function Dashboard({ auth }) {
     };
 
     data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
+    console.log(data);
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
