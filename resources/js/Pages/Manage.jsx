@@ -203,18 +203,6 @@ export default function Manage({ auth }) {
             });
     };
 
-    const getTemplateDescription = (id) => {
-        const template = typeofvms.find(template => template.id === id);
-        return template ? template.description : '';
-
-
-    };
-
-    const getSubjectsDescription = (id) => {
-        const subject = subjects.find(subject => subject.id === id);
-        return subject ? subject.description : '';
-    };
-
     function formatDate(isoDateString) {
         const date = new Date(isoDateString);
         const day = String(date.getDate()).padStart(2, '0');
