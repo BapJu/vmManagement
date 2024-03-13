@@ -11,6 +11,12 @@ use App\Services\YAMLGenerator;
 
 class EventController extends Controller
 {
+    public function getUsers()
+    {
+        $users = User::all(); // Assurez-vous d'importer le modèle User en haut de votre contrôleur
+        return response()->json($users);
+    }
+
     public function index()
     {
         $userRole = Auth::user()->id_role;

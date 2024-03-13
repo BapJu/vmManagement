@@ -62,11 +62,10 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     useEffect(() => {
-        // Effectuer une requête pour récupérer la liste des utilisateurs
         fetch('/api/users')
             .then(response => response.json())
             .then(data => {
-                setUsers(data); // Mettre à jour la liste des utilisateurs
+                setUsers(data);
             })
             .catch(error => console.error('Error fetching users:', error));
     }, []);
@@ -220,15 +219,16 @@ export default function Manage({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <select
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={selectedUser}
+                            onChange={(e) => setSelectedUser(e.target.value)}
                             className="p-2 border border-gray-300 rounded-md"
                         >
-                            <option value="">All Users</option>
+                            <option value="">Sélectionnez un utilisateur</option>
                             {users.map(user => (
                                 <option key={user.id} value={user.id}>{user.name}</option>
                             ))}
                         </select>
+
 
                         {auth.user.id_role === 1 && (
                             <div>
