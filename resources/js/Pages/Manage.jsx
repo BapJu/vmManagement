@@ -220,18 +220,21 @@ export default function Manage({ auth }) {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {auth.user.id_role === 1 && (
-                            <input
-                                type="checkbox"
-                                id="showAllVMCheckbox"
-                                className="mr-2"
-                                checked={showAllVMChecked}
-                                onChange={() => {
-                                    setShowAllVMChecked(!showAllVMChecked);
-                                    handleShowAllVM();
-                                }}
-                            />
-                            <label htmlFor="showAllVMCheckbox">Show All VMs</label>
-                        )}
+                            <div> {/* Balise parent ajoutée */}
+                                <input
+                                    type="checkbox"
+                                    id="showAllVMCheckbox"
+                                    className="mr-2"
+                                    checked={showAllVMChecked}
+                                    onChange={() => {
+                                        setShowAllVMChecked(!showAllVMChecked);
+                                        handleShowAllVM();
+                                    }}
+                                />
+                                <label htmlFor="showAllVMCheckbox">Show All VMs</label>
+                            </div>
+                            )}
+
 
 
                         <input
