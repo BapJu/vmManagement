@@ -198,9 +198,9 @@ export default function Manage({ auth }) {
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
             ? events
-            : searchTerm.trim() !== '' // Vérifiez s'il y a un terme de recherche non vide
-                ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
-                : events; // Si aucun des cas ci-dessus n'est vrai, renvoyez tous les événements sans filtrage
+            : events;
+
+
 
 
     return (
