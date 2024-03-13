@@ -107,7 +107,7 @@ class EventController extends Controller
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
             $event->active = true;
-            $event->namevm = $request->$request->input('prefix_name_vm') . $request->input('name_vm');
+            $event->namevm = $request->input('prefix_name_vm') . $request->input('name_vm');
             $event->save();
         }
 
