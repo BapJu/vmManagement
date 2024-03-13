@@ -228,13 +228,6 @@ export default function Manage({ auth }) {
         return `${day}-${month}-${year}`;
     }
 
-    const filteredEvents = historiqueChecked
-        ? events.filter(event => event.ip === null)
-        : selectedUserId !== ''
-            ? events.filter(event => event.id_user === selectedUserId)
-            : events.filter(event => event.id_user === auth.user.id);
-
-
     const handleUserSelection = (e) => {
         const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
         setSelectedUserId(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
@@ -272,7 +265,7 @@ export default function Manage({ auth }) {
                         <label htmlFor="historiqueCheckbox">Historical</label>
 
                         <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                            <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -297,12 +290,12 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                (historiqueChecked || event.ip !== null ) && (selectedUserId == event.id_user) && (
+                                (historiqueChecked || event.ip !== null) && (selectedUserId == event.id_user) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                        {event.ip !== null && (
+                                        {(!historiqueChecked && event.ip !== null) && ( // Check if historiqueChecked is false and event has IP
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
                                                     <FontAwesomeIcon icon={faStop}
