@@ -12,10 +12,10 @@ use App\Services\YAMLGenerator;
 class EventController extends Controller
 {
 
-    public function getAllUserNames()
+    public function getUsers()
     {
-        $userNames = DB::table('users')->pluck('name');
-        return response()->json($userNames);
+        $users = User::all(['id', 'name']); // Récupère tous les utilisateurs avec uniquement les colonnes id et name
+        return response()->json($users);
     }
     public function index()
     {

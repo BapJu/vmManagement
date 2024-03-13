@@ -65,12 +65,7 @@ export default function Manage({ auth }) {
     //use effect de récupération de tous les users
     useEffect(() => {
         fetch('/api/users')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 setUsers(data);
             })
@@ -78,7 +73,6 @@ export default function Manage({ auth }) {
                 console.error('Error fetching users:', error);
             });
     }, []);
-
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
