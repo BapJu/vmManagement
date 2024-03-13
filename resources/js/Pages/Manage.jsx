@@ -34,8 +34,6 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-
-        // Assurez-vous que l'appel API récupère les événements de l'utilisateur sélectionné
         const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
         fetch(url, {
@@ -49,7 +47,7 @@ export default function Manage({ auth }) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token, selectedUserId]); // Effectuer la requête lorsque le token d'authentification change ou lorsque l'utilisateur sélectionné change
+    }, [auth.token, selectedUserId]);
 
 
     useEffect(() => {
@@ -234,9 +232,11 @@ export default function Manage({ auth }) {
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
             ? events
-            : events.filter(event => event.id_user === auth.user.id );
+            : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
+                ? events.filter(event => event.id_user === selectedUserId)
+                : events.filter(event => event.id_user === auth.user.id);
 
-    // Dans votre composant React, lorsque l'utilisateur sélectionne un utilisateur dans le sélecteur
+
     const handleUserSelection = (e) => {
         const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
         setSelectedUser(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
