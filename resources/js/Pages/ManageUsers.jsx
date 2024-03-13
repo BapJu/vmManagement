@@ -14,7 +14,7 @@ export default function Manage({ auth }) {
         // Assuming auth.token is intended. Adjust if necessary.
         fetchData('/api/users', setUsers);
         fetchData('/api/roles', setRoles);
-        fetchData('/api/sites', setSites);
+        fetchData('/api/localisations', setSites);
     }, [auth.token]); // Ensure this dependency is correct
 
     function fetchData(url, setState) {
