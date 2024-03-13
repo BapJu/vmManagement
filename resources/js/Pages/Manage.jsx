@@ -34,7 +34,9 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        const url = selectedUser ? `/api/events/user/${selectedUser}` : '/api/events';
+
+        // Assurez-vous que l'appel API récupère les événements de l'utilisateur sélectionné
+        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
         fetch(url, {
             method: 'GET',
@@ -47,7 +49,7 @@ export default function Manage({ auth }) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token, selectedUser]); // Effectuer la requête lorsque le token d'authentification change ou lorsque l'utilisateur sélectionné change
+    }, [auth.token, selectedUserId]); // Effectuer la requête lorsque le token d'authentification change ou lorsque l'utilisateur sélectionné change
 
 
     useEffect(() => {
@@ -251,8 +253,8 @@ export default function Manage({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <select
-                            value={selectedUser}
-                            onChange={handleUserSelection} // Utiliser la fonction handleUserSelection pour gérer les sélections d'utilisateurs
+                            value={selectedUserId}
+                            onChange={(e) => setSelectedUserId(e.target.value)}
                             className="p-2 border border-gray-300 rounded-md"
                         >
                             <option value="">Select user</option>
