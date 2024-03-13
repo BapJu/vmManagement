@@ -68,21 +68,29 @@ export default function Manage({ auth }) {
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
-        if (isAdmin) {
-            const token = localStorage.getItem('bearerToken');
-            fetch('/api/events', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/events', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data);
             })
-                .then(response => response.json())
-                .then(data => {
-                    setEvents(data);
-                })
-                .catch(error => console.error('Error fetching all events:', error));
-        }
+            .catch(error => console.error('Error fetching all events:', error));
     };
+
+    useEffect(() => {
+        if (showAllVMChecked) {
+            handleShowAllVM();
+        } else {
+            // Mettez à jour les événements pour afficher uniquement ceux de l'utilisateur actuel
+            const filteredEvents = events.filter(event => event.id_user === auth.user.id);
+            setEvents(filteredEvents);
+        }
+    }, [showAllVMChecked]);
 
 
     const handleStartVM = (vmId) => {
@@ -236,9 +244,6 @@ export default function Manage({ auth }) {
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
-
-
-
 
                         <input
                             type="checkbox"
