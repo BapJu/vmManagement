@@ -61,6 +61,15 @@ export default function Manage({ auth }) {
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
 
+    useEffect(() => {
+        // Effectuer une requête pour récupérer la liste des utilisateurs
+        fetch('/api/users')
+            .then(response => response.json())
+            .then(data => {
+                setUsers(data); // Mettre à jour la liste des utilisateurs
+            })
+            .catch(error => console.error('Error fetching users:', error));
+    }, []);
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
