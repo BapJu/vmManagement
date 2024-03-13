@@ -26,6 +26,9 @@ export default function Authenticated({ user, header, children }) {
                                 {user.id_role ===1 &&(
                                 <NavLink href={route('statistiques')} active={route().current('statistiques')}>Statistiques</NavLink>
                                 )}
+                                {user.id_role ===1 &&(
+                                    <NavLink href={route('manage-users')} active={route().current('manage-users')}>Gestion des utilisateurs</NavLink>
+                                )}
                             </div>
                         </div>
 

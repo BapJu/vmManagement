@@ -50,6 +50,21 @@ Route::get('/dashboard-admin', function () {
 })->middleware(['auth', 'verified'])->name('dashboard-admin');
 
 
+Route::get('/manage-users', function () {
+    if (Auth::check()) {
+        $userRole = Auth::user()->id_role;
+
+        if ($userRole == 1) {
+            return Inertia::render('ManageUsers');
+        } else {
+            return redirect()->route('dashboard')->with('error', 'Accès interdit');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->middleware(['auth', 'verified'])->name('dashboard-admin');
+
+
 Route::get('/manage', function () {
     return Inertia::render('Manage');
 })->middleware(['auth', 'verified'])->name('manage');
