@@ -91,15 +91,7 @@ class EventController extends Controller
 
         foreach ($ipAvailable as $index => $ip) {
             $vmid = $vmIDStart + $index;
-            $dataForYAML[] = [
-                'template_vmid' => $templateVMID,
-                'vmid' => str_replace('.', '', $ip->available_ip),
-                'static_ip' => $ip->available_ip,
-                'gateway' => "10.{$mask_site}.{$mask_subject}.1",
-                'cloneName' => $category,
-                'storage' => $storage,
-                'resource_pool' => 'Serveurs',
-            ];
+
             $event = new Event();
             $event->id_typeofvm = $typeOfVm;
             $event->id_user = $request->input('id_user');
@@ -108,8 +100,18 @@ class EventController extends Controller
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
             $event->active = true;
-            $event->namevm = $request->input('prefix_name_vm') . $request->input('name_vm');
+            $event->namevm = $request->input('prefix_name_vm') . $request->input('name_vm') . "-" . str_replace('.', '', $ip->available_ip);
             $event->save();
+
+            $dataForYAML[] = [
+                'template_vmid' => $templateVMID,
+                'vmid' => str_replace('.', '', $ip->available_ip),
+                'static_ip' => $ip->available_ip,
+                'gateway' => "10.{$mask_site}.{$mask_subject}.1",
+                'cloneName' => $request->input('prefix_name_vm') . $request->input('name_vm') . "-" . str_replace('.', '', $ip->available_ip),
+                'storage' => $storage,
+                'resource_pool' => 'Serveurs',
+            ];
         }
 
         $yamlContent = YAMLGenerator::generateYAML($dataForYAML);
