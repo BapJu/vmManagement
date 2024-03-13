@@ -36,10 +36,10 @@ export default function Dashboard({ auth }) {
 
     const getSubjectDescription = useCallback((id) => {
         const subject = subjects.find(subject => subject.id === Number(id));
-        return subject ? subject.description.substring(0, 7) : "Inconnu";
+        return subject ? subject.description.substring(0, 7) : '';
     }, [subjects]);
 
-    data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
+
 
     useEffect(() => {
         const fetchAPIs = async () => {
@@ -103,7 +103,7 @@ export default function Dashboard({ auth }) {
         }
     };
 
-
+    data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
