@@ -65,7 +65,7 @@ export default function Manage({ auth }) {
                                         <select
                                             id="role"
                                             className="mt-1 block w-full"
-                                            value={data.id_role}
+                                            value={user.id_role}
                                             onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                         >
                                             {roles.map(role => (
