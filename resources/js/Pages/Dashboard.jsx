@@ -2,148 +2,105 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {useEffect, useState} from 'react';
 
-export default function Dashboard({auth}) {
-    const [vmStats, setVmStats] = useState({totalCreated: 0, totalActive: 0});
-    const [site, setSite] = useState('');
-    const [domain, setDomain] = useState('');
+export default function Dashboard({ auth }) {
+    const [vmStats, setVmStats] = useState({ totalCreated: 0, totalActive: 0 });
     const [templates, setTemplates] = useState([]);
-    const [selectedTemplate, setSelectedTemplate] = useState('');
-    const [vmCount, setVmCount] = useState(1);
-    const [isLoading, setIsLoading] = useState(() => {return !auth.user.id_role;});
+    const [isLoading, setIsLoading] = useState(() => !auth.user.id_role);
     const [showForm, setShowForm] = useState(false);
+    const [localisations, setLocalisations] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+    const [storages, setStorages] = useState([]);
+    const [error, setError] = useState('');
 
-    const nameParts = auth.user.name.split(' ');
-    const initials = nameParts.map(part => part.charAt(0)).join('');
-
-    const toggleFormDisplay = () => setShowForm(!showForm);
-    let prefix_name_vm = null
-    const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
+    const { data, setData, errors, processing } = useForm({
         id_localisation: 1,
         id_subject: null,
         id_typeofvm: null,
         id_storage: 1,
-        nb_vm: vmCount,
+        nb_vm: 1,
         id_user: auth.user.id,
         end_date: null,
         nom_vm: null,
-        prefix_name_vm: prefix_name_vm,
     });
+
+    const nameParts = auth.user.name.split(' ');
+    const initials = nameParts.map(part => part.charAt(0)).join('');
+    data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
+
+    const toggleFormDisplay = () => setShowForm(!showForm);
 
     const handleVmCountChange = (e) => {
         const newCount = e.target.value;
-        setVmCount(newCount); // Met à jour l'état local
         setData('nb_vm', newCount); // Met à jour la valeur dans `data` pour le formulaire
     };
 
-    const [localisations, setLocalisation] = useState([]);
+    const getSubjectDescription = useCallback((id) => {
+        const subject = subjects.find(subject => subject.id === Number(id));
+        return subject ? subject.description.substring(0, 7) : "Inconnu";
+    }, [subjects]);
 
     useEffect(() => {
-        fetch('/api/localisations')
-            .then(response => response.json())
-            .then(data => {
-                setLocalisation(data);
-            })
-            .catch(error => {
-                console.error('Error fetching roles:', error);
-            });
+        const fetchAPIs = async () => {
+            try {
+                const responses = await Promise.all([
+                    fetch('/api/localisations'),
+                    fetch('/api/subjects'),
+                    fetch('/api/storages'),
+                ]);
+                const [localisationsData, subjectsData, storagesData] = await Promise.all(responses.map(res => res.json()));
+
+                setLocalisations(localisationsData);
+                setSubjects(subjectsData);
+                setStorages(storagesData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError('An error occurred while fetching data. Please try again.');
+            }
+        };
+        fetchAPIs();
     }, []);
-
-    const [subjects, setSubject] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/subjects')
-            .then(response => response.json())
-            .then(data => {
-                setSubject(data);
-            })
-            .catch(error => {
-                console.error('Error fetching roles:', error);
-            });
-    }, []);
-
 
     useEffect(() => {
         if (data.id_localisation && data.id_subject) {
             fetch(`/api/typeOfVms/location=${data.id_localisation}/subject=${data.id_subject}`)
                 .then(response => response.json())
-                .then(data => {
-                    setTemplates(data);
-                })
+                .then(setTemplates)
                 .catch(error => {
-                    console.error('Error fetching roles:', error);
+                    console.error('Error fetching templates:', error);
+                    setError('An error occurred while fetching templates. Please try again.');
                 });
         }
-    }, [data]);
+    }, [data.id_localisation, data.id_subject]);
 
-
-    const [storages, setStorage] = useState([]);
-
-    useEffect(() => {
-        fetch(`/api/storages`)
-            .then(response => response.json())
-            .then(data => {
-                setStorage(data);
-            })
-            .catch(error => {
-                console.error('Error fetching roles:', error);
-            });
-    }, [data]);
-
-
-    useEffect(() => {
-        const token = localStorage.getItem('bearerToken');
-        fetch(`api/event/user/${auth.user.id}`, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`,
-            },
-        })
-
-            .then(response => response.json())
-            .then(data => {
-                // Calculate the total number of VMs created
-                const totalCreated = data.length;
-
-                // Calculate the total number of active VMs
-                const totalActive = data.filter(vm => vm.active).length;
-
-                // Update the vmStats state with these calculated values
-                setVmStats({totalCreated, totalActive});
-            })
-            .catch(error => {
-                console.error('Error fetching roles:', error);
-            });
-    }, []); // Removed vmStats from dependency array to prevent re-fetching
-
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
-        const token = localStorage.getItem('bearerToken');
-        console.log('Creating VMs:', data);
-        fetch('/api/event', {
-            redirect: 'follow', method: 'POST', headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`,
-            }, body: JSON.stringify(data),
-        })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .finally(() => {
-                setIsLoading(false); // Réactiver le bouton et cacher l'écran de chargement une fois la requête terminée
+
+        try {
+            const token = localStorage.getItem('bearerToken');
+            const response = await fetch('/api/event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
             });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('Error creating VM:', error);
+            setError('An error occurred while creating VM. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    function getSubjectDescription(id, retryCount = 0) {
-        const subject = subjects.find(subject => subject.id === Number(id));
-        return subject ? subject.description.substring(0, 7) : "Inconnu";
-    }
-
-    prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1) }-`;
 
     return (<AuthenticatedLayout
             user={auth.user}
