@@ -193,14 +193,11 @@ export default function Manage({ auth }) {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
-
-    let filteredEvents = events;
-
-    if (historiqueChecked) {
-        filteredEvents = events.filter(event => event.ip === null);
-    } else if (!showAllVMChecked) {
-        filteredEvents = events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
-    }
+    const filteredEvents = historiqueChecked
+        ? events.filter(event => event.ip === null)
+        : showAllVMChecked
+            ? events
+            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
 
 
     return (
