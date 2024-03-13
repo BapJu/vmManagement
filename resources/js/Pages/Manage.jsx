@@ -8,12 +8,7 @@ export default function Manage({ auth }) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
     const [subjects, setSubjects] = useState([]);
-    const [action, setAction] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [showAllVMChecked, setShowAllVMChecked] = useState(false);
-    const [selectedUser, setSelectedUser] = useState('');
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState('');
 
