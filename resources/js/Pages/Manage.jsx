@@ -28,10 +28,13 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data);
+                if (data && data.event && data.isAdmin !== undefined) {
+                    setEvents(data.event);
+                    setIsAdmin(data.isAdmin);
+                }
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
+    }, [auth.token]);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -61,27 +64,6 @@ export default function Manage({ auth }) {
                 setSubjects(data);
             })
             .catch(error => console.error('Error fetching typeofdata:', error));
-    }, [auth.token]);
-
-
-    useEffect(() => {
-        const token = localStorage.getItem('bearerToken');
-
-        fetch('/api/events/current_user', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Vérifier si les données sont définies avant de les utiliser
-                if (data && data.event && data.isAdmin !== undefined) {
-                    setEvents(data.event);
-                    setIsAdmin(data.isAdmin);
-                }
-            })
-            .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]);
 
 
