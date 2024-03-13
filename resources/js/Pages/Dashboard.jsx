@@ -144,7 +144,10 @@ export default function Dashboard({ auth }) {
                                 <button
                                     className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={toggleFormDisplay} // Lorsqu'on clique, on change l'état pour afficher le formulaire
-                                    {!auth.user.id_role && 'disabled'}
+                                    {!auth.user.id_role &&(
+                                    disabled
+
+                                    )}
                                 >
                                     Déployer des VMs
                                 </button>
