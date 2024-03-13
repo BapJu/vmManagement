@@ -296,8 +296,8 @@ export default function Manage({ auth }) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {filteredEvents.map(event => (
-                                (historiqueChecked || event.ip !== null ) && (
+                            {events.map(event => (
+                                (historiqueChecked || event.ip !== null ) && (selectedUserId == event.id_user) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
