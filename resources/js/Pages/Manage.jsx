@@ -201,10 +201,6 @@ export default function Manage({ auth }) {
             ? events
             : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
 
-
-
-
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -227,8 +223,14 @@ export default function Manage({ auth }) {
                                     id="showAllVMCheckbox"
                                     className="mr-2"
                                     checked={showAllVMChecked}
-                                    onChange={() => setShowAllVMChecked(!showAllVMChecked)}
+                                    onChange={() => {
+                                        setShowAllVMChecked(!showAllVMChecked);
+                                        if (!showAllVMChecked) {
+                                            handleShowAllVM();
+                                        }
+                                    }}
                                 />
+
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
