@@ -15,6 +15,7 @@ export default function Manage({ auth }) {
     const [showAllVMChecked, setShowAllVMChecked] = useState(false);
     const [selectedUser, setSelectedUser] = useState('');
     const [users, setUsers] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -209,19 +210,14 @@ export default function Manage({ auth }) {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
-    /*
-    const filteredEvents = historiqueChecked
-        ? events.filter(event => event.ip === null)
-        : showAllVMChecked
-            ? events
-            : events.filter(event => event.id_user === auth.user.id);
-    */
-    const filteredEvents = historiqueChecked
-        ? events.filter(event => event.ip === null)
-        : showAllVMChecked
-            ? events
-            : events.filter(event => event.id_user === selectedUser);
 
+    const filteredEvents = historiqueChecked
+        ? events.filter(event => event.ip === null)
+        : showAllVMChecked
+            ? selectedUserId
+                ? events.filter(event => event.id_user === selectedUserId)
+                : events
+            : events.filter(event => event.id_user === auth.user.id);
 
 
 
@@ -234,8 +230,8 @@ export default function Manage({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <select
-                            value={selectedUser}
-                            onChange={(e) => setSelectedUser(e.target.value)}
+                            value={selectedUserId}
+                            onChange={(e) => setSelectedUserId(e.target.value)}
                             className="p-2 border border-gray-300 rounded-md"
                         >
                             <option value="">Select user</option>
