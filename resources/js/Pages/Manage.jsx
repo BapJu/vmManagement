@@ -11,6 +11,9 @@ export default function Manage({ auth }) {
     const [action, setAction] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [showAllVMChecked, setShowAllVMChecked] = useState(false);
+
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -57,6 +60,28 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
+
+
+    useEffect(() => {
+        setIsAdmin(auth.user.id_role === 1);
+    }, [auth.user]);
+
+    const handleShowAllVM = () => {
+        if (isAdmin) {
+            const token = localStorage.getItem('bearerToken');
+            fetch('/api/events', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setEvents(data);
+                })
+                .catch(error => console.error('Error fetching all events:', error));
+        }
+    };
 
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
@@ -203,6 +228,18 @@ export default function Manage({ auth }) {
                         />
                         <label htmlFor="historiqueCheckbox">Historique</label>
 
+                        <input
+                            type="checkbox"
+                            id="showAllVMCheckbox"
+                            className="mr-2"
+                            checked={showAllVMChecked}
+                            onChange={() => {
+                                setShowAllVMChecked(!showAllVMChecked);
+                                handleShowAllVM();
+                            }}
+                        />
+                        <label htmlFor="showAllVMCheckbox">Show All VMs</label>
+
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
@@ -219,7 +256,8 @@ export default function Manage({ auth }) {
                                     Last update
                                 </th>
                                 {!historiqueChecked && (
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 )}
