@@ -36,7 +36,7 @@ export default function Dashboard({ auth }) {
 
     const getSubjectDescription = useCallback((id) => {
         const subject = subjects.find(subject => subject.id === Number(id));
-        return subject ? subject.description.substring(0, 7) : '';
+        return subject ? subject.description.substring(0, 7) : 'XXXXXX';
     }, [subjects]);
 
 
@@ -179,6 +179,7 @@ export default function Dashboard({ auth }) {
                                                 onChange={(e) => setData('id_subject', e.target.value)}
                                                 required
                                             >
+                                                <option value="">Choisissez votre domaine</option>
                                                 {subjects.map(subject => (<option key={subject.id}
                                                                                   value={subject.id}>{subject.description}</option>))}
                                             </select>
