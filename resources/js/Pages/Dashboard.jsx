@@ -20,7 +20,7 @@ export default function Dashboard({ auth }) {
         nb_vm: 1,
         id_user: auth.user.id,
         end_date: null,
-        nom_vm: null,
+        name_vm: null,
     });
 
     const nameParts = auth.user.name.split(' ');
