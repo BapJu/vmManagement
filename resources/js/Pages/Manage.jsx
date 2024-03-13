@@ -213,11 +213,10 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : showAllVMChecked && selectedUser !== '' // Vérifiez si un utilisateur est sélectionné
-            ? events.filter(event => event.id_user === selectedUser) // Filtrer les événements par l'utilisateur sélectionné
-            : showAllVMChecked
-                ? events
-                : events.filter(event => event.id_user === auth.user.id);
+        : showAllVMChecked
+            ? events
+            : events.filter(event => event.id_user === selectedUser);
+
 
 
 
