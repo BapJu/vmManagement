@@ -19,7 +19,6 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-
         fetch('/api/events/current_user', {
             method: 'GET',
             headers: {
@@ -32,6 +31,25 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
+
+    useEffect(() => {
+        // Effectuez une requête pour récupérer les événements de l'utilisateur sélectionné uniquement
+        if (selectedUser !== '') {
+            const token = localStorage.getItem('bearerToken');
+            fetch(`/api/events/user/${selectedUser}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setEvents(data);
+                })
+                .catch(error => console.error('Error fetching events for selected user:', error));
+        }
+    }, [selectedUser]); // Effectuer la requête chaque fois que l'utilisateur sélectionné change
+    // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
