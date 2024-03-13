@@ -235,6 +235,13 @@ export default function Manage({ auth }) {
             ? events
             : events.filter(event => event.id_user === auth.user.id );
 
+    // Dans votre composant React, lorsque l'utilisateur sélectionne un utilisateur dans le sélecteur
+    const handleUserSelection = (e) => {
+        const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
+        setSelectedUser(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
+    };
+
+
 
     return (
         <AuthenticatedLayout
@@ -245,8 +252,8 @@ export default function Manage({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <select
-                            value={selectedUserId}
-                            onChange={(e) => setSelectedUserId(e.target.value)}
+                            value={selectedUser}
+                            onChange={handleUserSelection} // Utiliser la fonction handleUserSelection pour gérer les sélections d'utilisateurs
                             className="p-2 border border-gray-300 rounded-md"
                         >
                             <option value="">Select user</option>
