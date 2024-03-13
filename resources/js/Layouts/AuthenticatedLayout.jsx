@@ -23,7 +23,7 @@ export default function Authenticated({ user, header, children }) {
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>
                                 <NavLink href={route('manage')} active={route().current('manage')}>Gérer les Vms</NavLink>
-                                {auth.user.id_role ===1 &&(
+                                {user.id_role ===1 &&(
                                 <NavLink href={route('statistiques')} active={route().current('statistiques')}>Statistiques</NavLink>
                                 )}
                             </div>
