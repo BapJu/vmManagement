@@ -1,21 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-//import { Inertia } from '@inertiajs/inertia'; // Assuming Inertia is correctly installed and imported
+import { Inertia } from '@inertiajs/inertia';
 
 export default function Manage({ auth }) {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     const [sites, setSites] = useState([]);
-    //const { data, setData, patch } = useForm({ id_role: '' });
+    const { data, setData, patch } = useForm({ user_id: '', id_role: '' });
 
-    // Consider abstracting repetitive fetch logic into a function if applicable
     useEffect(() => {
-        // Assuming auth.token is intended. Adjust if necessary.
         fetchData('/api/users', setUsers);
         fetchData('/api/roles', setRoles);
         fetchData('/api/localisations', setSites);
-    }, [auth.token]); // Ensure this dependency is correct
+    }, [auth.token]);
 
     function fetchData(url, setState) {
         const token = localStorage.getItem('bearerToken');
@@ -31,10 +29,10 @@ export default function Manage({ auth }) {
     }
 
     const handleRoleChange = (userId, newRoleId) => {
-        setData({ id_role: newRoleId });
-        patch(route('profile.update', userId), {
+        setData({ user_id: userId, id_role: newRoleId });
+        patch(route('user.role.update', userId), {
             onSuccess: () => {
-                Inertia.reload({ preserveState: true });
+                Inertia.reload({ preserveState: false });
             },
         });
     };
@@ -42,7 +40,7 @@ export default function Manage({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Users</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les utilisateurs</h2>}
         >
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
