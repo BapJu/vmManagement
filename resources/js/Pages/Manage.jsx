@@ -34,8 +34,6 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-
-        // Assurez-vous que l'appel API récupère les événements de l'utilisateur sélectionné ou de l'utilisateur actuel
         const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
         fetch(url, {
@@ -232,17 +230,10 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : showAllVMChecked
-            ? events
-            : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
-                ? events.filter(event => event.id_user === selectedUserId)
-                : events.filter(event => event.id_user === auth.user.id);
+        : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
+            ? events.filter(event => event.id_user === selectedUserId)
+            : events.filter(event => event.id_user === auth.user.id);
 
-
-    const handleUserSelection = (e) => {
-        const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
-        setSelectedUser(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
-    };
 
 
 
@@ -254,8 +245,6 @@ export default function Manage({ auth }) {
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
-
-
 
                         {auth.user.id_role === 1 && (
                             <select
