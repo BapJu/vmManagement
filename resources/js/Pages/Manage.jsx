@@ -34,6 +34,8 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
+
+        // Assurez-vous que l'appel API récupère les événements de l'utilisateur sélectionné ou de l'utilisateur actuel
         const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
         fetch(url, {
@@ -252,34 +254,20 @@ export default function Manage({ auth }) {
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
-                        <select
-                            value={selectedUserId}
-                            onChange={(e) => setSelectedUserId(e.target.value)}
-                            className="p-2 border border-gray-300 rounded-md"
-                        >
-                            <option value="">Select user</option>
-                            {users.map(user => (
-                                <option key={user.id} value={user.id}>{user.name}</option>
-                            ))}
-                        </select>
+
 
 
                         {auth.user.id_role === 1 && (
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    id="showAllVMCheckbox"
-                                    className="mr-2"
-                                    checked={showAllVMChecked}
-                                    onChange={() => {
-                                        setShowAllVMChecked(!showAllVMChecked);
-                                        if (!showAllVMChecked) {
-                                            handleShowAllVM();
-                                        }
-                                    }}
-                                />
-                                <label htmlFor="showAllVMCheckbox">Show All VMs</label>
-                            </div>
+                            <select
+                                value={selectedUserId}
+                                onChange={(e) => setSelectedUserId(e.target.value)}
+                                className="p-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="">Select user</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>{user.name}</option>
+                                ))}
+                            </select>
                         )}
 
                         <input
@@ -292,7 +280,7 @@ export default function Manage({ auth }) {
                         <label htmlFor="historiqueCheckbox">Historical</label>
 
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
