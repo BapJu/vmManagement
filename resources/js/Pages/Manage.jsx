@@ -274,7 +274,7 @@ export default function Manage({ auth }) {
                             {filteredEvents.map(event => (
                                 (historiqueChecked || event.ip !== null) && (
                                     <tr key={event.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{getTemplateDescription(event.id_typeofvm)} - {getSubjectsDescription(event.id_typeofvm)} - {event.vmid}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.name_vm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                         {event.ip !== null && (
