@@ -14,10 +14,12 @@ class EventController extends Controller
 
     public function getEventsByUser($userId)
     {
-
-        $events = Event::where('id_user', $userId)->get();
+        $events = Event::where('id_user', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return response()->json($events);
     }
+
     public function index()
     {
         $userRole = Auth::user()->id_role;
@@ -28,13 +30,6 @@ class EventController extends Controller
             $Events = Event::where('id_user', auth()->user()->id)->get();
             return response()->json($Events);
         }
-    }
-
-
-    public function index_all()
-    {
-        $Events = Event::all();
-        return response()->json($Events);
     }
 
 
