@@ -64,29 +64,33 @@ export default function Manage({ auth }) {
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
-        const token = localStorage.getItem('bearerToken');
-        fetch('/api/events', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setEvents(data);
+        if (isAdmin && showAllVMChecked) {
+            const token = localStorage.getItem('bearerToken');
+            fetch('/api/events', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
             })
-            .catch(error => console.error('Error fetching all events:', error));
+                .then(response => response.json())
+                .then(data => {
+                    setEvents(data);
+                })
+                .catch(error => console.error('Error fetching all events:', error));
+        }
     };
 
     useEffect(() => {
-        if (showAllVMChecked) {
-            handleShowAllVM();
-        } else {
-            // Mettez à jour les événements pour afficher uniquement ceux de l'utilisateur actuel
+        if (!showAllVMChecked) {
+            // Filtrer les événements pour n'afficher que ceux de l'utilisateur actuel
             const filteredEvents = events.filter(event => event.id_user === auth.user.id);
             setEvents(filteredEvents);
+        } else {
+            // Appeler handleShowAllVM() uniquement si la case est cochée
+            handleShowAllVM();
         }
-    }, [showAllVMChecked]);
+    }, [showAllVMChecked]); // Effectuer la requête lorsque showAllVMChecked change
+
 
 
     const handleStartVM = (vmId) => {
