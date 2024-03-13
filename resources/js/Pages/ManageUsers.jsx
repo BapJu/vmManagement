@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia'; // Assuming Inertia is correctly installed and imported
+//import { Inertia } from '@inertiajs/inertia'; // Assuming Inertia is correctly installed and imported
 
 export default function Manage({ auth }) {
     const [users, setUsers] = useState([]);
