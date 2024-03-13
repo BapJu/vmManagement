@@ -64,15 +64,19 @@ export default function Manage({ auth }) {
 
     //use effect de récupération de tous les users
     useEffect(() => {
-        fetch('/api/users')
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
             .then(response => response.json())
             .then(data => {
                 setUsers(data);
             })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
-    }, []);
+            .catch(error => console.error('Error fetching typeofdata:', error));
+    }, [auth.token]);
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
