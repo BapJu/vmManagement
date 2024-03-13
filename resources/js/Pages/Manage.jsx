@@ -222,7 +222,7 @@ export default function Manage({ auth }) {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {auth.user.id_role === 1 && (
-                            <div> {/* Balise parent ajoutée */}
+                            <div>
                                 <input
                                     type="checkbox"
                                     id="showAllVMCheckbox"
@@ -230,14 +230,13 @@ export default function Manage({ auth }) {
                                     checked={showAllVMChecked}
                                     onChange={() => {
                                         setShowAllVMChecked(!showAllVMChecked);
-                                        if (!showAllVMChecked) {
-                                            handleShowAllVM(); // Appel de handleShowAllVM seulement si la case est cochée
-                                        }
+                                        handleShowAllVM(); // Appel de handleShowAllVM peu importe l'état de la case
                                     }}
                                 />
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
+
 
 
 
