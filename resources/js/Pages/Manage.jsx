@@ -75,7 +75,7 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data.events);
+                setEvents(data.event);
                 setIsAdmin(data.isAdmin);
             })
             .catch(error => console.error('Error fetching events:', error));
