@@ -62,27 +62,31 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
 
-    useEffect(() => {
-        setIsAdmin(auth.user.id_role === 1);
-    }, [auth.user]);
-
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
-        if (isAdmin) {
-            const token = localStorage.getItem('bearerToken');
-            fetch('/api/events', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/events', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data);
             })
-                .then(response => response.json())
-                .then(data => {
-                    setEvents(data);
-                })
-                .catch(error => console.error('Error fetching all events:', error));
-        }
+            .catch(error => console.error('Error fetching all events:', error));
     };
+
+    useEffect(() => {
+        if (showAllVMChecked) {
+            handleShowAllVM();
+        } else {
+            // Mettez à jour les événements pour afficher uniquement ceux de l'utilisateur actuel
+            const filteredEvents = events.filter(event => event.id_user === auth.user.id);
+            setEvents(filteredEvents);
+        }
+    }, [showAllVMChecked]);
 
 
     const handleStartVM = (vmId) => {
@@ -231,7 +235,7 @@ export default function Manage({ auth }) {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {auth.user.id_role === 1 && (
-                            <div> {/* Balise parent ajoutée */}
+                            <div>
                                 <input
                                     type="checkbox"
                                     id="showAllVMCheckbox"
@@ -239,16 +243,12 @@ export default function Manage({ auth }) {
                                     checked={showAllVMChecked}
                                     onChange={() => {
                                         setShowAllVMChecked(!showAllVMChecked);
-                                        if (!showAllVMChecked) {
-                                            handleShowAllVM(); // Appel de handleShowAllVM seulement si la case est cochée
-                                        }
+                                        handleShowAllVM(); // Appel de handleShowAllVM peu importe l'état de la case
                                     }}
                                 />
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
-
-
 
                         <input
                             type="checkbox"
