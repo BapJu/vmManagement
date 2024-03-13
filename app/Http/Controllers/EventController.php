@@ -25,6 +25,7 @@ class EventController extends Controller
     }
 
 
+
     public function index_all()
     {
         $Events = Event::all();
