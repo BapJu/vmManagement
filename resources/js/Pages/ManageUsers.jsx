@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useEffect, useState} from 'react';
-import {Inertia} from '@inertiajs/inertia';
 import {useForm} from "@inertiajs/inertia-react";
 
 export default function Manage({auth}) {
