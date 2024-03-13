@@ -230,11 +230,15 @@ export default function Manage({ auth }) {
                                     checked={showAllVMChecked}
                                     onChange={() => {
                                         setShowAllVMChecked(!showAllVMChecked);
+                                        if (!showAllVMChecked) {
+                                            handleShowAllVM(); // Appel de handleShowAllVM seulement si la case est cochée
+                                        }
                                     }}
                                 />
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
+
 
 
                         <input
