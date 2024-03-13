@@ -13,7 +13,7 @@ export default function Manage({ auth }) {
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [showAllVMChecked, setShowAllVMChecked] = useState(false);
-
+    const [selectedUser, setSelectedUser] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
