@@ -78,16 +78,6 @@ export default function Manage({ auth }) {
             .catch(error => console.error('Error fetching all events:', error));
     };
 
-    useEffect(() => {
-        if (showAllVMChecked) {
-            handleShowAllVM();
-        } else {
-            // Mettez à jour les événements pour afficher uniquement ceux de l'utilisateur actuel
-            const filteredEvents = events.filter(event => event.id_user === auth.user.id);
-            setEvents(filteredEvents);
-        }
-    }, [showAllVMChecked]);
-
 
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
@@ -215,15 +205,6 @@ export default function Manage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-            {!auth.user.id_role && (
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="mt-8 bg-yellow-200 border-l-4 border-yellow-500 text-yellow-700 p-4 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6">
-                            <h3 className="font-semibold text-lg">Vous n'avez pas les droits de modification, merci de prendre contact avec un admin </h3>
-                        </div>
-                    </div>
-                </div>
-            )}
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
@@ -290,7 +271,7 @@ export default function Manage({ auth }) {
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                        {auth.user.id_role && event.ip !== null && (
+                                        {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
                                                     <FontAwesomeIcon icon={faStop}
