@@ -63,14 +63,12 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     useEffect(() => {
-        fetch('/api/users')
+        fetch('/api/user')
             .then(response => response.json())
             .then(data => {
-                // Mettre à jour l'état local avec les données des utilisateurs
                 setUsers(data);
             })
             .catch(error => {
-                // Gérer les erreurs de requête
                 console.error('Error fetching users:', error);
             });
     }, []);
