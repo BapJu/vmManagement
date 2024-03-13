@@ -12,6 +12,10 @@ export default function Manage({ auth }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
 
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [showAllVMs, setShowAllVMs] = useState(false);
+
+
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
 
@@ -57,6 +61,26 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
+
+        fetch('/api/events/current_user', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data.events);
+                setIsAdmin(data.isAdmin);
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    }, [auth.token]);
+
+
 
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
@@ -179,11 +203,24 @@ export default function Manage({ auth }) {
         : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
 
 
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
+            {isAdmin && (
+                <div className="flex items-center mb-4">
+                    <label htmlFor="showAllVMs" className="mr-2">Toutes les VMs</label>
+                    <input
+                        type="checkbox"
+                        id="showAllVMs"
+                        checked={showAllVMs}
+                        onChange={() => setShowAllVMs(!showAllVMs)}
+                    />
+                </div>
+            )}
+
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
