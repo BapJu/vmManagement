@@ -230,9 +230,10 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
+        : selectedUserId !== ''
             ? events.filter(event => event.id_user === selectedUserId)
             : events.filter(event => event.id_user === auth.user.id);
+        console.log(selectedUserId);
 
 
     const handleUserSelection = (e) => {
