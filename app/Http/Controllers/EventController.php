@@ -9,19 +9,21 @@ use Illuminate\Support\Facades\DB;
 use App\Services\YAMLGenerator;
 
 
+
 class EventController extends Controller
 {
     public function index()
     {
-
         $userRole = Auth::user()->id_role;
         if ($userRole == 1) {
             $Events = Event::all();
             return response()->json($Events);
+        } else {
+            $Events = Event::where('id_user', auth()->user()->id)->get();
+            return response()->json($Events);
         }
-        return response()->json(['message' => 'Unauthorized'], 401);
-
     }
+
 
     public function index_all()
     {
