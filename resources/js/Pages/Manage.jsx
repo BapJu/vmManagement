@@ -209,12 +209,19 @@ export default function Manage({ auth }) {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
-
+    /*
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
             ? events
             : events.filter(event => event.id_user === auth.user.id);
+    */
+    const filteredEvents = historiqueChecked
+        ? events.filter(event => event.ip === null)
+        : showAllVMChecked
+            ? events
+            : events.filter(event => event.id_user === selectedUser);
+
 
 
 
