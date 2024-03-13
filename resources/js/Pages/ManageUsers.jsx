@@ -7,7 +7,7 @@ export default function Manage({ auth }) {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     const [sites, setSites] = useState([]);
-    const { data, setData, patch } = useForm({ id_role: '' });
+    //const { data, setData, patch } = useForm({ id_role: '' });
 
     // Consider abstracting repetitive fetch logic into a function if applicable
     useEffect(() => {
