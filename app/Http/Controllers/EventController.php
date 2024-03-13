@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Services\YAMLGenerator;
 
 
-
 class EventController extends Controller
 {
     public function index()
@@ -23,7 +22,6 @@ class EventController extends Controller
             return response()->json($Events);
         }
     }
-
 
 
     public function index_all()
@@ -48,7 +46,7 @@ class EventController extends Controller
         $idSubject = $request->input('id_subject');
         $nb_vm = $request->input('nb_vm');
         $typeOfVm = $request->input('id_typeofvm');
-        $storage_id =  $request->input('id_storage');
+        $storage_id = $request->input('id_storage');
 
 
         $templateVMID = DB::table('typeofvm')->where('id', $typeOfVm)->value('template_id');
@@ -60,8 +58,8 @@ class EventController extends Controller
         $storage = DB::table('storage')->where('id', $storage_id)->value('name');
 
 
-
         // Vérifier d'abord la disponibilité d'une plage d'IP
+        /*
         $query = "
         WITH ip_series AS (
         SELECT generate_series(1,254) AS octet
@@ -77,6 +75,24 @@ class EventController extends Controller
         FROM available_ips
         LIMIT :limit
     ";
+        */
+        $query = "
+        WITH ip_series AS (
+        SELECT generate_series(200, 250) AS octet -- Génère les octets de 200 à 250
+        ),
+        available_ips AS (
+            SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet AS available_ip
+            FROM ip_series
+            WHERE NOT EXISTS (
+                SELECT 1 FROM event WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet
+            )
+        )
+        SELECT available_ip
+        FROM available_ips
+        LIMIT :limit
+    ";
+
+
 
         $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
 
@@ -118,7 +134,6 @@ class EventController extends Controller
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
 
 
-
         $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
         exec($command);
 
@@ -156,18 +171,16 @@ class EventController extends Controller
             exec($command);
             $event->save();
 
-            return response()->json(['message' => 'Event stopped successfully'],201);
-        }
-        elseif ($action === 'start'){
+            return response()->json(['message' => 'Event stopped successfully'], 201);
+        } elseif ($action === 'start') {
             $event->active = true;
 
             $command = "sudo ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
             $event->save();
 
-            return response()->json(['message' => 'Event started successfully'],201);
-        }
-        elseif ($action === 'destroy'){
+            return response()->json(['message' => 'Event started successfully'], 201);
+        } elseif ($action === 'destroy') {
 
             $command = "sudo ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             exec($command);
@@ -177,9 +190,8 @@ class EventController extends Controller
             $event->save();
 
 
-            return response()->json(['message' => 'Event deleted successfully'],201);
-        }
-        else {
+            return response()->json(['message' => 'Event deleted successfully'], 201);
+        } else {
 
             return response()->json(['message' => 'Invalid action specified'], 400);
         }
