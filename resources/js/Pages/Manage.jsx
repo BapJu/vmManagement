@@ -62,10 +62,6 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
 
-    useEffect(() => {
-        setIsAdmin(auth.user.id_role === 1);
-    }, [auth.user]);
-
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
         const token = localStorage.getItem('bearerToken');
