@@ -14,6 +14,7 @@ export default function Manage({ auth }) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [showAllVMChecked, setShowAllVMChecked] = useState(false);
     const [selectedUser, setSelectedUser] = useState('');
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
