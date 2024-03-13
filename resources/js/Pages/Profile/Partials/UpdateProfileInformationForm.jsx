@@ -24,6 +24,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         const token = localStorage.getItem('bearerToken'); // Récupération du token du stockage local
 
         fetch('/api/roles', {
+
             headers: {
                 'Authorization': `Bearer ${token}` // Ajout de l'en-tête d'autorisation avec le token
             }
@@ -93,6 +94,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="mt-1 block w-full"
                         value={data.id_role}
                         onChange={(e) => setData('id_role', e.target.value)}
+                        disabled={user.id_role !== 1}
                         required
                     >
                         {roles.map(role => (
