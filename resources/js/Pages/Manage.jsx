@@ -214,11 +214,8 @@ export default function Manage({ auth }) {
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
-            ? selectedUserId
-                ? events.filter(event => event.id_user === selectedUserId)
-                : events
-            : events.filter(event => event.id_user === auth.user.id);
-
+            ? events
+            : events.filter(event => event.id_user === auth.user.id );
 
 
     return (
