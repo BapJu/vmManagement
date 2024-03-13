@@ -197,7 +197,10 @@ export default function Manage({ auth }) {
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
             ? events
-            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+            : searchTerm.trim() !== ''
+                ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
+                : [];
+
 
 
     return (
