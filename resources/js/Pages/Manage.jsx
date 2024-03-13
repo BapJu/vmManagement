@@ -197,12 +197,9 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : !showAllVMChecked
-            ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
-            : events;
-
-
-
+        : showAllVMChecked
+            ? events
+            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
         <AuthenticatedLayout
@@ -233,6 +230,7 @@ export default function Manage({ auth }) {
                                         }
                                     }}
                                 />
+
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
