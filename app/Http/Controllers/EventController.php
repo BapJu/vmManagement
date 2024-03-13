@@ -14,17 +14,14 @@ class EventController extends Controller
     public function index()
     {
 
-        $user = Auth::user();
-        $userRole = $user->id_role;
+        $userRole = Auth::user()->id_role;
         if ($userRole == 1) {
             $Events = Event::all();
-            return response()->json(['events' => $Events, 'isAdmin' => true]);
-        } else {
-            $Events = Event::where('id_user', $user->id)->get();
-            return response()->json(['events' => $Events, 'isAdmin' => false]);
+            return response()->json($Events);
         }
-    }
+        return response()->json(['message' => 'Unauthorized'], 401);
 
+    }
 
     public function index_current_user()
     {

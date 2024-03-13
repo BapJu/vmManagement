@@ -12,11 +12,6 @@ export default function Manage({ auth }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
 
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [showAllVMs, setShowAllVMs] = useState(false);
-
-
-
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
 
@@ -28,13 +23,10 @@ export default function Manage({ auth }) {
         })
             .then(response => response.json())
             .then(data => {
-                if (data && data.event && data.isAdmin !== undefined) {
-                    setEvents(data.event);
-                    setIsAdmin(data.isAdmin);
-                }
+                setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token]);
+    }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -65,9 +57,6 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching typeofdata:', error));
     }, [auth.token]);
-
-
-
 
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
@@ -190,13 +179,11 @@ export default function Manage({ auth }) {
         : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
 
 
-
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
-
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
@@ -215,18 +202,6 @@ export default function Manage({ auth }) {
                             onChange={() => setHistoriqueChecked(!historiqueChecked)}
                         />
                         <label htmlFor="historiqueCheckbox">Historique</label>
-
-                        {isAdmin && (
-                            <div className="flex items-center mb-4">
-                                <label htmlFor="showAllVMs" className="mr-2">Toutes les VMs</label>
-                                <input
-                                    type="checkbox"
-                                    id="showAllVMs"
-                                    checked={showAllVMs}
-                                    onChange={() => setShowAllVMs(!showAllVMs)}
-                                />
-                            </div>
-                        )}
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
