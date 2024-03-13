@@ -219,14 +219,6 @@ export default function Manage({ auth }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <input
-                            type="checkbox"
-                            id="historiqueCheckbox"
-                            className="mr-2"
-                            checked={historiqueChecked}
-                            onChange={() => setHistoriqueChecked(!historiqueChecked)}
-                        />
-                        <label htmlFor="historiqueCheckbox">Historique</label>
 
                         <input
                             type="checkbox"
@@ -239,6 +231,15 @@ export default function Manage({ auth }) {
                             }}
                         />
                         <label htmlFor="showAllVMCheckbox">Show All VMs</label>
+
+                        <input
+                            type="checkbox"
+                            id="historiqueCheckbox"
+                            className="mr-2"
+                            checked={historiqueChecked}
+                            onChange={() => setHistoriqueChecked(!historiqueChecked)}
+                        />
+                        <label htmlFor="historiqueCheckbox">Historique</label>
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
