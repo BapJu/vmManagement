@@ -227,7 +227,7 @@ export default function Manage({ auth }) {
                             onChange={(e) => setSelectedUser(e.target.value)}
                             className="p-2 border border-gray-300 rounded-md"
                         >
-                            <option value="">Sélectionnez un utilisateur</option>
+                            <option value="">Select user</option>
                             {users.map(user => (
                                 <option key={user.id} value={user.id}>{user.name}</option>
                             ))}
