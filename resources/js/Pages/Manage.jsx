@@ -230,10 +230,9 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
-            ? events.filter(event => event.id_user === selectedUserId)
-            : events.filter(event => event.id_user === auth.user.id);
-
+        : selectedUserId // Vérifier si un utilisateur est sélectionné
+            ? events.filter(event => event.id_user === selectedUserId) // Afficher les VM de l'utilisateur sélectionné
+            : events.filter(event => event.id_user === auth.user.id); // Afficher les VM de l'utilisateur actuel
 
 
 
