@@ -230,11 +230,15 @@ export default function Manage({ auth }) {
 
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
-        : selectedUserId // Vérifier si un utilisateur est sélectionné
-            ? events.filter(event => event.id_user === selectedUserId) // Afficher les VM de l'utilisateur sélectionné
-            : events.filter(event => event.id_user === auth.user.id); // Afficher les VM de l'utilisateur actuel
+        : selectedUserId !== '' // Vérifier si un utilisateur est sélectionné
+            ? events.filter(event => event.id_user === selectedUserId)
+            : events.filter(event => event.id_user === auth.user.id);
 
 
+    const handleUserSelection = (e) => {
+        const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
+        setSelectedUserId(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
+    };
 
     return (
         <AuthenticatedLayout
@@ -248,7 +252,7 @@ export default function Manage({ auth }) {
                         {auth.user.id_role === 1 && (
                             <select
                                 value={selectedUserId}
-                                onChange={(e) => setSelectedUserId(e.target.value)}
+                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md"
                             >
                                 <option value="">Select user</option>
