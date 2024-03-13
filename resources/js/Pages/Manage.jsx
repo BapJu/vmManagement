@@ -210,13 +210,17 @@ export default function Manage({ auth }) {
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="p-2 border border-gray-300 rounded-md"
+                        <select
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                            className="p-2 border border-gray-300 rounded-md"
+                        >
+                            <option value="">All Users</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>{user.name}</option>
+                            ))}
+                        </select>
+
                         {auth.user.id_role === 1 && (
                             <div>
                                 <input
@@ -242,7 +246,7 @@ export default function Manage({ auth }) {
                             checked={historiqueChecked}
                             onChange={() => setHistoriqueChecked(!historiqueChecked)}
                         />
-                        <label htmlFor="historiqueCheckbox">Historique</label>
+                        <label htmlFor="historiqueCheckbox">Historical</label>
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
