@@ -194,12 +194,14 @@ export default function Manage({ auth }) {
         return `${day}-${month}-${year}`;
     }
 
+    let filteredEvents = events;
 
-    const filteredEvents = historiqueChecked
-        ? events.filter(event => event.ip === null)
-        : showAllVMChecked
-            ? events
-            : events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+    if (historiqueChecked) {
+        filteredEvents = events.filter(event => event.ip === null);
+    } else if (!showAllVMChecked) {
+        filteredEvents = events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
 
     return (
         <AuthenticatedLayout
@@ -230,7 +232,6 @@ export default function Manage({ auth }) {
                                         }
                                     }}
                                 />
-
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
                         )}
