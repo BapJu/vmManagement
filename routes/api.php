@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->get('/users', [ProfileController::class, 'index']);
 
+Route::get('/events/user/{userId}', [EventController::class, 'getEventsByUser']);
 
 
 // Routes pour 'role'

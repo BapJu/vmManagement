@@ -33,23 +33,22 @@ export default function Manage({ auth }) {
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
-        // Effectuez une requête pour récupérer les événements de l'utilisateur sélectionné uniquement
-        if (selectedUser !== '') {
-            const token = localStorage.getItem('bearerToken');
-            fetch(`/api/events/user/${selectedUser}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+        const token = localStorage.getItem('bearerToken');
+        const url = selectedUser ? `/api/events/user/${selectedUser}` : '/api/events';
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data);
             })
-                .then(response => response.json())
-                .then(data => {
-                    setEvents(data);
-                })
-                .catch(error => console.error('Error fetching events for selected user:', error));
-        }
-    }, [selectedUser]); // Effectuer la requête chaque fois que l'utilisateur sélectionné change
-    // Effectuer la requête chaque fois que le token d'authentification change
+            .catch(error => console.error('Error fetching events:', error));
+    }, [auth.token, selectedUser]); // Effectuer la requête lorsque le token d'authentification change ou lorsque l'utilisateur sélectionné change
+
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
