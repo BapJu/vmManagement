@@ -12,6 +12,7 @@ export default function Manage({ auth }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [showAllVMChecked, setShowAllVMChecked] = useState(false);
 
 
     useEffect(() => {
