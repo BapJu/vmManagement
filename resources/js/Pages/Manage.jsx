@@ -193,16 +193,14 @@ export default function Manage({ auth }) {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
+
     const filteredEvents = historiqueChecked
         ? events.filter(event => event.ip === null)
         : showAllVMChecked
             ? events
-            : events.filter(event => {
-                const templateDescription = getTemplateDescription(event.id_typeofvm).toLowerCase();
-                return templateDescription.includes(searchTerm.toLowerCase()) && event.userId === auth.user.id;
-            });
-
-
+            : searchTerm.trim() !== '' // Vérifiez s'il y a un terme de recherche non vide
+                ? events.filter(event => getTemplateDescription(event.id_typeofvm).toLowerCase().includes(searchTerm.toLowerCase()))
+                : events; // Si aucun des cas ci-dessus n'est vrai, renvoyez tous les événements sans filtrage
 
 
     return (
