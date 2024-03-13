@@ -25,7 +25,7 @@ export default function Dashboard({ auth }) {
 
     const nameParts = auth.user.name.split(' ');
     const initials = nameParts.map(part => part.charAt(0)).join('');
-    data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
+
 
     const toggleFormDisplay = () => setShowForm(!showForm);
 
@@ -38,6 +38,8 @@ export default function Dashboard({ auth }) {
         const subject = subjects.find(subject => subject.id === Number(id));
         return subject ? subject.description.substring(0, 7) : "Inconnu";
     }, [subjects]);
+
+    data.prefix_name_vm = `${initials}-${getSubjectDescription(data.id_subject || 1)}-`;
 
     useEffect(() => {
         const fetchAPIs = async () => {
