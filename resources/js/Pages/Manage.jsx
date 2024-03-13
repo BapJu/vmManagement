@@ -97,7 +97,7 @@ export default function Manage({ auth }) {
     }, [auth.token]);
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
-    const handleShowAllVM = () => {
+    useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/events', {
             method: 'GET',
@@ -110,7 +110,7 @@ export default function Manage({ auth }) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching all events:', error));
-    };
+    },[auth.token]);
 
 
     const handleStartVM = (vmId) => {
@@ -233,7 +233,6 @@ export default function Manage({ auth }) {
         : selectedUserId !== ''
             ? events.filter(event => event.id_user === selectedUserId)
             : events.filter(event => event.id_user === auth.user.id);
-        console.log(selectedUserId);
 
 
     const handleUserSelection = (e) => {
@@ -298,7 +297,7 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {filteredEvents.map(event => (
-                                (historiqueChecked || event.ip !== null) && (
+                                (historiqueChecked || event.ip !== null ) && (selectedUserId === event.id_user) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
