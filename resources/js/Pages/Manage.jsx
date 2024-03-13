@@ -66,8 +66,9 @@ export default function Manage({ auth }) {
         setIsAdmin(auth.user.id_role === 1);
     }, [auth.user]);
 
+    // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
-        if (isAdmin) {
+        if (isAdmin && showAllVMChecked) {
             const token = localStorage.getItem('bearerToken');
             fetch('/api/events', {
                 method: 'GET',
@@ -82,6 +83,7 @@ export default function Manage({ auth }) {
                 .catch(error => console.error('Error fetching all events:', error));
         }
     };
+
 
     const handleStartVM = (vmId) => {
         const action = { action: "start" };
@@ -228,13 +230,11 @@ export default function Manage({ auth }) {
                                     checked={showAllVMChecked}
                                     onChange={() => {
                                         setShowAllVMChecked(!showAllVMChecked);
-                                        handleShowAllVM();
                                     }}
                                 />
                                 <label htmlFor="showAllVMCheckbox">Show All VMs</label>
                             </div>
-                            )}
-
+                        )}
 
 
                         <input
