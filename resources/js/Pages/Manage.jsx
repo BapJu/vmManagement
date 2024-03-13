@@ -68,7 +68,7 @@ export default function Manage({ auth }) {
 
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     const handleShowAllVM = () => {
-        if (isAdmin && showAllVMChecked) {
+        if (isAdmin) {
             const token = localStorage.getItem('bearerToken');
             fetch('/api/events', {
                 method: 'GET',
