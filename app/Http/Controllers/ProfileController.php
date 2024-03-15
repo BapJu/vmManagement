@@ -41,6 +41,15 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
+    public function updateRole(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit');
+    }
+
     /**
      * Delete the user's account.
      */

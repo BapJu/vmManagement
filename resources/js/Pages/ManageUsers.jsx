@@ -30,7 +30,7 @@ export default function Manage({ auth }) {
 
     const handleRoleChange = (userId, newRoleId) => {
         setData({ user_id: userId, id_role: newRoleId });
-        patch(route('user.role.update', userId), {
+        patch(route(`api/user/${userId}`), {
             onSuccess: () => {
                 Inertia.reload({ preserveState: false });
             },
