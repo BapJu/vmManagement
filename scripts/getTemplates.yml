@@ -6,8 +6,10 @@
     - name: Get list of CTs marked as templates
       shell: pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'
       register: ct_templates
+      body_format: json
       changed_when: false
 
     - name: Print the list of CT templates as JSON
+      body_format: json
       debug:
         msg: "{{ ct_templates.stdout }}"
