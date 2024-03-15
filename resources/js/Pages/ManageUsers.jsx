@@ -56,8 +56,9 @@ export default function Manage({ auth }) {
                 console.error('Error:', error);
             });
     };
+    console.log(sites);
     function getLocalisationName(siteId) {
-        return sites.find(site => site.id === siteId);
+        return sites.find(site => site.id === siteId).name;
     }
     return (
         <AuthenticatedLayout
