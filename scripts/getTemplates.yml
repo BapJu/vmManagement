@@ -12,4 +12,4 @@
     - name: Print the list of CT templates as JSON
       body_format: json
       debug:
-        msg: "{{ ct_templates.stdout }}"
+        msg:  ct_templates.stdout
