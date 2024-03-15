@@ -295,7 +295,7 @@ export default function Manage({ auth }) {
                                                 </td>
                                             )}
                                         </tr>
-                                    )
+
                                 ) : (
                                     // Si l'utilisateur n'est pas administrateur ou aucun utilisateur n'est sélectionné
                                     // Afficher les événements de l'utilisateur connecté
