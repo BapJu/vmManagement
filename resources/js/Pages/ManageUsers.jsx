@@ -7,6 +7,7 @@ export default function Manage({ auth }) {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     const [sites, setSites] = useState([]);
+    const [search, setSearch] = useState(""); // Ajout de l'état de la recherche
     const { data, setData, patch } = useForm({ user_id: '', id_role: '' });
 
     useEffect(() => {
@@ -49,22 +50,26 @@ export default function Manage({ auth }) {
                 return response.json();
             })
             .then(data => {
-                // Handle the response data here
                 window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     };
-    console.log(sites);
+
     function getLocalisationName(siteId) {
         const site = sites.find(site => site.id === siteId);
         if (site) {
             return site.name;
         } else {
-            return 'Site non trouvé'; // ou toute autre gestion d'erreur de votre choix
+            return 'Site non trouvé';
         }
     }
+
+    // Filtrez les utilisateurs en fonction de la recherche
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <AuthenticatedLayout
@@ -72,6 +77,16 @@ export default function Manage({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les utilisateurs</h2>}
         >
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+                {/* Ajout du champ de recherche */}
+                <div className="mb-4">
+                    <input
+                        type="text"
+                        className="form-input mt-1 block w-full"
+                        placeholder="Rechercher un professeur..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <table className="min-w-full divide-y divide-gray-200">
@@ -84,7 +99,8 @@ export default function Manage({ auth }) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {users.map(user => (
+                            {/* Utilisez filteredUsers au lieu de users */}
+                            {filteredUsers.map(user => (
                                 <tr key={user.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(user.id_localisation)}</td>
