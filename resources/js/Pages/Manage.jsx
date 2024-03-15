@@ -270,8 +270,8 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                // Si l'utilisateur est administrateur et un utilisateur est sélectionné
-                                (auth.user.id_role === 1 && event.id_user === selectedUserId) ? (
+                                // Vérifie si l'utilisateur est administrateur et qu'un utilisateur est sélectionné
+                                (auth.user.id_role === 1 && selectedUserId && event.id_user === selectedUserId) ? (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -289,16 +289,14 @@ export default function Manage({ auth }) {
                                                                      onClick={() => handleStartVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 )}
-                                                <FontAwesomeIcon icon={faTrash}
-                                                                 onClick={() => handleDeleteVM(event.id)}
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
                                                                  className="cursor-pointer"/>
                                             </td>
                                         )}
                                     </tr>
-
                                 ) : (
-                                    // Si l'utilisateur n'est pas administrateur ou aucun utilisateur n'est sélectionné
-                                    // Afficher les événements de l'utilisateur connecté
+                                    // Vérifie si l'utilisateur n'est pas administrateur ou si aucun utilisateur n'est sélectionné
+                                    // Affiche les événements de l'utilisateur connecté
                                     (event.id_user === auth.user.id && (
                                         <tr key={event.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
@@ -327,6 +325,7 @@ export default function Manage({ auth }) {
                                 )
                             ))}
                             </tbody>
+
 
                         </table>
                     </div>
