@@ -46,7 +46,7 @@ class ProfileController extends Controller
     {
         // Validez l'entrée avec Validator pour une meilleure personnalisation de la réponse en cas d'échec.
         $validator = Validator::make($request->all(), [
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => 'required|exists:role,id',
         ]);
 
         // Vérifiez si la validation échoue.
