@@ -43,19 +43,19 @@ export default function Dashboard({ auth }) {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const token = localStorage.getItem('bearerToken'); // Récupérer le jeton d'authentification depuis le stockage local
+                const token = localStorage.getItem('bearerToken');
                 const response = await fetch('/api/events/current_user', {
                     headers: {
-                        'Authorization': `Bearer ${token}`, // Ajouter le jeton d'authentification à l'en-tête
+                        'Authorization': `Bearer ${token}`,
                     },
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const eventData = await response.json();
-                // Calculer totalCreated et totalActive
+                // Filtrer les VMs créées et actives
                 const totalCreated = eventData.length;
-                const totalActive = eventData.filter(event => event.status === 'active').length;
+                const totalActive = eventData.filter(event => event.active === true).length;
                 setVmStats({ totalCreated, totalActive });
             } catch (error) {
                 console.error('Error fetching VM stats:', error);
@@ -67,6 +67,7 @@ export default function Dashboard({ auth }) {
 
         fetchStats();
     }, []);
+
 
 
 
