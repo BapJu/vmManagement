@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/react';
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    const authLayoutClass = user.id_role === 1 ? 'bg-admin-color' : 'bg-gray-100';
+    const authLayoutClass = user.id_role === 1 ? 'bg-red-500' : 'bg-gray-100';
 
     return (
         <div className={`min-h-screen ${authLayoutClass}`}>
