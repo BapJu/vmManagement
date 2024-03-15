@@ -275,7 +275,7 @@ export default function Manage({ auth }) {
                                 (historiqueChecked || event.ip !== null ) && (selectedUserId == event.id_user) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                         {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
