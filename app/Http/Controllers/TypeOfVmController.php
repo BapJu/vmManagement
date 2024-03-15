@@ -77,6 +77,7 @@ class TypeOfVmController extends Controller
         $lines = file('/var/www/html/vmManagement/scripts/proxmox_template.json', FILE_IGNORE_NEW_LINES);
         $lines = array_slice($lines, 1);
         $read_json = implode("\n", $lines);
+        $read_json = json_decode($read_json);
 
 
 
