@@ -71,7 +71,7 @@ class TypeOfVmController extends Controller
     {
         $TypeOfVms = TypeOfVm::all();
         $command = "sudo ansible-playbook " . base_path('/scripts/getTemplates.yml');
-        $templates = exec($command);
+        $templates = shell_exec($command);
         echo $templates;
         //$templates = json_decode($templates, true);
 
