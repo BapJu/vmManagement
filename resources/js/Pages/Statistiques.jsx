@@ -61,33 +61,6 @@ function VmStatsGraph({ auth }) {
             });
     }, [auth.user.id]);
 
-    useEffect(() => {
-        const token = localStorage.getItem('bearerToken');
-        fetch(`api/typeofvms`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(res => res.json())
-            .then(typeOfVmsData => {
-                // Convertir les données en un objet pour faciliter la recherche par ID
-                const typeOfVmsMap = {};
-                typeOfVmsData.forEach(typeOfVm => {
-                    typeOfVmsMap[typeOfVm.id] = typeOfVm.description;
-                });
-
-                // Mettre à jour les données de distribution
-                const distributionChartData = processDistributionData(eventsData, typeOfVmsMap);
-                setDistributionData(distributionChartData);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                setLoading(false);
-            });
-    }, [auth.user.id]);
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -238,17 +211,16 @@ function processEvolutionData(eventsData) {
 
 
 // Supposons que cette fonction traite les données pour la répartition par type
-function processDistributionData(eventsData, typeOfVmsMap) {
+function processDistributionData(eventsData) {
     let distributionByType = {};
     // Compter le nombre de VMs actives par type
     eventsData.forEach(event => {
         if (event.active) {
             const vmType = event.id_typeofvm;
-            const vmDescription = typeOfVmsMap[vmType]; // Récupérer la description du type de VM
-            if (!distributionByType[vmDescription]) {
-                distributionByType[vmDescription] = 0;
+            if (!distributionByType[vmType]) {
+                distributionByType[vmType] = 0;
             }
-            distributionByType[vmDescription] += 1;
+            distributionByType[vmType] += 1;
         }
     });
 
