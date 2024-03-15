@@ -30,7 +30,7 @@ export default function Manage({ auth }) {
 
     const handleRoleChange = (userId, newRoleId) => {
         setData({ user_id: userId, id_role: newRoleId });
-
+        const token = localStorage.getItem('bearerToken');
         const url = `api/user/${userId}`;
         const data = { user_id: userId, id_role: newRoleId };
 
@@ -38,6 +38,7 @@ export default function Manage({ auth }) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data),
         })
