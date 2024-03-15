@@ -58,7 +58,8 @@ export default function Manage({ auth }) {
     };
     console.log(sites);
     function getLocalisationName(siteId) {
-        return sites.find(site => site.id === siteId).name;
+        console.log(sites.find(site => site.id === siteId).name);
+        return 'oui';
     }
     return (
         <AuthenticatedLayout
