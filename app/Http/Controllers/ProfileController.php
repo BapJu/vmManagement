@@ -64,7 +64,7 @@ class ProfileController extends Controller
         }
 
         // Mettre à jour le rôle de l'utilisateur avec les données validées.
-        $user->role_id = $validator->validated()['id_role'];
+        $user->id_role = $validator->validated()['id_role'];
         $user->save();
 
         // Retourner une réponse JSON avec un message de succès.
