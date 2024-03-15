@@ -85,13 +85,28 @@ class TypeOfVmController extends Controller
 
         $clear_output = $segments[1] ?? null;
 
+        $json_objects = explode("\n", trim($clear_output));
+
+        foreach ($json_objects as $json_object) {
+            $data = json_decode($json_object, true); // Décode le JSON en tableau associatif
+            if ($data) {
+                // Extraire vmid et name et les ajouter au tableau
+                $vm_details[] = [
+                    'vmid' => $data['vmid'],
+                    'name' => $data['name'],
+                ];
+            }
+        }
+
+        // Convertir le tableau final en JSON
+        $json_result = json_encode($vm_details);
 
 
         // Vérification de la sortie avant de la retourner
-        if (!empty($clear_output)) {
+        if (!empty($json_result)) {
             // Décommentez la ligne suivante si vous êtes sûr que la sortie est en JSON et doit être décodée
             // $output = json_decode($output, true);
-            return response()->json(['success' => true, 'data' => $clear_output]);
+            return response()->json(['success' => true, 'data' => $json_result]);
         } else {
             // Gestion de l'erreur ou de l'absence de sortie
             return response()->json(['success' => false, 'message' => 'Aucune donnée récupérée depuis Ansible.'], 500);
