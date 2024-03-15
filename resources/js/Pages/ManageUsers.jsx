@@ -30,11 +30,30 @@ export default function Manage({ auth }) {
 
     const handleRoleChange = (userId, newRoleId) => {
         setData({ user_id: userId, id_role: newRoleId });
-        patch(route(`api/user/${userId}`), {
-            onSuccess: () => {
-                Inertia.reload({ preserveState: false });
+
+        const url = `api/user/${userId}`;
+        const data = { user_id: userId, id_role: newRoleId };
+
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
             },
-        });
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the response data here
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     return (
