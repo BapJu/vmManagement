@@ -38,8 +38,6 @@ function VmStatsGraph({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-
-        // Fetch des données des événements
         fetch(`api/events/`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -54,32 +52,14 @@ function VmStatsGraph({ auth }) {
 
                 setEvolutionData(evolutionChartData);
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser);
+                setDistributionUserData(distributionChartDataUser)
                 setLoading(false);
             })
             .catch(error => {
                 console.error('Error:', error);
                 setLoading(false);
-            });
-
-        // Fetch des données des typeofvm
-        fetch(`api/typeOfVms/`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(res => res.json())
-            .then(typesData => {
-                // Mettez ici le code pour traiter les données des typeofvm si nécessaire
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
     }, [auth.user.id]);
-
-
-
 
     if (loading) {
         return <div>Loading...</div>;
@@ -188,6 +168,40 @@ function VmStatsGraph({ auth }) {
 }
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
+function processEvolutionData(eventsData) {
+    // Trier les événements par date de création
+    const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+    // Compter le nombre de VMs actives pour chaque jour
+    let countsByDate = {};
+    sortedEvents.forEach(event => {
+        if (event.active) {
+            // Format de la date à 'yyyy-mm-dd'
+            const date = event.created_at.split('T')[0];
+            if (!countsByDate[date]) {
+                countsByDate[date] = 0;
+            }
+            countsByDate[date] += 1;
+        }
+    });
+
+    // Préparer les données pour le graphique
+    const labels = Object.keys(countsByDate);
+    const data = Object.values(countsByDate);
+
+    return {
+        labels: labels, // Les dates
+        datasets: [{
+            label: 'Online VMs',
+            data: data, // Les données calculées
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        }],
+    };
+}
+
+
+// Supposons que cette fonction traite les données pour la répartition par type
 function processDistributionData(eventsData) {
     let distributionByType = {};
     // Compter le nombre de VMs actives par type
@@ -221,42 +235,6 @@ function processDistributionData(eventsData) {
     };
 }
 
-
-// Supposons que cette fonction traite les données pour la répartition par type
-function processDistributionData(eventsData, byUser = false) {
-    let distributionData = {};
-    // Compter le nombre de VMs actives par type ou par utilisateur
-    eventsData.forEach(event => {
-        const key = byUser ? event.id_user : event.id_typeofvm;
-        if (event.active) {
-            if (!distributionData[key]) {
-                distributionData[key] = 0;
-            }
-            distributionData[key] += 1;
-        }
-    });
-
-    // Préparer les données pour le graphique
-    const labels = Object.keys(distributionData);
-    const data = Object.values(distributionData);
-
-    // Générer des couleurs aléatoires
-    const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
-    const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
-
-    const labelName = byUser ? 'VMs by User' : 'VMs by Type';
-
-    return {
-        labels: labels, // Les utilisateurs ou les types de VM
-        datasets: [{
-            label: labelName,
-            data: data, // Les données calculées
-            backgroundColor: backgroundColors,
-            borderColor: borderColors,
-            borderWidth: 1,
-        }],
-    };
-}
 
 function processDistributionDataUser(eventsData) {
     let distributionByUser = {};
