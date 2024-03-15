@@ -1,8 +1,13 @@
 ---
-- name: Test simple command
+- name: List Proxmox container templates
   hosts: all
   gather_facts: no
   tasks:
-    - name: Echo Hello World
-      shell: echo "Hello World"
-      register: output
+    - name: Get list of CTs marked as templates
+      ansible.builtin.shell: |
+        pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'
+      register: ct_templates
+      changed_when: false
+
+    - name: Print the list of CT templates as JSON
+      shell: echo "{{ ct_templates.stdout }}"
