@@ -70,7 +70,7 @@ class TypeOfVmController extends Controller
     public function getPromoxTemplate()
     {
         // Assurez-vous que le chemin est correct et sécurisé
-        $command = "sudo ansible-playbook " . base_path('/scripts/getTemplates.yml');
+        $command = "sudo ansible-playbook ansible all, -m shell -a pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)";
 
         // Exécution de la commande
         $output = shell_exec($command);
