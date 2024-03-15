@@ -270,10 +270,10 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                // Vérifier si l'utilisateur est admin
-                                (auth.user.id_role === 1) ? (
-                                    // Si admin, afficher tous les événements ou ceux de l'utilisateur sélectionné
-                                    ((selectedUserId === "" || event.id_user === selectedUserId) && (
+                                // Si l'utilisateur est administrateur et un utilisateur est sélectionné
+                                (auth.user.id_role === 1 && selectedUserId !== "") ? (
+                                    // Afficher uniquement les événements de l'utilisateur sélectionné
+                                    (event.id_user === selectedUserId && (
                                         <tr key={event.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -299,8 +299,9 @@ export default function Manage({ auth }) {
                                         </tr>
                                     ))
                                 ) : (
-                                    // Si non admin, afficher uniquement les événements de l'utilisateur connecté
-                                    (event.id_user === auth.user.id) && (
+                                    // Si l'utilisateur n'est pas administrateur ou aucun utilisateur n'est sélectionné
+                                    // Afficher les événements de l'utilisateur connecté
+                                    (event.id_user === auth.user.id && (
                                         <tr key={event.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -324,7 +325,7 @@ export default function Manage({ auth }) {
                                                 </td>
                                             )}
                                         </tr>
-                                    )
+                                    ))
                                 )
                             ))}
                             </tbody>
