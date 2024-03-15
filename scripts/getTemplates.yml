@@ -9,4 +9,5 @@
       changed_when: false
 
     - name: Print the list of CT templates as JSON
-      shell: echo "{{ ct_templates.stdout }}"
+      debug:
+        var: ct_templates.stdout
