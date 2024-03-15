@@ -32,7 +32,7 @@ export default function Manage({ auth }) {
         setData({ user_id: userId, id_role: newRoleId });
         const token = localStorage.getItem('bearerToken');
         const url = `/api/user/${userId}`;
-        const data = { user_id: userId, role_id: newRoleId };
+        const data = { user_id: userId, id_role: newRoleId };
 
         fetch(url, {
             method: 'PATCH',
