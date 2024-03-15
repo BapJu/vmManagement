@@ -98,7 +98,10 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
@@ -124,7 +127,10 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
@@ -150,7 +156,10 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                         </div>
