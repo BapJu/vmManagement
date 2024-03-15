@@ -57,7 +57,7 @@ export default function Manage({ auth }) {
             });
     };
     function getLocalisationName(siteId) {
-        return sites.find(site => site.id === siteId).name;
+        return sites.find(site => site.id === siteId);
     }
     return (
         <AuthenticatedLayout
