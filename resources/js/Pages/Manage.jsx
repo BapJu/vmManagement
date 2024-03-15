@@ -271,7 +271,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
-                                ((!selectedUserId && event.id_user === auth.user.id) || (selectedUserId && event.id_user === selectedUserId)) && ( // Si aucun utilisateur n'est sélectionné, afficher les VMs de l'utilisateur connecté, sinon afficher les VMs de l'utilisateur sélectionné
+                                ((selectedUserId && event.id_user === selectedUserId) || (!selectedUserId && event.id_user === auth.user.id)) && ( // Si un utilisateur est sélectionné, afficher les VMs de cet utilisateur, sinon afficher les VMs de l'utilisateur connecté
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
