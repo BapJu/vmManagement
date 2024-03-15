@@ -76,7 +76,7 @@ class TypeOfVmController extends Controller
         //$templates = json_decode($templates, true);
 
 
-        return response()->json($templates);
+        return response()->$templates;
     }
 
 }
