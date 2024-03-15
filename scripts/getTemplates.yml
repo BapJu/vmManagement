@@ -12,4 +12,3 @@
     - name: Print the list of CT templates as JSON
       ansible.builtin.debug:
         var: ct_templates.stdout
-      changed_when: false
