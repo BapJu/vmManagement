@@ -56,7 +56,9 @@ export default function Manage({ auth }) {
                 console.error('Error:', error);
             });
     };
-
+    function getLocalisationName(siteId) {
+        return sites.find(site => site.id === siteId);
+    }
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -78,7 +80,7 @@ export default function Manage({ auth }) {
                             {users.map(user => (
                                 <tr key={user.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">SITE</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(user.id_localisation)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
                                             id="role"
