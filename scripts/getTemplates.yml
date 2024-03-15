@@ -3,13 +3,8 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Get list of CTs marked as templates
-      shell: pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'
-      register: ct_templates
-      changed_when: false
-
-    - name: Print the list of CT templates as JSON
-
-      debug:
-        body_format: json
-        msg:  ct_templates.stdout
+    - name: Get list of CTs marked as templates and write to a file
+      shell: pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)' > scripts/templates.json
+      args:
+        executable: /bin/bash
+      become: yes # Utilisez cette option si nécessaire pour les permissions d'écriture
