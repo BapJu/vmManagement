@@ -270,64 +270,30 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                // Si l'utilisateur est administrateur et un utilisateur est sélectionné
-                                (auth.user.id_role === 1 && event.id_user === selectedUserId) ? (
-                                        <tr key={event.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
+                                ((historiqueChecked || event.ip !== null) && (auth.user.id_role !== 1 || selectedUserId === '' || event.id_user.toString() === selectedUserId.toString())) && (
+                                    <tr key={event.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                        {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
+                                                {event.active ? (
+                                                    <FontAwesomeIcon icon={faStop}
+                                                                     onClick={() => handleStopVM(event.id)}
+                                                                     className="cursor-pointer mr-2"/>
+                                                ) : (
+                                                    <FontAwesomeIcon icon={faPlay}
+                                                                     onClick={() => handleStartVM(event.id)}
+                                                                     className="cursor-pointer mr-2"/>
+                                                )}
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                                 className="cursor-pointer"/>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                            {event.ip !== null && (
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    {event.active ? (
-                                                        <FontAwesomeIcon icon={faStop}
-                                                                         onClick={() => handleStopVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faPlay}
-                                                                         onClick={() => handleStartVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    )}
-                                                    <FontAwesomeIcon icon={faTrash}
-                                                                     onClick={() => handleDeleteVM(event.id)}
-                                                                     className="cursor-pointer"/>
-                                                </td>
-                                            )}
-                                        </tr>
-
-                                ) : (
-                                    // Si l'utilisateur n'est pas administrateur ou aucun utilisateur n'est sélectionné
-                                    // Afficher les événements de l'utilisateur connecté
-                                    (event.id_user === auth.user.id && (
-                                        <tr key={event.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                            {event.ip !== null && (
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    {event.active ? (
-                                                        <FontAwesomeIcon icon={faStop}
-                                                                         onClick={() => handleStopVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faPlay}
-                                                                         onClick={() => handleStartVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    )}
-                                                    <FontAwesomeIcon icon={faTrash}
-                                                                     onClick={() => handleDeleteVM(event.id)}
-                                                                     className="cursor-pointer"/>
-                                                </td>
-                                            )}
-                                        </tr>
-                                    ))
+                                        )}
+                                    </tr>
                                 )
                             ))}
                             </tbody>
-
 
                         </table>
                     </div>
