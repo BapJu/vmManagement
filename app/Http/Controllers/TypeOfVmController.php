@@ -74,23 +74,22 @@ class TypeOfVmController extends Controller
 
         // Exécution de la commande
         $output = shell_exec($command);
+        $segments = explode(">>\n", $output);
+        $json1 = isset($segments[1]) ? trim($segments[1]) : null;
+        $json2 = isset($segments[2]) ? trim($segments[2]) : null;
 
-        // Utilisez une expression régulière pour extraire uniquement la partie JSON de la sortie
-        preg_match_all('/\{(?:[^{}]|(?R))*\}/x', $output, $matches);
-
-        $jsonOutput = isset($matches[0]) ? implode("\n", $matches[0]) : '';
+        $clear_output = $json2;
 
         // Vérification de la sortie avant de la retourner
-        if (!empty($jsonOutput)) {
-            // Convertir la chaîne JSON en un tableau PHP pour la réponse
-            $data = json_decode('[' . $jsonOutput . ']', true); // Utilisez des crochets pour faire un tableau JSON valide si plusieurs objets
-            return response()->json(['success' => true, 'data' => $data]);
+        if (!empty($clear_output)) {
+            // Décommentez la ligne suivante si vous êtes sûr que la sortie est en JSON et doit être décodée
+            // $output = json_decode($output, true);
+            return response()->json(['success' => true, 'data' => $clear_output]);
         } else {
             // Gestion de l'erreur ou de l'absence de sortie
             return response()->json(['success' => false, 'message' => 'Aucune donnée récupérée depuis Ansible.'], 500);
         }
     }
-
 
 
 }
