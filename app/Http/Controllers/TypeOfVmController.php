@@ -76,11 +76,11 @@ class TypeOfVmController extends Controller
     public function getPromoxTemplate()
     {
         // Assurez-vous que le chemin est correct et sécurisé
-        $command = "ansible all, -m shell -a \"pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'\" > template/proxmox_template.json";
+        $command = "ansible all, -m shell -a \"pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'\" > /var/www/html/vmManagement/script/proxmox_template.json";
 
         // Exécution de la commande
         shell_exec($command);
-        $read_json = file_get_contents('template/proxmox_template.json',offset: 1);
+        $read_json = file_get_contents('/var/www/html/vmManagement/script/proxmox_template.json',offset: 1);
 
 
 
