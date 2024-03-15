@@ -41,13 +41,26 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
-    public function updateRole(ProfileUpdateRequest $request): RedirectResponse
+    public function updateRole(Request $request, $id)
     {
-        $request->user()->fill($request->validated());
+        // Validez l'entrée. Assurez-vous que `role_id` est le nom correct du champ attendu.
+        $validatedData = $request->validate([
+            'role_id' => 'required|exists:roles,id', // Assurez-vous que 'roles' est le nom de votre table des rôles et 'id' est la colonne de clé primaire dans cette table.
+        ]);
 
-        $request->user()->save();
+        // Trouver l'utilisateur par ID et mettre à jour son rôle.
+        // Assurez-vous que User est correctement importé avec use App\Models\User; ou le namespace approprié.
+        $user = User::find($id);
+        if (!$user) {
+            return Redirect::back()->withErrors(['user_not_found' => 'Utilisateur non trouvé.']);
+        }
 
-        return Redirect::route('profile.edit');
+        // Mettre à jour le rôle de l'utilisateur.
+        $user->role_id = $validatedData['role_id'];
+        $user->save();
+
+        // Rediriger l'utilisateur vers une page, par exemple la page de modification de profil, avec un message de succès.
+        return Redirect::route('profile.edit')->with('success', 'Le rôle a été mis à jour avec succès.');
     }
 
     /**
