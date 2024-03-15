@@ -224,30 +224,46 @@ export default function Manage({ auth }) {
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
-                        {auth.user.id_role !== 1 && ( // Si l'utilisateur n'est pas un admin
-                            <input
-                                type="checkbox"
-                                id="historiqueCheckbox"
-                                className="mr-2"
-                                checked={historiqueChecked}
-                                onChange={() => setHistoriqueChecked(!historiqueChecked)}
-                            />
+
+                        {auth.user.id_role === 1 && (
+                            <select
+                                value={selectedUserId}
+                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                className="p-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="">Select user</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>{user.name}</option>
+                                ))}
+                            </select>
                         )}
+
+                        <input
+                            type="checkbox"
+                            id="historiqueCheckbox"
+                            className="mr-2"
+                            checked={historiqueChecked}
+                            onChange={() => setHistoriqueChecked(!historiqueChecked)}
+                        />
                         <label htmlFor="historiqueCheckbox">Historical</label>
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Last update
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
@@ -265,11 +281,16 @@ export default function Manage({ auth }) {
                                         {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
-                                                    <FontAwesomeIcon icon={faStop} onClick={() => handleStopVM(event.id)} className="cursor-pointer mr-2"/>
+                                                    <FontAwesomeIcon icon={faStop}
+                                                                     onClick={() => handleStopVM(event.id)}
+                                                                     className="cursor-pointer mr-2"/>
                                                 ) : (
-                                                    <FontAwesomeIcon icon={faPlay} onClick={() => handleStartVM(event.id)} className="cursor-pointer mr-2"/>
+                                                    <FontAwesomeIcon icon={faPlay}
+                                                                     onClick={() => handleStartVM(event.id)}
+                                                                     className="cursor-pointer mr-2"/>
                                                 )}
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)} className="cursor-pointer"/>
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                                 className="cursor-pointer"/>
                                             </td>
                                         )}
                                     </tr>
@@ -277,11 +298,6 @@ export default function Manage({ auth }) {
                             ))}
                             </tbody>
                         </table>
-                    </div>
-
-
-
-                </table>
                     </div>
                 </div>
             </div>
