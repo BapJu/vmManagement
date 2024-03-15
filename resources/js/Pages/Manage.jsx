@@ -28,24 +28,21 @@ export default function Manage({ auth }) {
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
-        if (selectedUserId !== '') {
-            const token = localStorage.getItem('bearerToken');
-            const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
+        const token = localStorage.getItem('bearerToken');
+        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setEvents(data);
             })
-                .then(response => response.json())
-                .then(data => {
-                    setEvents(data);
-                })
-                .catch(error => console.error('Error fetching events:', error));
-        }
-    }, [selectedUserId]);
-
+            .catch(error => console.error('Error fetching events:', error));
+    }, [auth.token, selectedUserId]);
 
 
     useEffect(() => {
@@ -274,7 +271,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
-                                ((auth.user.id_role === 1) || (event.id_user === auth.user.id)) && ( // Si l'utilisateur est un administrateur ou il a créé cet événement
+                                ((!selectedUserId && event.id_user === auth.user.id) || (selectedUserId && event.id_user === selectedUserId)) && ( // Si aucun utilisateur n'est sélectionné, afficher les VMs de l'utilisateur connecté, sinon afficher les VMs de l'utilisateur sélectionné
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -300,6 +297,7 @@ export default function Manage({ auth }) {
                                 )
                             ))}
                             </tbody>
+
 
                         </table>
                     </div>
