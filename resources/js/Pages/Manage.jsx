@@ -271,7 +271,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 // Si l'utilisateur est administrateur et un utilisateur est sélectionné
-                                (auth.user.id_role === 1 && selectedUserId !== "") ? (
+                                (auth.user.id_role === 1) ? (
                                     // Afficher uniquement les événements de l'utilisateur sélectionné
                                     (event.id_user === selectedUserId && (
                                         <tr key={event.id}>
