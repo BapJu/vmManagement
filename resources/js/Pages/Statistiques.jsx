@@ -264,16 +264,7 @@ function processDistributionData(eventsData, typeOfVmsMap) {
     const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
     const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
-    return {
-        labels: labels, // Les types de VM
-        datasets: [{
-            label: 'VMs by Type',
-            data: data, // Les données calculées
-            backgroundColor: backgroundColors,
-            borderColor: borderColors,
-            borderWidth: 1,
-        }],
-    };
+
 }
 
 
