@@ -75,7 +75,7 @@ class TypeOfVmController extends Controller
         // Exécution de la commande
         $output = shell_exec($command);
 
-        $clear_output = json_decode(explode('>>\n', $output)[1], true);
+        $clear_output = json_decode($output, true);
 
         // Vérification de la sortie avant de la retourner
         if (!empty($clear_output)) {
