@@ -43,12 +43,10 @@ class EventController extends Controller
  */
     public function index_current_user()
     {
-        $Events = Event::where('id_user', auth()->user()->id)
-            ->where('active', true) // Ajoutez cette condition pour ne récupérer que les événements actifs
-            ->get();
+        $Events = Event::where('id_user', auth()->user()->id)->get();
         return response()->json($Events);
-    }
 
+    }
 
     // Méthode pour créer un nouveau event
     public function store(Request $request)
