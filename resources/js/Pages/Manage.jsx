@@ -271,9 +271,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 // Si l'utilisateur est administrateur et un utilisateur est sélectionné
-                                (auth.user.id_role === 1) ? (
-                                    // Afficher uniquement les événements de l'utilisateur sélectionné
-                                    (event.id_user === selectedUserId && (
+                                (auth.user.id_role === 1 && event.id_user === selectedUserId) ? (
                                         <tr key={event.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -297,7 +295,7 @@ export default function Manage({ auth }) {
                                                 </td>
                                             )}
                                         </tr>
-                                    ))
+                                    )
                                 ) : (
                                     // Si l'utilisateur n'est pas administrateur ou aucun utilisateur n'est sélectionné
                                     // Afficher les événements de l'utilisateur connecté
