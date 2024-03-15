@@ -98,12 +98,10 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
-                                        aspectRatio: 1, // Maintenir le ratio
-                                        maintainAspectRatio: true, // Garder le ratio
-                                        responsive: true, // Rendre le graphique responsive
-                                        width: 300, // Largeur réduite de 1.6
-                                        height: 187.5, // Hauteur réduite de 1.6
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
@@ -129,12 +127,10 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
-                                        aspectRatio: 1, // Maintenir le ratio
-                                        maintainAspectRatio: true, // Garder le ratio
-                                        responsive: true, // Rendre le graphique responsive
-                                        width: 300, // Largeur réduite de 1.6
-                                        height: 187.5, // Hauteur réduite de 1.6
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
@@ -160,16 +156,13 @@ function VmStatsGraph({ auth }) {
                                                 bottom: 0,
                                             },
                                         },
-                                        aspectRatio: 1, // Maintenir le ratio
-                                        maintainAspectRatio: true, // Garder le ratio
-                                        responsive: true, // Rendre le graphique responsive
-                                        width: 300, // Largeur réduite de 1.6
-                                        height: 187.5, // Hauteur réduite de 1.6
+                                        aspectRatio: 2, // Reduire la taille par 2
+                                        maintainAspectRatio: true // Garder le ratio
                                     }}
+                                    height={200} // Reduire la taille par 2
                                 />
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
