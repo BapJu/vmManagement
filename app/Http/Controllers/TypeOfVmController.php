@@ -85,7 +85,7 @@ class TypeOfVmController extends Controller
 
         $clear_output = $segments[1] ?? null;
 
-        $json_objects = explode("\n", trim($clear_output));
+        $json_objects = trim($clear_output);
 
         foreach ($json_objects as $json_object) {
             $data = json_decode($json_object, true); // Décode le JSON en tableau associatif
