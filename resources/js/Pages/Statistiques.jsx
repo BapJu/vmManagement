@@ -74,7 +74,7 @@ function VmStatsGraph({ auth }) {
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                     <div className="p-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4">
                             <div className="bg-white overflow-hidden rounded-lg shadow-xs">
                                 <Line
                                     data={evolutionData}
@@ -268,6 +268,5 @@ function processDistributionDataUser(eventsData) {
         }],
     };
 }
-
 
 export default VmStatsGraph;
