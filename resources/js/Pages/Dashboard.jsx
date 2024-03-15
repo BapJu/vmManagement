@@ -40,6 +40,30 @@ export default function Dashboard({ auth }) {
     }, [subjects]);
 
 
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                // Fetch events associated with the current user
+                const response = await fetch('/api/events/current_user');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const eventData = await response.json();
+                // Calculate totalCreated and totalActive
+                const totalCreated = eventData.length;
+                const totalActive = eventData.filter(event => event.status === 'active').length;
+                setVmStats({ totalCreated, totalActive });
+            } catch (error) {
+                console.error('Error fetching VM stats:', error);
+                setError('An error occurred while fetching VM stats. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
 
     useEffect(() => {
         const fetchAPIs = async () => {
