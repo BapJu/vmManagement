@@ -83,7 +83,7 @@ class TypeOfVmController extends Controller
         $segments = explode(">>\n", $output);
 
 
-        $clear_output = $segments;
+        $clear_output = $segments[1] ?? null;
 
         // Vérification de la sortie avant de la retourner
         if (!empty($clear_output)) {
