@@ -270,13 +270,10 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
-                                ((auth.user.id_role === 1) || (event.id_user === auth.user.id)) && ( // Si l'utilisateur est un administrateur ou il a créé cet événement
+                                ((historiqueChecked || event.ip !== null) && (auth.user.id_role !== 1 || selectedUserId === '' || event.id_user.toString() === selectedUserId.toString())) && (
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                         {event.ip !== null && (
                                             <td className="px-6 py-4 whitespace-nowrap">
