@@ -62,33 +62,24 @@ function VmStatsGraph({ auth }) {
     }, [auth.user.id]);
 
     useEffect(() => {
-        const fetchEventData = async () => {
-            try {
-                const token = localStorage.getItem('bearerToken');
-                const response = await fetch(`api/events/`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
+        const token = localStorage.getItem('bearerToken');
+        fetch(`api/typeofvms`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(typeOfVmsData => {
+                // Convertir les données en un objet pour faciliter la recherche par ID
+                const typeOfVmsMap = {};
+                typeOfVmsData.forEach(typeOfVm => {
+                    typeOfVmsMap[typeOfVm.id] = typeOfVm.description;
                 });
-                const eventData = await response.json();
-                return eventData;
-            } catch (error) {
-                console.error('Error:', error);
-                throw error;
-            }
-        };
 
-        fetchEventData()
-            .then(eventsData => {
-                // Maintenant que nous avons les données, nous pouvons procéder
-                const evolutionChartData = processEvolutionData(eventsData);
-                const distributionChartData = processDistributionData(eventsData);
-                const distributionChartDataUser = processDistributionDataUser(eventsData);
-
-                setEvolutionData(evolutionChartData);
+                // Mettre à jour les données de distribution
+                const distributionChartData = processDistributionData(eventsData, typeOfVmsMap);
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser)
                 setLoading(false);
             })
             .catch(error => {
@@ -96,7 +87,6 @@ function VmStatsGraph({ auth }) {
                 setLoading(false);
             });
     }, [auth.user.id]);
-
 
     if (loading) {
         return <div>Loading...</div>;
@@ -281,7 +271,6 @@ function processDistributionData(eventsData, typeOfVmsMap) {
         }],
     };
 }
-
 
 
 function processDistributionDataUser(eventsData) {
