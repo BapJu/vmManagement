@@ -28,21 +28,24 @@ export default function Manage({ auth }) {
     }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
 
     useEffect(() => {
-        const token = localStorage.getItem('bearerToken');
-        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
+        if (selectedUserId !== '') {
+            const token = localStorage.getItem('bearerToken');
+            const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
 
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setEvents(data);
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
             })
-            .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token, selectedUserId]);
+                .then(response => response.json())
+                .then(data => {
+                    setEvents(data);
+                })
+                .catch(error => console.error('Error fetching events:', error));
+        }
+    }, [selectedUserId]);
+
 
 
     useEffect(() => {
