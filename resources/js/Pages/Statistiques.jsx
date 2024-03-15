@@ -35,8 +35,6 @@ function VmStatsGraph({ auth }) {
     const [distributionData, setDistributionData] = useState({});
     const [distributionUserData, setDistributionUserData] = useState({});
     const [loading, setLoading] = useState(true);
-    const [eventsData, setEventsData] = useState([]); // Déclaration de eventsData
-
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -63,7 +61,6 @@ function VmStatsGraph({ auth }) {
             });
     }, [auth.user.id]);
 
-    // Mettre à jour la fonction useEffect pour récupérer les descriptions des types de VM
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch(`api/typeofvms`, {
@@ -81,7 +78,7 @@ function VmStatsGraph({ auth }) {
                 });
 
                 // Mettre à jour les données de distribution
-                const distributionChartData = processDistributionData(eventsData, typeOfVmsMap); // Passer eventsData ici
+                const distributionChartData = processDistributionData(eventsData, typeOfVmsMap);
                 setDistributionData(distributionChartData);
                 setLoading(false);
             })
@@ -89,8 +86,7 @@ function VmStatsGraph({ auth }) {
                 console.error('Error:', error);
                 setLoading(false);
             });
-    }, [auth.user.id, eventsData]); // Ajouter eventsData comme dépendance
-
+    }, [auth.user.id]);
 
     if (loading) {
         return <div>Loading...</div>;
