@@ -4,8 +4,7 @@
   gather_facts: no
   tasks:
     - name: Get list of CTs marked as templates
-      shell: |
-        pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'
+      shell: pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'
       register: ct_templates
       changed_when: false
 
