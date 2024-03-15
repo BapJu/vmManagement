@@ -13,12 +13,6 @@ class TypeOfVmController extends Controller
         return response()->json($TypeOfVms);
     }
 
-    public function getTypeOfVmsDescriptions()
-    {
-        $TypeOfVms = TypeOfVm::all('id', 'description'); // Récupère seulement les colonnes id et description
-        return response()->json($TypeOfVms);
-    }
-
     // Méthode pour créer un nouveau rôle
     public function store(Request $request)
     {
