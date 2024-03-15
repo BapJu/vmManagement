@@ -76,30 +76,16 @@ class TypeOfVmController extends Controller
     public function getPromoxTemplate()
     {
         // Assurez-vous que le chemin est correct et sécurisé
-        $command = "ansible all, -m shell -a \"pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'\"";
+        $command = "ansible all, -m shell -a \"pvesh get /nodes/ens10pxcv/lxc --output-format=json | jq '.[] | select(.template == 1)'\" > template/proxmox_template.json";
 
         // Exécution de la commande
-        $output = shell_exec($command);
-        $segments = explode(">>\n", $output);
+        shell_exec($command);
+        $read_json = file_get_contents('template/proxmox_template.json',offset: 1);
 
 
-        $clear_output = $segments[1] ?? null;
-
-        $json_objects = trim($clear_output);
-
-        foreach ($json_objects as $json_object) {
-            $data = json_decode($json_object, true); // Décode le JSON en tableau associatif
-            if ($data) {
-                // Extraire vmid et name et les ajouter au tableau
-                $vm_details[] = [
-                    'vmid' => $data['vmid'],
-                    'name' => $data['name'],
-                ];
-            }
-        }
 
         // Convertir le tableau final en JSON
-        $json_result = json_encode($vm_details);
+        $json_result = json_encode($read_json);
 
 
         // Vérification de la sortie avant de la retourner
