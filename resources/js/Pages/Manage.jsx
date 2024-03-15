@@ -212,8 +212,8 @@ export default function Manage({ auth }) {
     }
 
     const handleUserSelection = (e) => {
-        const selectedUserId = e.target.value; // Récupérer l'ID de l'utilisateur sélectionné
-        setSelectedUserId(selectedUserId); // Mettre à jour l'état avec l'ID de l'utilisateur sélectionné
+        const selectedUserId = e.target.value;
+        setSelectedUserId(selectedUserId);
     };
 
     return (

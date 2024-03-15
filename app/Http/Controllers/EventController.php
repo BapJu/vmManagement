@@ -24,13 +24,14 @@ class EventController extends Controller
     {
         $userRole = Auth::user()->id_role;
         if ($userRole == 1) {
-            $Events = Event::all();
-            return response()->json($Events);
+            $events = Event::orderBy('created_at', 'desc')->get();
+            return response()->json($events);
         } else {
-            $Events = Event::where('id_user', auth()->user()->id)->get();
-            return response()->json($Events);
+            $events = Event::where('id_user', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+            return response()->json($events);
         }
     }
+
 
 
     public function index_current_user()
