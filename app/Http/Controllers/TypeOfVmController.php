@@ -81,10 +81,9 @@ class TypeOfVmController extends Controller
         // Exécution de la commande
         $output = shell_exec($command);
         $segments = explode(">>\n", $output);
-        $json1 = isset($segments[1]) ? trim($segments[1]) : null;
-        $json2 = isset($segments[2]) ? trim($segments[2]) : null;
 
-        $clear_output = $json2;
+
+        $clear_output = $segments;
 
         // Vérification de la sortie avant de la retourner
         if (!empty($clear_output)) {
