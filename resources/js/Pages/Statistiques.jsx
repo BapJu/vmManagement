@@ -35,6 +35,8 @@ function VmStatsGraph({ auth }) {
     const [distributionData, setDistributionData] = useState({});
     const [distributionUserData, setDistributionUserData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [eventsData, setEventsData] = useState([]); // Déclaration de eventsData
+
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -64,7 +66,7 @@ function VmStatsGraph({ auth }) {
     // Mettre à jour la fonction useEffect pour récupérer les descriptions des types de VM
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch(`api/typeOfVms`, {
+        fetch(`api/typeofvms`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
