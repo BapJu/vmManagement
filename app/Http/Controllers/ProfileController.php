@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -43,24 +44,31 @@ class ProfileController extends Controller
 
     public function updateRole(Request $request, $id)
     {
-        // Validez l'entrée. Assurez-vous que `role_id` est le nom correct du champ attendu.
-        $validatedData = $request->validate([
-            'role_id' => 'required|exists:roles,id', // Assurez-vous que 'roles' est le nom de votre table des rôles et 'id' est la colonne de clé primaire dans cette table.
+        // Validez l'entrée avec Validator pour une meilleure personnalisation de la réponse en cas d'échec.
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required|exists:roles,id',
         ]);
 
-        // Trouver l'utilisateur par ID et mettre à jour son rôle.
-        // Assurez-vous que User est correctement importé avec use App\Models\User; ou le namespace approprié.
-        $user = User::find($id);
-        if (!$user) {
-            return Redirect::back()->withErrors(['user_not_found' => 'Utilisateur non trouvé.']);
+        // Vérifiez si la validation échoue.
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422); // Code de statut 422 Unprocessable Entity pour les erreurs de validation.
         }
 
-        // Mettre à jour le rôle de l'utilisateur.
-        $user->role_id = $validatedData['role_id'];
+        // Trouver l'utilisateur par ID.
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non trouvé.'], 404); // Code de statut 404 Not Found si l'utilisateur n'existe pas.
+        }
+
+        // Mettre à jour le rôle de l'utilisateur avec les données validées.
+        $user->role_id = $validator->validated()['role_id'];
         $user->save();
 
-        // Rediriger l'utilisateur vers une page, par exemple la page de modification de profil, avec un message de succès.
-        return Redirect::route('profile.edit')->with('success', 'Le rôle a été mis à jour avec succès.');
+        // Retourner une réponse JSON avec un message de succès.
+        return response()->json(['message' => 'Le rôle a été mis à jour avec succès.'], 200); // Code de statut 200 OK pour une opération réussie.
     }
 
     /**
