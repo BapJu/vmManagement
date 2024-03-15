@@ -8,11 +8,9 @@ import { Link } from '@inertiajs/react';
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    const navLinksClass = user.id_role === 1 ? 'bg-red-500' : '';
-
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className={`bg-white border-b border-gray-100${navLinksClass}`}>
+            <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -36,6 +34,9 @@ export default function Authenticated({ user, header, children }) {
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             <div className="ms-3 relative">
+                                {user.id_role === 1 && (
+                                    <img src="/superman.png" alt="Superman" className="w-8 h-8 mr-2" />
+                                )}
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
