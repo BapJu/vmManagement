@@ -29,7 +29,7 @@ export default function Manage({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events/current_user';
+        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events';
 
         fetch(url, {
             method: 'GET',
@@ -43,6 +43,7 @@ export default function Manage({ auth }) {
             })
             .catch(error => console.error('Error fetching events:', error));
     }, [auth.token, selectedUserId]);
+
 
 
     useEffect(() => {
