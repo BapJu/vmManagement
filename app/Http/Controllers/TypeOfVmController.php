@@ -85,13 +85,13 @@ class TypeOfVmController extends Controller
 
         $clear_output = $segments[1] ?? null;
 
-        $clear_output_json = json_decode($clear_output, true);
+
 
         // Vérification de la sortie avant de la retourner
-        if (!empty($clear_output_json)) {
+        if (!empty($clear_output)) {
             // Décommentez la ligne suivante si vous êtes sûr que la sortie est en JSON et doit être décodée
             // $output = json_decode($output, true);
-            return response()->json(['success' => true, 'data' => $clear_output_json]);
+            return response()->json(['success' => true, 'data' => $clear_output]);
         } else {
             // Gestion de l'erreur ou de l'absence de sortie
             return response()->json(['success' => false, 'message' => 'Aucune donnée récupérée depuis Ansible.'], 500);
