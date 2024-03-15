@@ -69,14 +69,22 @@ class TypeOfVmController extends Controller
 
     public function getPromoxTemplate()
     {
-        $TypeOfVms = TypeOfVm::all();
-        $command = "sudo ansible-playbook " . base_path('/scripts/getTemplates.yml');
-        $output  = shell_exec($command);
-        echo $output;
-        //$templates = json_decode($templates, true);
+        // Assurez-vous que le chemin est correct et sécurisé
+        $command = "sudo ansible-playbook " . escapeshellarg(base_path('/scripts/getTemplates.yml'));
 
+        // Exécution de la commande
+        $output = shell_exec($command);
 
-        return response()->json($output);
+        // Vérification de la sortie avant de la retourner
+        if (!empty($output)) {
+            // Décommentez la ligne suivante si vous êtes sûr que la sortie est en JSON et doit être décodée
+            // $output = json_decode($output, true);
+            return response()->json(['success' => true, 'data' => $output]);
+        } else {
+            // Gestion de l'erreur ou de l'absence de sortie
+            return response()->json(['success' => false, 'message' => 'Aucune donnée récupérée depuis Ansible.'], 500);
+        }
     }
+
 
 }
