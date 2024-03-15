@@ -33,10 +33,10 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
+                            {user.id_role === 1 && (
+                                <img src="/superman.png" alt="Superman" className="w-8 h-8 mr-2" />
+                            )}
                             <div className="ms-3 relative">
-                                {user.id_role === 1 && (
-                                    <img src="/superman.png" alt="Superman" className="w-8 h-8 mr-2" />
-                                )}
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
