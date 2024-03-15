@@ -223,31 +223,33 @@ function processDistributionData(eventsData) {
 
 
 // Supposons que cette fonction traite les données pour la répartition par type
-function processDistributionData(eventsData) {
-    let distributionByType = {};
-    // Compter le nombre de VMs actives par type
+function processDistributionData(eventsData, byUser = false) {
+    let distributionData = {};
+    // Compter le nombre de VMs actives par type ou par utilisateur
     eventsData.forEach(event => {
+        const key = byUser ? event.id_user : event.id_typeofvm;
         if (event.active) {
-            const vmType = event.id_typeofvm;
-            if (!distributionByType[vmType]) {
-                distributionByType[vmType] = 0;
+            if (!distributionData[key]) {
+                distributionData[key] = 0;
             }
-            distributionByType[vmType] += 1;
+            distributionData[key] += 1;
         }
     });
 
     // Préparer les données pour le graphique
-    const labels = Object.keys(distributionByType);
-    const data = Object.values(distributionByType);
+    const labels = Object.keys(distributionData);
+    const data = Object.values(distributionData);
 
-    // Générer des couleurs aléatoires pour chaque type de VM
+    // Générer des couleurs aléatoires
     const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
     const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
+    const labelName = byUser ? 'VMs by User' : 'VMs by Type';
+
     return {
-        labels: labels, // Les types de VM
+        labels: labels, // Les utilisateurs ou les types de VM
         datasets: [{
-            label: 'VMs by Type',
+            label: labelName,
             data: data, // Les données calculées
             backgroundColor: backgroundColors,
             borderColor: borderColors,
@@ -255,7 +257,6 @@ function processDistributionData(eventsData) {
         }],
     };
 }
-
 
 function processDistributionDataUser(eventsData) {
     let distributionByUser = {};
