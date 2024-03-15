@@ -270,8 +270,9 @@ export default function Manage({ auth }) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
-                                // Vérifie si l'utilisateur est administrateur et qu'un utilisateur est sélectionné
-                                (auth.user.id_role === 1 && selectedUserId && event.id_user === selectedUserId) ? (
+                                (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
+                                ((auth.user.id_role === 1 && event.id_user === selectedUserId) || (event.id_user === auth.user.id)) && (
+                                    // Si l'utilisateur est administrateur et un utilisateur est sélectionné, ou si c'est l'utilisateur actuel
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -294,34 +295,6 @@ export default function Manage({ auth }) {
                                             </td>
                                         )}
                                     </tr>
-                                ) : (
-                                    // Vérifie si l'utilisateur n'est pas administrateur ou si aucun utilisateur n'est sélectionné
-                                    // Affiche les événements de l'utilisateur connecté
-                                    (event.id_user === auth.user.id && (
-                                        <tr key={event.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                            {event.ip !== null && (
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    {event.active ? (
-                                                        <FontAwesomeIcon icon={faStop}
-                                                                         onClick={() => handleStopVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faPlay}
-                                                                         onClick={() => handleStartVM(event.id)}
-                                                                         className="cursor-pointer mr-2"/>
-                                                    )}
-                                                    <FontAwesomeIcon icon={faTrash}
-                                                                     onClick={() => handleDeleteVM(event.id)}
-                                                                     className="cursor-pointer"/>
-                                                </td>
-                                            )}
-                                        </tr>
-                                    ))
                                 )
                             ))}
                             </tbody>
