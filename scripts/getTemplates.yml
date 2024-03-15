@@ -4,9 +4,5 @@
   gather_facts: no
   tasks:
     - name: Echo Hello World
-      ansible.builtin.shell: echo "Hello World"
+      shell: echo "Hello World"
       register: output
-
-    - name: Print output
-      ansible.builtin.debug:
-        var: output.stdout
