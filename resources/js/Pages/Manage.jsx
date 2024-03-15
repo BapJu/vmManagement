@@ -271,7 +271,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {events.map(event => (
                                 (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
-                                ((auth.user.id_role === 1) || (selectedUserId && event.id_user === selectedUserId)) && (
+                                ((auth.user.id_role === 1) || (event.id_user === selectedUserId)) && (
                                     // Si l'utilisateur est un administrateur, ou si un utilisateur est sélectionné et l'événement appartient à cet utilisateur
                                     <tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
