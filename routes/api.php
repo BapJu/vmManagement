@@ -54,6 +54,7 @@ Route::middleware('auth:sanctum')->delete('/subject/{id}', [SubjectController::c
 
 // Routes pour 'type_of_vm'
 Route::get('/typeOfVms', [TypeOfVmController::class, 'index']);
+Route::get('/typeOfVms/promox', [TypeOfVmController::class, 'getPromoxTemplate']);
 Route::get('/typeOfVms/location={idLocalisation}/subject={idSubject}', [TypeOfVmController::class, 'filter']);
 Route::middleware('auth:sanctum')->post('/typeOfVm', [TypeOfVmController::class, 'store']);
 Route::get('/typeOfVm/{id}', [TypeOfVmController::class, 'show']);
