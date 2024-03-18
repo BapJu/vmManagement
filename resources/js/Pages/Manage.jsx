@@ -217,9 +217,10 @@ export default function Manage({auth}) {
                                     <input type="checkbox" id="historiqueToggle" className="sr-only"
                                            checked={historiqueChecked}
                                            onChange={() => setHistoriqueChecked(!historiqueChecked)}/>
-                                    <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
                                     <div
-                                        className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${historiqueChecked ? 'translate-x-full bg-blue-500' : 'bg-gray-400'}`}></div>
+                                        className={`block w-14 h-8 rounded-full transition-colors duration-200 ${historiqueChecked ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                                    <div
+                                        className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-200 transform ${historiqueChecked ? 'translate-x-6' : 'translate-x-0'}`}></div>
                                 </div>
                                 <div className="ml-3 text-gray-700 font-medium">
                                     Historical
