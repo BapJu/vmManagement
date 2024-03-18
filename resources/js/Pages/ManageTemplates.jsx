@@ -4,16 +4,17 @@ import { useForm } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 
 export default function Manage({ auth }) {
-    const [users, setUsers] = useState([]);
-    const [roles, setRoles] = useState([]);
+
+    const [subjects, setSubjects] = useState([]);
     const [sites, setSites] = useState([]);
-    const [search, setSearch] = useState(""); // Ajout de l'état de la recherche
-    const { data, setData, patch } = useForm({ user_id: '', id_role: '' });
+    const [templates, setTemplate] = useState([]);
+    const [search, setSearch] = useState("");
+    const { data, setData, patch } = useForm({ templateId: '', templateDescription: '', vmId: '', idSubject: '' });
 
     useEffect(() => {
-        fetchData('/api/users', setUsers);
-        fetchData('/api/roles', setRoles);
+        fetchData('/api/subjects', setSubjects);
         fetchData('/api/localisations', setSites);
+        fetchData('/api/typeofvms', setTemplate);
     }, [auth.token]);
 
     function fetchData(url, setState) {
@@ -29,11 +30,11 @@ export default function Manage({ auth }) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
-    const handleRoleChange = (userId, newRoleId) => {
-        setData({ user_id: userId, id_role: newRoleId });
+    const handleRoleChange = (templateId, templateDescription,vmId,idSubject) => {
+        setData({ templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject });
         const token = localStorage.getItem('bearerToken');
-        const url = `/api/user/${userId}`;
-        const data = { user_id: userId, id_role: newRoleId };
+        const url = `/api/typeofvm/${templateId}`;
+        const data = { templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject };
 
         fetch(url, {
             method: 'PATCH',
@@ -66,15 +67,24 @@ export default function Manage({ auth }) {
         }
     }
 
+    function getSubjectName(subjectId) {
+        const subject = subjects.find(subject => subject.id === subjectId);
+        if (subject) {
+            return subject.description;
+        } else {
+            return 'Subject non trouvé';
+        }
+    }
+
     // Filtrez les utilisateurs en fonction de la recherche
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(search.toLowerCase())
+    const filteredTemplates = templates.filter(template =>
+        template.description.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les utilisateurs</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les templates</h2>}
         >
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 {/* Ajout du champ de recherche */}
@@ -92,31 +102,44 @@ export default function Manage({ auth }) {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full name</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Id</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created at</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {/* Utilisez filteredUsers au lieu de users */}
-                            {filteredUsers.map(user => (
-                                <tr key={user.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(user.id_localisation)}</td>
+                            {filteredTemplates.map(template => (
+                                <tr key={template.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{template.template_id}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{template.description}</td>
+                                    {/*<td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(template.id_localisation)}</td>*/}
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
-                                            id="role"
+                                            id="localisation"
                                             className="mt-1 block w-full"
-                                            value={user.id_role}
-                                            onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                            value={template.id_localisation}
+                                            onChange={(e) => handleRoleChange(template.id, e.target.value)}
                                         >
-                                            {roles.map(role => (
-                                                <option key={role.id} value={role.id}>{role.name}</option>
+                                            {sites.map(site => (
+                                                <option key={site.id} value={site.id}>{site.name}</option>
                                             ))}
                                         </select>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{user.created_at}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <select
+                                            id="subject"
+                                            className="mt-1 block w-full"
+                                            value={template.id_subject}
+                                            onChange={(e) => handleRoleChange(template.id, e.target.value)}
+                                        >
+                                            {subjects.map(subject => (
+                                                <option key={subject.id}
+                                                        value={subject.id}>{subject.description}</option>
+                                            ))}
+                                        </select>
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
