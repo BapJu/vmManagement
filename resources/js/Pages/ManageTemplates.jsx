@@ -33,11 +33,11 @@ export default function Manage({ auth }) {
     const handleRoleChange = (templateId, templateDescription,vmId,idSubject) => {
         setData({ templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject });
         const token = localStorage.getItem('bearerToken');
-        const url = `/api/typeofvm/${templateId}`;
+        const url = `/api/typeOfVm/${templateId}`;
         const data = { templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject };
 
         fetch(url, {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
