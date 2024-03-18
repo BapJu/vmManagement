@@ -30,7 +30,7 @@ export default function Manage({ auth }) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
-    const handleRoleChange = (templateId, templateDescription,vmId,idSubject) => {
+    const handleTemplateChange = (templateId, templateDescription,vmId,idSubject) => {
         setData({ templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject });
         const token = localStorage.getItem('bearerToken');
         const url = `/api/typeOfVm/${templateId}`;
@@ -125,7 +125,7 @@ export default function Manage({ auth }) {
                                             type="text"
                                             className="form-input rounded-md"
                                             value={template.template_id}
-                                            onChange={(e) => handleTemplateIdChange(template.id, e.target.value)}
+                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -133,14 +133,14 @@ export default function Manage({ auth }) {
                                             type="text"
                                             className="form-input rounded-md"
                                             value={template.description}
-                                            onChange={(e) => handleDescriptionChange(template.id, e.target.value)}
+                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
                                             className="mt-1 block w-full"
                                             value={template.id_localisation}
-                                            onChange={(e) => handleLocalisationChange(template.id, e.target.value)}
+                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
                                         >
                                             {sites.map(site => (
                                                 <option key={site.id} value={site.id}>{site.name}</option>
@@ -151,7 +151,7 @@ export default function Manage({ auth }) {
                                         <select
                                             className="mt-1 block w-full"
                                             value={template.id_subject}
-                                            onChange={(e) => handleSubjectChange(template.id, e.target.value)}
+                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
                                         >
                                             {subjects.map(subject => (
                                                 <option key={subject.id}
