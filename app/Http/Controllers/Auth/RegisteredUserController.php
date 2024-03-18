@@ -30,7 +30,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -48,25 +48,12 @@ class RegisteredUserController extends Controller
             'id_localisation' => $request->id_localisation,
         ]);
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
-
-
 
         event(new Registered($user));
 
         Auth::login($user);
-        // Création du personal access token pour l'utilisateur.
-        //$token = $user->createToken('api_token')->plainTextToken;
-
         $request->session()->regenerate();
-        // Sauvegarder dans une session ou le renvoyer avec la réponse.
-        // Pour cet exemple, disons que vous voulez juste rediriger l'utilisateur
-        // vers la page d'accueil et attacher le token à la session (ou en flash session).
-        //session()->flash('api_token', $token);
-
-        //return redirect(RouteServiceProvider::HOME)->with('api_token', $token);
-        //return redirect(RouteServiceProvider::HOME);
-        return redirect('dashboard')->with('apiToken', $token);
-        //return redirect(RouteServiceProvider::HOME);
+        $token = $user->createToken('apiToken')->plainTextToken;
+        return redirect(RouteServiceProvider::HOME);
     }
 }

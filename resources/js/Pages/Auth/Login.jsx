@@ -23,6 +23,24 @@ export default function Login({ status, canResetPassword }) {
     const submit = (e) => {
         e.preventDefault();
 
+        if (!data.email.endsWith("@isen-ouest.yncrea.fr")) {
+            setEmailError('Vous devez utiliser une adresse ISEN pour vous inscrire');
+            return;
+        }
+
+        setEmailError('');
+        post(route('register'), {
+            onSuccess: () => {
+                fetchTokenAndLogin();
+            },
+            onError: (error) => {
+                // Handle registration error
+                console.error('Registration error:', error);
+            }
+        });
+    };
+
+    const fetchTokenAndLogin = () => {
         fetch('/api/tokens/login', {
             method: 'POST',
             headers: {
@@ -34,23 +52,24 @@ export default function Login({ status, canResetPassword }) {
             }),
         })
             .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 localStorage.setItem('bearerToken', data.token);
                 console.log('Login success:', data);
+                // Assuming `post(route('login'))` is your way of redirecting after login, you might need to adjust based on how your routing is set up.
                 post(route('login'));
             })
             .catch(error => {
                 console.error('Login error:', error);
-                setLoginError('Failed to login');
+                // It might be useful to clear sensitive data or provide a way to manually log in if automatic login fails
+
             });
-
-
     };
+
 
     return (
         <GuestLayout>

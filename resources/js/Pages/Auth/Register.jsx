@@ -41,6 +41,7 @@ export default function Register() {
         if (data.email.endsWith("@isen-ouest.yncrea.fr")) {
             setEmailError('');
             post(route('register'));
+
         } else {
             setEmailError('Vous devez utilisez une adresse ISEN pour vous inscrire');
         }
