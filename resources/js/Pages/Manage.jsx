@@ -283,7 +283,7 @@ export default function Manage({ auth }) {
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                        {event.ip !== null && (
+                                        {event.ip !== null && auth.user.id_role !== 4 &&  (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
                                                     <FontAwesomeIcon icon={faStop}
