@@ -202,16 +202,18 @@ export default function Manage({auth}) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
 
-                        {auth.user.id_role === 1 && (<select
-                            value={selectedUserId}
-                            onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
-                            className="p-2 border border-gray-300 rounded-md"
-                        >
-                            <option value="">Select user</option>
-                            {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
-                        </select>)}
+
 
                         <div className="flex py-2 m-2">
+                            {auth.user.id_role === 1 && (<select
+                                value={selectedUserId}
+                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                className="p-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="">Select user</option>
+                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                            </select>)}
+
                             <label htmlFor="historiqueToggle" className="flex items-center cursor-pointer">
                                 <div className="relative">
                                     <input type="checkbox" id="historiqueToggle" className="sr-only"
