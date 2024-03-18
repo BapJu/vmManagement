@@ -59,6 +59,27 @@ function VmStatsGraph({ auth }) {
                 console.error('Error:', error);
                 setLoading(false);
             });
+
+        fetch(`/api/typeofvm`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(typesOfVMData => {
+                // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
+                const descriptionsById = {};
+                typesOfVMData.forEach(typeOfVM => {
+                    descriptionsById[typeOfVM.id] = typeOfVM.description;
+                });
+
+                // Faire quelque chose avec les descriptions récupérées
+                console.log(descriptionsById);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }, [auth.user.id]);
 
     if (loading) {
@@ -211,12 +232,12 @@ function processEvolutionData(eventsData) {
 
 
 // Supposons que cette fonction traite les données pour la répartition par type
-function processDistributionData(eventsData) {
+function processDistributionData(eventsData, descriptionsById) {
     let distributionByType = {};
     // Compter le nombre de VMs actives par type
     eventsData.forEach(event => {
         if (event.active) {
-            const vmType = event.id_typeofvm;
+            const vmType = descriptionsById[event.id_typeofvm]; // Utilisez la description au lieu de l'id
             if (!distributionByType[vmType]) {
                 distributionByType[vmType] = 0;
             }
@@ -233,7 +254,7 @@ function processDistributionData(eventsData) {
     const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
     return {
-        labels: labels, // Les types de VM
+        labels: labels, // Les descriptions de VM
         datasets: [{
             label: 'VMs by Type',
             data: data, // Les données calculées
@@ -243,6 +264,7 @@ function processDistributionData(eventsData) {
         }],
     };
 }
+
 
 
 function processDistributionDataUser(eventsData) {
