@@ -102,25 +102,45 @@ export default function Manage({ auth }) {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Id</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template
+                                    Id
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject
+                                </th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {/* Utilisez filteredUsers au lieu de users */}
                             {filteredTemplates.map(template => (
                                 <tr key={template.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{template.template_id}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{template.description}</td>
-                                    {/*<td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(template.id_localisation)}</td>*/}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            className="form-input rounded-md"
+                                            value={template.template_id}
+                                            onChange={(e) => handleTemplateIdChange(template.id, e.target.value)}
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="text"
+                                            className="form-input rounded-md"
+                                            value={template.description}
+                                            onChange={(e) => handleDescriptionChange(template.id, e.target.value)}
+                                        />
+                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
-                                            id="localisation"
                                             className="mt-1 block w-full"
                                             value={template.id_localisation}
-                                            onChange={(e) => handleRoleChange(template.id, e.target.value)}
+                                            onChange={(e) => handleLocalisationChange(template.id, e.target.value)}
                                         >
                                             {sites.map(site => (
                                                 <option key={site.id} value={site.id}>{site.name}</option>
@@ -129,10 +149,9 @@ export default function Manage({ auth }) {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
-                                            id="subject"
                                             className="mt-1 block w-full"
                                             value={template.id_subject}
-                                            onChange={(e) => handleRoleChange(template.id, e.target.value)}
+                                            onChange={(e) => handleSubjectChange(template.id, e.target.value)}
                                         >
                                             {subjects.map(subject => (
                                                 <option key={subject.id}
@@ -144,6 +163,7 @@ export default function Manage({ auth }) {
                             ))}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
