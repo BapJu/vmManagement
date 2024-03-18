@@ -203,35 +203,27 @@ export default function Manage({auth}) {
                     <div className="overflow-x-auto mb-4">
 
                         {auth.user.id_role === 1 && (<select
-                                value={selectedUserId}
-                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
-                                className="p-2 border border-gray-300 rounded-md"
-                            >
-                                <option value="">Select user</option>
-                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
-                            </select>)}
+                            value={selectedUserId}
+                            onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                            className="p-2 border border-gray-300 rounded-md"
+                        >
+                            <option value="">Select user</option>
+                            {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                        </select>)}
 
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="historiqueCheckbox"
-                                className="hidden" // Cachez l'input par défaut
-                                checked={historiqueChecked}
-                                onChange={() => setHistoriqueChecked(!historiqueChecked)}
-                            />
-                            <label htmlFor="historiqueCheckbox"
-                                   className="inline-flex relative items-center cursor-pointer">
-        <span className="relative">
-            <span
-                className={`block w-6 h-6 rounded border ${historiqueChecked ? 'border-transparent bg-blue-600' : 'border-gray-300 bg-white'}`}>
-            </span>
-            {historiqueChecked && (
-                <svg className="absolute top-0.5 left-0.5 w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
-                </svg>)}
-        </span>
-                                <span className="ml-2 text-gray-700 select-none">Historical</span>
+                        <div className="flex items-center justify-center">
+                            <label htmlFor="historiqueToggle" className="flex items-center cursor-pointer">
+                                <div className="relative">
+                                    <input type="checkbox" id="historiqueToggle" className="sr-only"
+                                           checked={historiqueChecked}
+                                           onChange={() => setHistoriqueChecked(!historiqueChecked)}/>
+                                    <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                                    <div
+                                        className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${historiqueChecked ? 'translate-x-full bg-blue-500' : 'bg-gray-400'}`}></div>
+                                </div>
+                                <div className="ml-3 text-gray-700 font-medium">
+                                    Historical
+                                </div>
                             </label>
                         </div>
 
@@ -263,23 +255,23 @@ export default function Manage({auth}) {
                                     (selectedUserId && event.id_user === selectedUserId) || // Si un utilisateur est sélectionné et l'événement appartient à cet utilisateur
                                     (!selectedUserId && event.id_user === auth.user.id) // Si aucun utilisateur n'est sélectionné et l'événement appartient à l'utilisateur actuel
                                 ) && (<tr key={event.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                    {event.ip !== null && auth.user.id_role !== 4 && (
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                        {event.ip !== null && auth.user.id_role !== 4 && (
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {event.active ? (<FontAwesomeIcon icon={faStop}
-                                                                                  onClick={() => handleStopVM(event.id)}
-                                                                                  className="cursor-pointer mr-2"/>) : (
-                                                    <FontAwesomeIcon icon={faPlay}
-                                                                     onClick={() => handleStartVM(event.id)}
-                                                                     className="cursor-pointer mr-2"/>)}
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                                 className="cursor-pointer"/>
-                                            </td>)}
-                                    </tr>)))}
+                                            {event.active ? (<FontAwesomeIcon icon={faStop}
+                                                                              onClick={() => handleStopVM(event.id)}
+                                                                              className="cursor-pointer mr-2"/>) : (
+                                                <FontAwesomeIcon icon={faPlay}
+                                                                 onClick={() => handleStartVM(event.id)}
+                                                                 className="cursor-pointer mr-2"/>)}
+                                            <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                             className="cursor-pointer"/>
+                                        </td>)}
+                                </tr>)))}
                             </tbody>
 
 
@@ -287,10 +279,10 @@ export default function Manage({auth}) {
                     </div>
                 </div>
             </div>
-            <footer className="py-6 bg-gray-100 dark:bg-gray-800">
-                <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-                    Created by Baptiste & Alexis - Projet M1 2024
-                </div>
-            </footer>
-        </AuthenticatedLayout>);
+        <footer className="py-6 bg-gray-100 dark:bg-gray-800">
+            <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+                Created by Baptiste & Alexis - Projet M1 2024
+            </div>
+        </footer>
+    </AuthenticatedLayout>);
 }
