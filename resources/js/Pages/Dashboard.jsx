@@ -21,6 +21,7 @@ export default function Dashboard({ auth }) {
         id_user: auth.user.id,
         end_date: null,
         name_vm: null,
+        start_vm : true,
     });
 
     const nameParts = auth.user.name.split(' ');
@@ -247,7 +248,7 @@ export default function Dashboard({ auth }) {
                                             <div className="flex">
                                                 <input
                                                     type="text"
-                                                    value={`${initials}-${getSubjectDescription(data.id_subject ) }-`}
+                                                    value={`${initials}-${getSubjectDescription(data.id_subject)}-`}
                                                     className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                     disabled
                                                 />
@@ -288,6 +289,16 @@ export default function Dashboard({ auth }) {
                                                 required
                                             />
                                         </div>
+
+                                        <div className="mb-4">
+                                            <label htmlFor="start_vm" className="block text-gray-700">Démarrer les VMs
+                                                à la création:</label>
+                                            <input
+                                                id="start_vm"
+                                                type="checkbox"
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                onChange={(e) => setData('start_vm', e.target.checked)}
+                                            />
                                         <button
                                             type="submit"
                                             className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -295,6 +306,7 @@ export default function Dashboard({ auth }) {
                                         >
                                             Créer VM
                                         </button>
+                                        </div>
                                         {isLoading && <div>Loading...</div>}
                                     </form>
                                 )
