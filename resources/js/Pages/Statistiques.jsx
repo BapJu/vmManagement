@@ -192,13 +192,17 @@ function VmStatsGraph({ auth }) {
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
 function processEvolutionData(eventsData) {
+    // Obtenir la date actuelle
+    const currentDate = new Date();
+
     // Trier les événements par date de création
     const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-    // Compter le nombre de VMs actives pour chaque jour
+    // Compter le nombre de VMs actives pour chaque jour jusqu'à la date actuelle
     let countsByDate = {};
     sortedEvents.forEach(event => {
-        if (event.active) {
+        // Vérifier si l'événement est actif et si sa date de création est avant ou égale à la date actuelle
+        if (event.active && new Date(event.created_at) <= currentDate) {
             // Format de la date à 'yyyy-mm-dd'
             const date = event.created_at.split('T')[0];
             if (!countsByDate[date]) {
@@ -222,6 +226,7 @@ function processEvolutionData(eventsData) {
         }],
     };
 }
+
 
 
 // Supposons que cette fonction traite les données pour la répartition par type
