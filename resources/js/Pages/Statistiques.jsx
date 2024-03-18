@@ -46,21 +46,27 @@ function VmStatsGraph({ auth }) {
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json()),
-            fetch(`/api/typeOfVms`, {
+            fetch(`/api/typeofvm`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(res => res.json()),
+            fetch(`/api/users`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json())
         ])
-            .then(([eventsData, typesOfVMData]) => {
+            .then(([eventsData, typesOfVMData, usersData]) => {
                 const evolutionChartData = processEvolutionData(eventsData);
                 const distributionChartData = processDistributionData(eventsData, typesOfVMData);
-                const distributionChartDataUser = processDistributionDataUser(eventsData);
+                const distributionChartDataUser = processDistributionDataUser(eventsData, usersData);
 
                 setEvolutionData(evolutionChartData);
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser)
+                setDistributionUserData(distributionChartDataUser);
                 setLoading(false);
             })
             .catch(error => {
@@ -68,6 +74,7 @@ function VmStatsGraph({ auth }) {
                 setLoading(false);
             });
     }, [auth.user.id]);
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -259,31 +266,31 @@ function processDistributionData(eventsData, typesOfVMData) {
 }
 
 
-function processDistributionDataUser(eventsData) {
+function processDistributionDataUser(eventsData, namesById) {
     let distributionByUser = {};
-    // Compter le nombre de VMs actives par type
+    // Compter le nombre de VMs actives par utilisateur
     eventsData.forEach(event => {
         if (event.active) {
-            const vmUser = event.id_user;
-            if (!distributionByUser[vmUser]) {
-                distributionByUser[vmUser] = 0;
+            const userId = event.id_user;
+            if (!distributionByUser[userId]) {
+                distributionByUser[userId] = 0;
             }
-            distributionByUser[vmUser] += 1;
+            distributionByUser[userId] += 1;
         }
     });
 
     // Préparer les données pour le graphique
-    const labels = Object.keys(distributionByUser);
+    const labels = Object.keys(distributionByUser).map(userId => namesById[userId]);
     const data = Object.values(distributionByUser);
 
-    // Générer des couleurs aléatoires pour chaque type de VM
+    // Générer des couleurs aléatoires pour chaque utilisateur
     const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
     const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
     return {
-        labels: labels, // Les types de VM
+        labels: labels, // Les noms d'utilisateur
         datasets: [{
-            label: 'VMs by Type',
+            label: 'VMs by User',
             data: data, // Les données calculées
             backgroundColor: backgroundColors,
             borderColor: borderColors,
@@ -291,5 +298,4 @@ function processDistributionDataUser(eventsData) {
         }],
     };
 }
-
 export default VmStatsGraph;
