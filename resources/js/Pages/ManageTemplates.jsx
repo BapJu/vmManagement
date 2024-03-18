@@ -120,13 +120,6 @@ export default function Manage({auth}) {
             .catch(error => console.error('Error:', error));
     };
 
-    const confirmDeleteTemplate = (templateId) => {
-        const confirmation = window.confirm("Are you sure you want to delete this template?");
-        if (confirmation) {
-            handleDelete(templateId);
-        }
-    };
-
     return (
         <AuthenticatedLayout user={auth.user}
                              header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les
@@ -227,7 +220,7 @@ export default function Manage({auth}) {
                                         </select>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <button onClick={() => confirmDeleteTemplate(template.id)}
+                                        <button onClick={() => handleDelete(template.id)}
                                                 className="text-red-600 hover:text-red-900">Delete
                                         </button>
                                     </td>
