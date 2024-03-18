@@ -40,18 +40,21 @@ function VmStatsGraph({ auth }) {
         const token = localStorage.getItem('bearerToken');
 
         Promise.all([
+            // Récupération des événements
             fetch(`api/events/`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json()),
-            fetch(`/api/typeofvm`, {
+            // Récupération des types de VM
+            fetch(`/api/typeOfVms`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json()),
+            // Récupération des utilisateurs
             fetch(`/api/users`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,11 +63,24 @@ function VmStatsGraph({ auth }) {
             }).then(res => res.json())
         ])
             .then(([eventsData, typesOfVMData, usersData]) => {
-                const evolutionChartData = processEvolutionData(eventsData);
-                const distributionChartData = processDistributionData(eventsData, typesOfVMData);
-                const distributionChartDataUser = processDistributionDataUser(eventsData, usersData);
+                // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
+                const descriptionsById = {};
+                typesOfVMData.forEach(typeOfVM => {
+                    descriptionsById[typeOfVM.id] = typeOfVM.description;
+                });
 
-                setEvolutionData(evolutionChartData);
+                // Créer un dictionnaire pour stocker les noms par id_user
+                const namesById = {};
+                usersData.forEach(user => {
+                    namesById[user.id] = user.name;
+                });
+
+                // Passer les dictionnaires à processDistributionData et processDistributionDataUser
+                const distributionChartData = processDistributionData(eventsData, descriptionsById);
+                const distributionChartDataUser = processDistributionDataUser(eventsData, namesById);
+
+                // Mettre à jour les états avec les données des graphiques
+                setEvolutionData(processEvolutionData(eventsData));
                 setDistributionData(distributionChartData);
                 setDistributionUserData(distributionChartDataUser);
                 setLoading(false);
@@ -74,6 +90,7 @@ function VmStatsGraph({ auth }) {
                 setLoading(false);
             });
     }, [auth.user.id]);
+
 
 
     if (loading) {
@@ -271,16 +288,16 @@ function processDistributionDataUser(eventsData, namesById) {
     // Compter le nombre de VMs actives par utilisateur
     eventsData.forEach(event => {
         if (event.active) {
-            const userId = event.id_user;
-            if (!distributionByUser[userId]) {
-                distributionByUser[userId] = 0;
+            const vmUser = event.id_user;
+            if (!distributionByUser[vmUser]) {
+                distributionByUser[vmUser] = 0;
             }
-            distributionByUser[userId] += 1;
+            distributionByUser[vmUser] += 1;
         }
     });
 
     // Préparer les données pour le graphique
-    const labels = Object.keys(distributionByUser).map(userId => namesById[userId]);
+    const labels = Object.keys(distributionByUser).map(id => namesById[id]);
     const data = Object.values(distributionByUser);
 
     // Générer des couleurs aléatoires pour chaque utilisateur
