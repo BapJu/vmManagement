@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
 
         //return redirect(RouteServiceProvider::HOME)->with('api_token', $token);
         //return redirect(RouteServiceProvider::HOME);
-        return view('home', ['apiToken' => $token]);
+        return view('dashboard', ['apiToken' => $token]);
         //return redirect(RouteServiceProvider::HOME);
     }
 }
