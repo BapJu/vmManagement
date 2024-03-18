@@ -271,15 +271,16 @@ function processDistributionDataUser(eventsData, namesById) {
     eventsData.forEach(event => {
         if (event.active) {
             const vmUser = event.id_user;
-            if (!distributionByUser[vmUser]) {
-                distributionByUser[vmUser] = 0;
+            const userName = namesById[vmUser]; // Récupérer le nom d'utilisateur associé à l'ID d'utilisateur
+            if (!distributionByUser[userName]) {
+                distributionByUser[userName] = 0;
             }
-            distributionByUser[vmUser] += 1;
+            distributionByUser[userName] += 1;
         }
     });
 
     // Préparer les données pour le graphique
-    const labels = Object.keys(distributionByUser).map(id => namesById[id]);
+    const labels = Object.keys(distributionByUser);
     const data = Object.values(distributionByUser);
 
     // Générer des couleurs aléatoires pour chaque utilisateur
