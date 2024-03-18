@@ -223,7 +223,7 @@ export default function Manage({auth}) {
                                         className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-200 transform ${historiqueChecked ? 'translate-x-6' : 'translate-x-0'}`}></div>
                                 </div>
                                 <div className="ml-3 text-gray-700 font-medium">
-                                    Historical
+                                    Show inactive VMs
                                 </div>
                             </label>
                         </div>
