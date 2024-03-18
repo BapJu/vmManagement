@@ -192,29 +192,26 @@ function VmStatsGraph({ auth }) {
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
 function processEvolutionData(eventsData) {
-    // Obtenir la date actuelle
-    const currentDate = new Date();
-
     // Trier les événements par date de création
     const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-    // Compter le nombre de VMs actives pour chaque jour jusqu'à la date actuelle
-    let countsByDate = {};
-    sortedEvents.forEach(event => {
-        // Vérifier si l'événement est actif et si sa date de création est avant ou égale à la date actuelle
-        if (event.active && new Date(event.created_at) <= currentDate) {
-            // Format de la date à 'yyyy-mm-dd'
-            const date = event.created_at.split('T')[0];
-            if (!countsByDate[date]) {
-                countsByDate[date] = 0;
-            }
-            countsByDate[date] += 1;
-        }
-    });
+    // Créer un objet pour stocker le nombre de créations par date
+    const countsByDate = {};
+
+    // Obtenir la première date de création de VM
+    const firstDate = new Date(sortedEvents[0].created_at.split('T')[0]);
+    const today = new Date(); // Date actuelle
+
+    // Parcourir toutes les dates de la première date jusqu'à aujourd'hui
+    for (let date = new Date(firstDate); date <= today; date.setDate(date.getDate() + 1)) {
+        const formattedDate = date.toISOString().split('T')[0]; // Format 'yyyy-mm-dd'
+        const count = sortedEvents.filter(event => event.active && event.created_at.split('T')[0] === formattedDate).length;
+        countsByDate[formattedDate] = count;
+    }
 
     // Préparer les données pour le graphique
     const labels = Object.keys(countsByDate);
-    const data = Object.values(countsByDate);
+    const data = labels.map(date => countsByDate[date]);
 
     return {
         labels: labels, // Les dates
