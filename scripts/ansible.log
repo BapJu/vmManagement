@@ -2028,3 +2028,45 @@ The offending line appears to be:
 2024-02-21 09:39:49,466 p=38974 u=www-data |  ...ignoring
 2024-02-21 09:39:49,473 p=38974 u=www-data |  PLAY RECAP **********************************************************************************
 2024-02-21 09:39:49,473 p=38974 u=www-data |  10.10.48.9                 : ok=4    changed=1    unreachable=0    failed=0   
+2024-03-08 10:47:31,977 p=63732 u=www-data |   [WARNING]: Unable to parse /var/www/html/vmManagement/scripts/hosts as an inventory source
+
+2024-03-08 10:47:31,978 p=63732 u=www-data |   [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2024-03-08 10:47:31,980 p=63732 u=www-data |   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2024-03-08 10:47:32,369 p=63732 u=www-data |  PLAY [Stop LXC containers in Proxmox] *******************************************************************************************************************************************************
+2024-03-08 10:47:32,369 p=63732 u=www-data |  skipping: no hosts matched
+2024-03-08 10:47:32,369 p=63732 u=www-data |  PLAY RECAP **********************************************************************************************************************************************************************************
+2024-03-08 12:43:09,864 p=69800 u=www-data |   [WARNING]: Unable to parse /var/www/html/vmManagement/scripts/hosts as an
+inventory source
+
+2024-03-08 12:43:09,866 p=69800 u=www-data |   [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2024-03-08 12:43:09,869 p=69800 u=www-data |   [WARNING]: provided hosts list is empty, only localhost is available. Note
+that the implicit localhost does not match 'all'
+
+2024-03-08 12:43:10,247 p=69800 u=www-data |  PLAY [Clone and configure LXC containers in Proxmox] ***************************
+2024-03-08 12:43:10,249 p=69800 u=www-data |  skipping: no hosts matched
+2024-03-08 12:43:10,250 p=69800 u=www-data |  PLAY RECAP *********************************************************************
+2024-03-08 12:48:28,928 p=70077 u=www-data |  ERROR! the playbook: scripts/clone_configure_lxc.yml could not be found
+2024-03-08 13:48:19,234 p=72823 u=root |   [WARNING]: Unable to parse /var/www/html/vmManagement/scripts/hosts as an inventory source
+
+2024-03-08 13:48:19,236 p=72823 u=root |   [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2024-03-08 13:48:19,239 p=72823 u=root |   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+2024-03-08 13:48:19,621 p=72823 u=root |  PLAY [Start LXC containers in Proxmox] *********************************************************************
+2024-03-08 13:48:19,623 p=72823 u=root |  skipping: no hosts matched
+2024-03-08 13:48:19,625 p=72823 u=root |  PLAY RECAP *************************************************************************************************
+2024-03-08 15:30:35,891 p=81530 u=admin |   [WARNING]: Unable to parse /var/www/html/vmManagement/scripts/hosts as an inventory
+source
+
+2024-03-08 15:30:35,893 p=81530 u=admin |   [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2024-03-08 15:30:35,896 p=81530 u=admin |   [WARNING]: provided hosts list is empty, only localhost is available. Note that the
+implicit localhost does not match 'all'
+
+2024-03-08 15:30:36,507 p=81530 u=admin |  PLAY [Start LXC containers in Proxmox] ************************************************
+2024-03-08 15:30:36,509 p=81530 u=admin |  skipping: no hosts matched
+2024-03-08 15:30:36,511 p=81530 u=admin |  PLAY RECAP ****************************************************************************

@@ -1,4 +1,0 @@
-# start_containers_config.yml
-start_containers:
-  - start_vmid: 200
-    end_vmid: 202

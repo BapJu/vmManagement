@@ -1,15 +1,25 @@
 clones:
-  - vmid: 200
-    template_vmid: 104
-    static_ip: "10.10.48.244"
-    gateway: "10.10.48.1"
-    cloneName: "container1"
-    storage: "local-lvm"
-    resource_pool: "Enseignement"
-  - vmid: 202
-    template_vmid: 104
-    static_ip: "10.10.48.245"
-    gateway: "10.10.48.1"
-    cloneName: "container2"
-    storage: "local-lvm"
-    resource_pool: "Serveurs"
+  - template_vmid: 104
+    vmid: 101048204
+    static_ip: 10.10.48.204
+    gateway: 10.10.48.1
+    cloneName: AO-linux-CYB-101048204
+    storage: local-lvm
+    resource_pool: Serveurs
+
+  - template_vmid: 104
+    vmid: 101048207
+    static_ip: 10.10.48.207
+    gateway: 10.10.48.1
+    cloneName: AO-linux-CYB-101048207
+    storage: local-lvm
+    resource_pool: Serveurs
+
+  - template_vmid: 104
+    vmid: 101048211
+    static_ip: 10.10.48.211
+    gateway: 10.10.48.1
+    cloneName: AO-linux-CYB-101048211
+    storage: local-lvm
+    resource_pool: Serveurs
+
