@@ -108,7 +108,7 @@ class EventController extends Controller
             $event->vmid = str_replace('.', '', $ip->available_ip);
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
-            $event->active = true;
+            $event->active = $request->input('start_vm');
             $event->namevm = $request->input('prefix_name_vm') . $request->input('name_vm') . "-" . str_replace('.', '', $ip->available_ip);
             $event->save();
 
