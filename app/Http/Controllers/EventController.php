@@ -129,7 +129,7 @@ class EventController extends Controller
 
         $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
 
-        if ($request->input('start_vm') == false ) {
+        if ($request->input('start_vm') === false ) {
             $command = $command . " --extra-vars 'start_containers=no'";
         }
         exec($command);
