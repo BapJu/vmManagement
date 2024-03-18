@@ -203,17 +203,7 @@ export default function Manage({auth}) {
                     <div className="overflow-x-auto mb-4">
 
 
-
                         <div className="flex py-2 m-2">
-                            {auth.user.id_role === 1 && (<select
-                                value={selectedUserId}
-                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
-                                className="p-2 border border-gray-300 rounded-md"
-                            >
-                                <option value="">Select user</option>
-                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
-                            </select>)}
-
                             <label htmlFor="historiqueToggle" className="flex items-center cursor-pointer">
                                 <div className="relative">
                                     <input type="checkbox" id="historiqueToggle" className="sr-only"
@@ -228,6 +218,15 @@ export default function Manage({auth}) {
                                     Show history
                                 </div>
                             </label>
+
+                            {auth.user.id_role === 1 && (<select
+                                value={selectedUserId}
+                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
+                            >
+                                <option value="">Show all user vm's</option>
+                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                            </select>)}
                         </div>
 
 
