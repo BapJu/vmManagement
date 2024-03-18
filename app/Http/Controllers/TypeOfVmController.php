@@ -13,6 +13,16 @@ class TypeOfVmController extends Controller
         return response()->json($TypeOfVms);
     }
 
+    public function getDescription($id)
+    {
+        $typeOfVM = TypeOfVM::find($id);
+        if ($typeOfVM) {
+            return response()->json(['description' => $typeOfVM->description]);
+        } else {
+            return response()->json(['error' => 'Type of VM not found.'], 404);
+        }
+    }
+
     // Méthode pour créer un nouveau rôle
     public function store(Request $request)
     {
