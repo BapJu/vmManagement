@@ -14,7 +14,7 @@ export default function Manage({ auth }) {
     useEffect(() => {
         fetchData('/api/subjects', setSubjects);
         fetchData('/api/localisations', setSites);
-        fetchData('/api/typeofvms', setTemplate);
+        fetchData('/api/typeOfVms', setTemplate);
     }, [auth.token]);
 
     function fetchData(url, setState) {
