@@ -244,6 +244,13 @@ export default function Manage({auth}) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
+                                {(auth.user.id_role === 1) && (
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    User
+                                </th>
+                                )}
+
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status
@@ -251,6 +258,10 @@ export default function Manage({auth}) {
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Last update
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Delete expected
                                 </th>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -268,6 +279,9 @@ export default function Manage({auth}) {
                                     <tr key={event.id}
                                         className={event.ip !== null ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
+                                        {(auth.user.id_role === 1) && (
+                                            <td className="px-6 py-4 whitespace-nowrap">{event.user.name}</td>
+                                        )}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
@@ -283,10 +297,13 @@ export default function Manage({auth}) {
                                                                      onClick={() => handleStartVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 )}
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => confirmDeleteVM(event.id)} className="cursor-pointer"/>
+                                                <FontAwesomeIcon icon={faTrash}
+                                                                 onClick={() => confirmDeleteVM(event.id)}
+                                                                 className="cursor-pointer"/>
 
                                             </td>
                                         )}
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.scheduledexpiry}</td>
                                     </tr>
                                 )
                             ))}
