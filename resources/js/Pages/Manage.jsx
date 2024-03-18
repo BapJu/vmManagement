@@ -1,10 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faStop, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {useEffect, useState} from 'react';
+import {Button} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPlay, faStop, faTrash} from '@fortawesome/free-solid-svg-icons';
 
-export default function Manage({ auth }) {
+export default function Manage({auth}) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
     const [subjects, setSubjects] = useState([]);
@@ -15,8 +15,7 @@ export default function Manage({ auth }) {
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/events/current_user', {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -32,8 +31,7 @@ export default function Manage({ auth }) {
         const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events';
 
         fetch(url, {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -45,12 +43,10 @@ export default function Manage({ auth }) {
     }, [auth.token, selectedUserId]);
 
 
-
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/typeOfVms', {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -64,8 +60,7 @@ export default function Manage({ auth }) {
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/subjects', {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -80,8 +75,7 @@ export default function Manage({ auth }) {
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/users', {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -96,8 +90,7 @@ export default function Manage({ auth }) {
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/events', {
-            method: 'GET',
-            headers: {
+            method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
         })
@@ -106,28 +99,23 @@ export default function Manage({ auth }) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching all events:', error));
-    },[auth.token]);
+    }, [auth.token]);
 
 
     const handleStartVM = (vmId) => {
-        const action = { action: "start" };
+        const action = {action: "start"};
         const token = localStorage.getItem('bearerToken');
 
         // Mettez à jour l'état local immédiatement
         setEvents(prevEvents => {
-            return prevEvents.map(event =>
-                event.id === vmId ? { ...event, active: true } : event
-            );
+            return prevEvents.map(event => event.id === vmId ? {...event, active: true} : event);
         });
 
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(action),
+            method: 'PUT', headers: {
+                'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json',
+            }, body: JSON.stringify(action),
         })
             .then(response => response.json())
             .then(data => {
@@ -141,24 +129,19 @@ export default function Manage({ auth }) {
     };
 
     const handleStopVM = (vmId) => {
-        const action = { action: "stop" };
+        const action = {action: "stop"};
         const token = localStorage.getItem('bearerToken');
 
         // Mettez à jour l'état local immédiatement
         setEvents(prevEvents => {
-            return prevEvents.map(event =>
-                event.id === vmId ? { ...event, active: false } : event
-            );
+            return prevEvents.map(event => event.id === vmId ? {...event, active: false} : event);
         });
 
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(action),
+            method: 'PUT', headers: {
+                'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json',
+            }, body: JSON.stringify(action),
         })
             .then(response => response.json())
             .then(data => {
@@ -172,26 +155,20 @@ export default function Manage({ auth }) {
     };
 
 
-
     const handleDeleteVM = (vmId) => {
-        const action = { action: "destroy" };
+        const action = {action: "destroy"};
         const token = localStorage.getItem('bearerToken');
 
         // Mettez à jour l'état local immédiatement
         setEvents(prevEvents => {
-            return prevEvents.map(event =>
-                event.id === vmId ? { ...event, active: false, ip: null } : event
-            );
+            return prevEvents.map(event => event.id === vmId ? {...event, active: false, ip: null} : event);
         });
 
         // Effectuez une requête pour arrêter la VM avec l'ID vmId
         fetch(`/api/event/${vmId}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(action),
+            method: 'PUT', headers: {
+                'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json',
+            }, body: JSON.stringify(action),
         })
             .then(response => response.json())
             .then(data => {
@@ -217,8 +194,7 @@ export default function Manage({ auth }) {
         setSelectedUserId(selectedUserId);
     };
 
-    return (
-        <AuthenticatedLayout
+    return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
         >
@@ -226,27 +202,39 @@ export default function Manage({ auth }) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
 
-                        {auth.user.id_role === 1 && (
-                            <select
+                        {auth.user.id_role === 1 && (<select
                                 value={selectedUserId}
                                 onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md"
                             >
                                 <option value="">Select user</option>
-                                {users.map(user => (
-                                    <option key={user.id} value={user.id}>{user.name}</option>
-                                ))}
-                            </select>
-                        )}
+                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                            </select>)}
 
-                        <input
-                            type="checkbox"
-                            id="historiqueCheckbox"
-                            className="mr-2"
-                            checked={historiqueChecked}
-                            onChange={() => setHistoriqueChecked(!historiqueChecked)}
-                        />
-                        <label htmlFor="historiqueCheckbox">Historical</label>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="historiqueCheckbox"
+                                className="hidden" // Cachez l'input par défaut
+                                checked={historiqueChecked}
+                                onChange={() => setHistoriqueChecked(!historiqueChecked)}
+                            />
+                            <label htmlFor="historiqueCheckbox"
+                                   className="inline-flex relative items-center cursor-pointer">
+        <span className="relative">
+            <span
+                className={`block w-6 h-6 rounded border ${historiqueChecked ? 'border-transparent bg-blue-600' : 'border-gray-300 bg-white'}`}>
+            </span>
+            {historiqueChecked && (
+                <svg className="absolute top-0.5 left-0.5 w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                </svg>)}
+        </span>
+                                <span className="ml-2 text-gray-700 select-none">Historical</span>
+                            </label>
+                        </div>
+
 
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
@@ -270,37 +258,28 @@ export default function Manage({ auth }) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {events.map(event => (
-                                (historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
-                                (
-                                    (auth.user.id_role === 1) || // Si l'utilisateur est un administrateur
+                            {events.map(event => ((historiqueChecked || event.ip !== null) && // Afficher si l'historique est coché ou s'il y a une adresse IP
+                                ((auth.user.id_role === 1) || // Si l'utilisateur est un administrateur
                                     (selectedUserId && event.id_user === selectedUserId) || // Si un utilisateur est sélectionné et l'événement appartient à cet utilisateur
                                     (!selectedUserId && event.id_user === auth.user.id) // Si aucun utilisateur n'est sélectionné et l'événement appartient à l'utilisateur actuel
-                                ) && (
-                                    <tr key={event.id}>
+                                ) && (<tr key={event.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                        {event.ip !== null && auth.user.id_role !== 4 &&  (
+                                        {event.ip !== null && auth.user.id_role !== 4 && (
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                {event.active ? (
-                                                    <FontAwesomeIcon icon={faStop}
-                                                                     onClick={() => handleStopVM(event.id)}
-                                                                     className="cursor-pointer mr-2"/>
-                                                ) : (
+                                                {event.active ? (<FontAwesomeIcon icon={faStop}
+                                                                                  onClick={() => handleStopVM(event.id)}
+                                                                                  className="cursor-pointer mr-2"/>) : (
                                                     <FontAwesomeIcon icon={faPlay}
                                                                      onClick={() => handleStartVM(event.id)}
-                                                                     className="cursor-pointer mr-2"/>
-                                                )}
+                                                                     className="cursor-pointer mr-2"/>)}
                                                 <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
                                                                  className="cursor-pointer"/>
-                                            </td>
-                                        )}
-                                    </tr>
-                                )
-                            ))}
+                                            </td>)}
+                                    </tr>)))}
                             </tbody>
 
 
@@ -313,6 +292,5 @@ export default function Manage({ auth }) {
                     Created by Baptiste & Alexis - Projet M1 2024
                 </div>
             </footer>
-        </AuthenticatedLayout>
-    );
+        </AuthenticatedLayout>);
 }
