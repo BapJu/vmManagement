@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
 import _ from 'lodash';
 
 export default function Manage({ auth }) {
@@ -8,6 +7,7 @@ export default function Manage({ auth }) {
     const [sites, setSites] = useState([]);
     const [templates, setTemplates] = useState([]);
     const [search, setSearch] = useState("");
+    const [newTemplate, setNewTemplate] = useState({ template_id: '', description: '', id_localisation: '', id_subject: '' });
 
     useEffect(() => {
         fetchData('/api/subjects', setSubjects);
@@ -31,7 +31,6 @@ export default function Manage({ auth }) {
     const debouncedUpdate = _.debounce((templateId, field, value, token) => {
         const url = `/api/typeOfVm/${templateId}`;
         const data = { ...templates.find(t => t.id === templateId), [field]: value };
-
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -48,22 +47,48 @@ export default function Manage({ auth }) {
             })
             .then(() => {
                 console.log('Update successful');
-                // Vous pouvez également déclencher ici une mise à jour de l'état pour refléter le changement ou rafraîchir les données
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-    }, 500); // Attend 500ms après le dernier appel pour exécuter la mise à jour
+    }, 500);
 
     const handleUpdate = (templateId, field, value) => {
         const updatedTemplates = templates.map(template =>
             template.id === templateId ? { ...template, [field]: value } : template
         );
         setTemplates(updatedTemplates);
-
         const token = localStorage.getItem('bearerToken');
-        // Appelez la fonction debounced pour la mise à jour
         debouncedUpdate(templateId, field, value, token);
+    };
+
+    const handleNewTemplateChange = (field, value) => {
+        setNewTemplate(prev => ({ ...prev, [field]: value }));
+    };
+
+    const addNewTemplate = () => {
+        const token = localStorage.getItem('bearerToken');
+        fetch('/api/typeOfVm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(newTemplate),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setTemplates(prev => [...prev, data]);
+                setNewTemplate({ template_id: '', description: '', id_localisation: '', id_subject: '' });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     const filteredTemplates = templates.filter(template =>
@@ -84,6 +109,43 @@ export default function Manage({ auth }) {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
+                </div>
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Template ID"
+                        value={newTemplate.template_id}
+                        onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
+                        className="form-input mt-1 block"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Description"
+                        value={newTemplate.description}
+                        onChange={(e) => handleNewTemplateChange('description', e.target.value)}
+                        className="form-input mt-1 block"
+                    />
+                    <select
+                        onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
+                        value={newTemplate.id_localisation}
+                        className="mt-1 block w-full"
+                    >
+                        {sites.map(site => (
+                            <option key={site.id} value={site.id}>{site.name}</option>
+                        ))}
+                    </select>
+                    <select
+                        onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
+                        value={newTemplate.id_subject}
+                        className="mt-1 block w-full"
+                    >
+                        {subjects.map(subject => (
+                            <option key={subject.id} value={subject.id}>{subject.description}</option>
+                        ))}
+                    </select>
+                    <button onClick={addNewTemplate} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Add Template
+                    </button>
                 </div>
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
