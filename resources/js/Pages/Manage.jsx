@@ -297,7 +297,7 @@ export default function Manage({auth}) {
                                             {new Date(event.scheduledexpiry) < new Date() && event.active && event.scheduledexpiry && (
                                                 <>
                                                     <FontAwesomeIcon icon={faClock} className="ml-2 text-red-500"/>
-                                                    <span>{event.scheduledexpiry}</span>
+
                                                 </>
                                             )}
                                         </td>
