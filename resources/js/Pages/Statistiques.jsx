@@ -59,14 +59,14 @@ function VmStatsGraph({ auth }) {
                 },
             }).then(res => res.json())
         ])
-            .then(([eventsData, typesOfVMData, typesOfUsers]) => {
+            .then(([eventsData, typesOfVMData, usersData]) => {
                 const evolutionChartData = processEvolutionData(eventsData);
                 const distributionChartData = processDistributionData(eventsData, typesOfVMData);
-                const distributionChartDataUser = processDistributionDataUser(eventsData, typesOfUsers);
+                const distributionChartDataUser = processDistributionDataUser(eventsData, usersData);
 
                 setEvolutionData(evolutionChartData);
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser)
+                setDistributionUserData(distributionChartDataUser);
                 setLoading(false);
             })
             .catch(error => {
