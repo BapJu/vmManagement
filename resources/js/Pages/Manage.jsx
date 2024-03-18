@@ -194,6 +194,13 @@ export default function Manage({auth}) {
         setSelectedUserId(selectedUserId);
     };
 
+    const confirmDeleteVM = (vmId) => {
+        const confirmation = window.confirm("Are you sure you want to delete this virtual machine?");
+        if (confirmation) {
+            handleDeleteVM(vmId);
+        }
+    };
+
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
@@ -276,8 +283,8 @@ export default function Manage({auth}) {
                                                                      onClick={() => handleStartVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 )}
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                                 className="cursor-pointer"/>
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => confirmDeleteVM(event.id)} className="cursor-pointer"/>
+
                                             </td>
                                         )}
                                     </tr>
