@@ -201,6 +201,11 @@ export default function Manage({auth}) {
         }
     };
 
+    function getusername(id) {
+        const user = users.find(user => user.id === id);
+        return user ? user.name : '';
+    }
+
     return (<AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage VMs</h2>}
@@ -280,7 +285,7 @@ export default function Manage({auth}) {
                                         className={event.ip !== null ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         {(auth.user.id_role === 1) && (
-                                            <td className="px-6 py-4 whitespace-nowrap">{event.user.name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{getusername(event.id_user)}</td>
                                         )}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
