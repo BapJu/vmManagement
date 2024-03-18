@@ -211,7 +211,7 @@ export default function Manage({auth}) {
                             {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
                         </select>)}
 
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center py-2 m-2">
                             <label htmlFor="historiqueToggle" className="flex items-center cursor-pointer">
                                 <div className="relative">
                                     <input type="checkbox" id="historiqueToggle" className="sr-only"
