@@ -38,16 +38,24 @@ function VmStatsGraph({ auth }) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch(`api/events/`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(res => res.json())
-            .then(eventsData => {
+
+        Promise.all([
+            fetch(`api/events/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(res => res.json()),
+            fetch(`/api/typeOfVms`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(res => res.json())
+        ])
+            .then(([eventsData, typesOfVMData]) => {
                 const evolutionChartData = processEvolutionData(eventsData);
-                const distributionChartData = processDistributionData(eventsData);
+                const distributionChartData = processDistributionData(eventsData, typesOfVMData);
                 const distributionChartDataUser = processDistributionDataUser(eventsData);
 
                 setEvolutionData(evolutionChartData);
@@ -58,27 +66,6 @@ function VmStatsGraph({ auth }) {
             .catch(error => {
                 console.error('Error:', error);
                 setLoading(false);
-            });
-
-        fetch(`/api/typeofvm`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(res => res.json())
-            .then(typesOfVMData => {
-                // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
-                const descriptionsById = {};
-                typesOfVMData.forEach(typeOfVM => {
-                    descriptionsById[typeOfVM.id] = typeOfVM.description;
-                });
-
-                // Faire quelque chose avec les descriptions récupérées
-                console.log(descriptionsById);
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
     }, [auth.user.id]);
 
@@ -232,12 +219,12 @@ function processEvolutionData(eventsData) {
 
 
 // Supposons que cette fonction traite les données pour la répartition par type
-function processDistributionData(eventsData, descriptionsById) {
+function processDistributionData(eventsData, typesOfVMData) {
     let distributionByType = {};
     // Compter le nombre de VMs actives par type
     eventsData.forEach(event => {
         if (event.active) {
-            const vmType = descriptionsById[event.id_typeofvm]; // Utilisez la description au lieu de l'id
+            const vmType = event.id_typeofvm;
             if (!distributionByType[vmType]) {
                 distributionByType[vmType] = 0;
             }
@@ -249,12 +236,18 @@ function processDistributionData(eventsData, descriptionsById) {
     const labels = Object.keys(distributionByType);
     const data = Object.values(distributionByType);
 
+    // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
+    const descriptionsById = {};
+    typesOfVMData.forEach(typeOfVM => {
+        descriptionsById[typeOfVM.id] = typeOfVM.description;
+    });
+
     // Générer des couleurs aléatoires pour chaque type de VM
     const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
     const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
     return {
-        labels: labels, // Les descriptions de VM
+        labels: labels.map(id => descriptionsById[id]), // Les descriptions des types de VM
         datasets: [{
             label: 'VMs by Type',
             data: data, // Les données calculées
@@ -264,7 +257,6 @@ function processDistributionData(eventsData, descriptionsById) {
         }],
     };
 }
-
 
 
 function processDistributionDataUser(eventsData) {
