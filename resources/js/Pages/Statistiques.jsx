@@ -216,7 +216,7 @@ function processEvolutionData(eventsData) {
     return {
         labels: labels, // Les dates
         datasets: [{
-            label: 'Online VMs',
+            label: 'VMs created',
             data: data, // Les données calculées
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
@@ -269,22 +269,21 @@ function processDistributionData(eventsData, typesOfVMData) {
 
 function processDistributionDataUser(eventsData, usersData) {
     let distributionByUser = {};
+
     // Créer un dictionnaire pour stocker les noms par id_user
     const namesById = {};
     usersData.forEach(user => {
         namesById[user.id] = user.name;
     });
 
-    // Compter le nombre de VMs actives par utilisateur
+    // Compter le nombre total de VMs par utilisateur
     eventsData.forEach(event => {
-        if (event.active) {
-            const vmUser = event.id_user;
-            const userName = namesById[vmUser]; // Sélectionner le nom d'utilisateur associé à l'ID d'utilisateur
-            if (!distributionByUser[userName]) {
-                distributionByUser[userName] = 0;
-            }
-            distributionByUser[userName] += 1;
+        const vmUser = event.id_user;
+        const userName = namesById[vmUser]; // Sélectionner le nom d'utilisateur associé à l'ID d'utilisateur
+        if (!distributionByUser[userName]) {
+            distributionByUser[userName] = 0;
         }
+        distributionByUser[userName] += 1;
     });
 
     // Préparer les données pour le graphique
@@ -306,5 +305,6 @@ function processDistributionDataUser(eventsData, usersData) {
         }],
     };
 }
+
 
 export default VmStatsGraph;
