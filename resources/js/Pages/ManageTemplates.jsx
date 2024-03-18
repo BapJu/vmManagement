@@ -1,13 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import _ from 'lodash';
 
-export default function Manage({ auth }) {
+export default function Manage({auth}) {
     const [subjects, setSubjects] = useState([]);
     const [sites, setSites] = useState([]);
     const [templates, setTemplates] = useState([]);
     const [search, setSearch] = useState("");
-    const [newTemplate, setNewTemplate] = useState({ template_id: '', description: '', id_localisation: '', id_subject: '' });
+    const [showAddTemplate, setShowAddTemplate] = useState(false);
+    const [newTemplate, setNewTemplate] = useState({
+        template_id: '',
+        description: '',
+        id_localisation: '',
+        id_subject: ''
+    });
 
     useEffect(() => {
         fetchData('/api/subjects', setSubjects);
@@ -30,7 +36,7 @@ export default function Manage({ auth }) {
 
     const debouncedUpdate = _.debounce((templateId, field, value, token) => {
         const url = `/api/typeOfVm/${templateId}`;
-        const data = { ...templates.find(t => t.id === templateId), [field]: value };
+        const data = {...templates.find(t => t.id === templateId), [field]: value};
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -55,7 +61,7 @@ export default function Manage({ auth }) {
 
     const handleUpdate = (templateId, field, value) => {
         const updatedTemplates = templates.map(template =>
-            template.id === templateId ? { ...template, [field]: value } : template
+            template.id === templateId ? {...template, [field]: value} : template
         );
         setTemplates(updatedTemplates);
         const token = localStorage.getItem('bearerToken');
@@ -63,7 +69,7 @@ export default function Manage({ auth }) {
     };
 
     const handleNewTemplateChange = (field, value) => {
-        setNewTemplate(prev => ({ ...prev, [field]: value }));
+        setNewTemplate(prev => ({...prev, [field]: value}));
     };
 
     const addNewTemplate = () => {
@@ -84,7 +90,8 @@ export default function Manage({ auth }) {
             })
             .then(data => {
                 setTemplates(prev => [...prev, data]);
-                setNewTemplate({ template_id: '', description: '', id_localisation: '', id_subject: '' });
+                setNewTemplate({template_id: '', description: '', id_localisation: '', id_subject: ''});
+                setShowAddTemplate(false);
                 window.location.reload();
             })
             .catch(error => {
@@ -114,75 +121,60 @@ export default function Manage({ auth }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les templates</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}
+                             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les
+                                 templates</h2>}>
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mb-4">
-                    <input
-                        type="text"
-                        className="form-input mt-1 block w-full"
-                        placeholder="Rechercher un template..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Template ID"
-                        value={newTemplate.template_id}
-                        onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
-                        className="form-input mt-1 block"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Description"
-                        value={newTemplate.description}
-                        onChange={(e) => handleNewTemplateChange('description', e.target.value)}
-                        className="form-input mt-1 block"
-                    />
-                    <select
-                        onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
-                        value={newTemplate.id_localisation}
-                        className="mt-1 block w-full"
-                        required
-                    >
-                        <option value="" disabled>Choisir lieu</option>
-                        {sites.map(site => (
-                            <option key={site.id} value={site.id}>{site.name}</option>
-                        ))}
-                    </select>
-                    <select
-                        onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
-                        value={newTemplate.id_subject}
-                        className="mt-1 block w-full"
-                        required
-                    >
-                        <option value="" disabled>Choisir matière</option>
-                        {subjects.map(subject => (
-                            <option key={subject.id} value={subject.id}>{subject.description}</option>
-                        ))}
-                    </select>
-                    <button onClick={addNewTemplate}
-                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Add Template
+                    <input type="text" className="form-input mt-1 block w-full" placeholder="Rechercher un template..."
+                           value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <button onClick={() => setShowAddTemplate(!showAddTemplate)}
+                            className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        {showAddTemplate ? 'Cancel' : 'Add Template'}
                     </button>
                 </div>
+                {showAddTemplate && <div>
+                    <input type="text" placeholder="Template ID" value={newTemplate.template_id}
+                           onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
+                           className="form-input mt-1 block"/>
+                    <input type="text" placeholder="Description" value={newTemplate.description}
+                           onChange={(e) => handleNewTemplateChange('description', e.target.value)}
+                           className="form-input mt-1 block"/>
+                    <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
+                            value={newTemplate.id_localisation} className="mt-1 block w-full" required>
+                        <option value="" disabled>Choisir lieu</option>
+                        {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
+                    </select>
+                    <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
+                            value={newTemplate.id_subject} className="mt-1 block w-full" required>
+                        <option value="" disabled>Choisir matière</option>
+                        {subjects.map(subject => (
+                            <option key={subject.id} value={subject.id}>{subject.description}</option>))}
+                    </select>
+                    <button onClick={addNewTemplate}
+                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
+                        Template
+                    </button>
+                </div>}
+
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                            <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Id</th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template
+                                    Id
+                                </th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site</th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+                                </th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject
+                                </th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -246,5 +238,6 @@ export default function Manage({ auth }) {
                 </div>
             </footer>
         </AuthenticatedLayout>
-    );
+    )
+        ;
 }
