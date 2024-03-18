@@ -115,6 +115,7 @@ export default function Manage({ auth }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                             {/* Utilisez filteredUsers au lieu de users */}
                             {filteredUsers.map(user => (
+
                                 <tr key={user.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{getLocalisationName(user.id_localisation)}</td>
