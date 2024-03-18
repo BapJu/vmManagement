@@ -24,10 +24,13 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>
                                 <NavLink href={route('manage')} active={route().current('manage')}>Gérer les Vms</NavLink>
                                 {user.id_role ===1 &&(
-                                <NavLink href={route('statistiques')} active={route().current('statistiques')}>Statistiques</NavLink>
+                                    <NavLink href={route('manage-users')} active={route().current('manage-users')}>Gestion des utilisateurs</NavLink>
                                 )}
                                 {user.id_role ===1 &&(
-                                    <NavLink href={route('manage-users')} active={route().current('manage-users')}>Gestion des utilisateurs</NavLink>
+                                    <NavLink href={route('manage-templates')} active={route().current('manage-templates')}>Gestion des utilisateurs</NavLink>
+                                )}
+                                {user.id_role ===1 &&(
+                                    <NavLink href={route('statistiques')} active={route().current('statistiques')}>Statistiques</NavLink>
                                 )}
                             </div>
                         </div>
