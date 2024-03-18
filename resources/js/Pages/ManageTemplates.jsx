@@ -85,6 +85,7 @@ export default function Manage({ auth }) {
             .then(data => {
                 setTemplates(prev => [...prev, data]);
                 setNewTemplate({ template_id: '', description: '', id_localisation: '', id_subject: '' });
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
