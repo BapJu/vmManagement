@@ -48,7 +48,7 @@ function VmStatsGraph({ auth }) {
                 },
             }).then(res => res.json()),
             // Récupération des types de VM
-            fetch(`/api/typeofvm`, {
+            fetch(`/api/typeOfVms`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
