@@ -258,7 +258,7 @@ export default function Manage({auth}) {
                                     (!selectedUserId && event.id_user === auth.user.id)
                                 ) && (
                                     <tr key={event.id}
-                                        className={event.status !== 'Deleted' ? (event.active ? "bg-green-100" : "bg-pink-100") : ""}>
+                                        className={event.status === "Deleted" ? "" : (event.active ? "bg-green-100" : "bg-pink-100")}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
