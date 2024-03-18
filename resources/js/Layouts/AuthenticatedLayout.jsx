@@ -27,7 +27,7 @@ export default function Authenticated({ user, header, children }) {
                                     <NavLink href={route('manage-users')} active={route().current('manage-users')}>Gestion des utilisateurs</NavLink>
                                 )}
                                 {user.id_role ===1 &&(
-                                    <NavLink href={route('manage-templates')} active={route().current('manage-templates')}>Gestion des utilisateurs</NavLink>
+                                    <NavLink href={route('manage-templates')} active={route().current('manage-templates')}>Gestion des templates</NavLink>
                                 )}
                                 {user.id_role ===1 &&(
                                     <NavLink href={route('statistiques')} active={route().current('statistiques')}>Statistiques</NavLink>
