@@ -147,7 +147,9 @@ export default function Manage({ auth }) {
                         onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
                         value={newTemplate.id_localisation}
                         className="mt-1 block w-full"
+                        required
                     >
+                        <option value="" disabled>Choisir lieu</option>
                         {sites.map(site => (
                             <option key={site.id} value={site.id}>{site.name}</option>
                         ))}
@@ -161,7 +163,8 @@ export default function Manage({ auth }) {
                             <option key={subject.id} value={subject.id}>{subject.description}</option>
                         ))}
                     </select>
-                    <button onClick={addNewTemplate} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button onClick={addNewTemplate}
+                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Add Template
                     </button>
                 </div>
@@ -170,7 +173,7 @@ export default function Manage({ auth }) {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col"
+                            <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Id</th>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
