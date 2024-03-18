@@ -294,7 +294,7 @@ export default function Manage({auth}) {
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.created_at)}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {event.scheduledexpiry}
-                                            {new Date(event.scheduledexpiry) < new Date() && event.active && event.scheduledexpiry (
+                                            {new Date(event.scheduledexpiry) < new Date() && event.active && event.scheduledexpiry && (
                                                 <>
                                                     <FontAwesomeIcon icon={faClock} className="ml-2 text-red-500"/>
                                                     <span>{event.scheduledexpiry}</span>
