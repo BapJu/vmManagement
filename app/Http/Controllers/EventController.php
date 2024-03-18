@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\YAMLGenerator;
@@ -14,7 +15,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $userRole = Auth::user()->id_role;
+        $userRole = auth()->user()->id_role;
         if ($userRole == 1) {
             $events = Event::orderBy('created_at', 'desc')->get();
             return response()->json($events);
