@@ -96,7 +96,7 @@ function VmStatsGraph({ auth }) {
                                         plugins: {
                                             title: {
                                                 display: true,
-                                                text: 'Evolution of Online VMs',
+                                                text: 'Evolution of VMs creation',
                                                 fontSize: 25,
                                             },
                                             legend: {
