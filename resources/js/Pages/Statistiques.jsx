@@ -225,15 +225,14 @@ function processEvolutionData(eventsData) {
 // Supposons que cette fonction traite les données pour la répartition par type
 function processDistributionData(eventsData, typesOfVMData) {
     let distributionByType = {};
-    // Compter le nombre de VMs actives par type
+
+    // Compter le nombre de VMs par type, qu'elles soient actives ou inactives
     eventsData.forEach(event => {
-        if (event.active) {
-            const vmType = event.id_typeofvm;
-            if (!distributionByType[vmType]) {
-                distributionByType[vmType] = 0;
-            }
-            distributionByType[vmType] += 1;
+        const vmType = event.id_typeofvm;
+        if (!distributionByType[vmType]) {
+            distributionByType[vmType] = 0;
         }
+        distributionByType[vmType] += 1;
     });
 
     // Préparer les données pour le graphique
