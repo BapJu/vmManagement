@@ -40,21 +40,18 @@ function VmStatsGraph({ auth }) {
         const token = localStorage.getItem('bearerToken');
 
         Promise.all([
-            // Récupération des événements
             fetch(`api/events/`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json()),
-            // Récupération des types de VM
             fetch(`/api/typeOfVms`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             }).then(res => res.json()),
-            // Récupération des utilisateurs
             fetch(`/api/users`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,33 +59,14 @@ function VmStatsGraph({ auth }) {
                 },
             }).then(res => res.json())
         ])
-            .then(([eventsData, typesOfVMData, usersData]) => {
-                // Vérifie si typesOfVMData est un tableau
-                if (!Array.isArray(typesOfVMData)) {
-                    throw new Error('typesOfVMData is not an array');
-                }
-
-                // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
-                const descriptionsById = {};
-                typesOfVMData.forEach(typeOfVM => {
-                    descriptionsById[typeOfVM.id] = typeOfVM.description;
-                });
-
-                // Créer un dictionnaire pour stocker les noms par id_user
-                const namesById = {};
-                usersData.forEach(user => {
-                    namesById[user.id] = user.name;
-                });
-
-                // Passer les dictionnaires à processDistributionData et processDistributionDataUser
-                const distributionChartData = processDistributionData(eventsData, descriptionsById);
-                const distributionChartDataUser = processDistributionDataUser(eventsData, namesById);
+            .then(([eventsData, typesOfVMData, typesOfUsers]) => {
                 const evolutionChartData = processEvolutionData(eventsData);
+                const distributionChartData = processDistributionData(eventsData, typesOfVMData);
+                const distributionChartDataUser = processDistributionDataUser(eventsData, typesOfUsers);
 
-                // Mettre à jour les états avec les données des graphiques
                 setEvolutionData(evolutionChartData);
                 setDistributionData(distributionChartData);
-                setDistributionUserData(distributionChartDataUser);
+                setDistributionUserData(distributionChartDataUser)
                 setLoading(false);
             })
             .catch(error => {
@@ -96,8 +74,6 @@ function VmStatsGraph({ auth }) {
                 setLoading(false);
             });
     }, [auth.user.id]);
-
-
 
     if (loading) {
         return <div>Loading...</div>;
