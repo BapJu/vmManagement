@@ -3,17 +3,20 @@
 - name: Stop LXC containers in Proxmox
   hosts: all
   vars:
-    stop_containers_file: "stop_containers_config.yml"
+    # Uncomment the following line to enable loading from the configuration file
+    # stop_containers_file: "stop_containers_config.yml"
 
   tasks:
-    - name: 'Load Stop Containers Configuration'
-      include_vars:
-        file: "{{ stop_containers_file }}"
-        name: stop_containers_config
+    # Uncomment the following task to enable loading from the configuration file
+    # - name: 'Load Stop Containers Configuration'
+    #   include_vars:
+    #     file: "{{ stop_containers_file }}"
+    #     name: stop_containers_config
 
     - name: 'Generate VMIDs to Stop'
       set_fact:
-        vmids_to_stop: "{{ range(stop_containers_config.stop_containers[0].start_vmid, stop_containers_config.stop_containers[0].end_vmid + 1)|list }}"
+        # Modify this line to use parameters from the command line
+        vmids_to_stop: "{{ range(param_start_vmid|int, param_end_vmid|int + 1)|list }}"
 
     - name: 'Stop LXC Containers'
       command: >
