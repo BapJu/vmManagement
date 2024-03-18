@@ -158,7 +158,9 @@ export default function Manage({ auth }) {
                         onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
                         value={newTemplate.id_subject}
                         className="mt-1 block w-full"
+                        required
                     >
+                        <option value="" disabled>Choisir matière</option>
                         {subjects.map(subject => (
                             <option key={subject.id} value={subject.id}>{subject.description}</option>
                         ))}
