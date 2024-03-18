@@ -3,7 +3,7 @@
   hosts: all
   vars:
     clones_file: "clones.yml"
-    start_containers: yes  # Ajouter un paramètre pour contrôler le démarrage des conteneurs
+    start_containers: yes
 
   tasks:
     - name: 'Clone LXC Containers'
@@ -35,4 +35,4 @@
         pct start {{ item.vmid }}
       delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
-      when: start_containers  # Utilisez la variable pour contrôler l'exécution de cette tâche
+      when: start_containers
