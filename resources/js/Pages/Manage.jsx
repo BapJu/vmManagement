@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useEffect, useState} from 'react';
 import {Button} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlay, faStop, faTrash,faAlarmExclamation} from '@fortawesome/free-solid-svg-icons';
+import {faPlay, faStop, faTrash,faclock} from '@fortawesome/free-solid-svg-icons';
 
 export default function Manage({auth}) {
     const [events, setEvents] = useState([]);
@@ -295,7 +295,7 @@ export default function Manage({auth}) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {event.scheduledexpiry}
                                             {new Date(event.scheduledexpiry) < new Date() && event.active && (
-                                                <FontAwesomeIcon icon={faAlarmExclamation} className="ml-2 text-red-500" />
+                                                <FontAwesomeIcon icon={faclock} className="ml-2 text-red-500" />
                                             )}
                                         </td>
                                         {event.ip !== null && auth.user.id_role !== 4 && (
