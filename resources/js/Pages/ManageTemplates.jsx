@@ -1,20 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
-import { useForm } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 
 export default function Manage({ auth }) {
-
     const [subjects, setSubjects] = useState([]);
     const [sites, setSites] = useState([]);
-    const [templates, setTemplate] = useState([]);
+    const [templates, setTemplates] = useState([]);
     const [search, setSearch] = useState("");
-    const { data, setData, patch } = useForm({ templateId: '', templateDescription: '', vmId: '', idSubject: '' });
 
     useEffect(() => {
         fetchData('/api/subjects', setSubjects);
         fetchData('/api/localisations', setSites);
-        fetchData('/api/typeOfVms', setTemplate);
+        fetchData('/api/typeOfVms', setTemplates);
     }, [auth.token]);
 
     function fetchData(url, setState) {
@@ -30,13 +27,15 @@ export default function Manage({ auth }) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
-    console.log(data);
+    const handleUpdate = (templateId, field, value) => {
+        const updatedTemplates = templates.map(template =>
+            template.id === templateId ? { ...template, [field]: value } : template
+        );
+        setTemplates(updatedTemplates);
 
-    const handleTemplateChange = (templateId, templateDescription,vmId,idSubject) => {
-        setData({ templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject });
         const token = localStorage.getItem('bearerToken');
         const url = `/api/typeOfVm/${templateId}`;
-        const data = { templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject };
+        const data = { ...templates.find(t => t.id === templateId), [field]: value };
 
         fetch(url, {
             method: 'PUT',
@@ -52,7 +51,7 @@ export default function Manage({ auth }) {
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(() => {
                 window.location.reload();
             })
             .catch(error => {
@@ -60,25 +59,6 @@ export default function Manage({ auth }) {
             });
     };
 
-    function getLocalisationName(siteId) {
-        const site = sites.find(site => site.id === siteId);
-        if (site) {
-            return site.name;
-        } else {
-            return 'Site non trouvé';
-        }
-    }
-
-    function getSubjectName(subjectId) {
-        const subject = subjects.find(subject => subject.id === subjectId);
-        if (subject) {
-            return subject.description;
-        } else {
-            return 'Subject non trouvé';
-        }
-    }
-
-    // Filtrez les utilisateurs en fonction de la recherche
     const filteredTemplates = templates.filter(template =>
         template.description.toLowerCase().includes(search.toLowerCase())
     );
@@ -89,12 +69,11 @@ export default function Manage({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les templates</h2>}
         >
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
-                {/* Ajout du champ de recherche */}
                 <div className="mb-4">
                     <input
                         type="text"
                         className="form-input mt-1 block w-full"
-                        placeholder="Rechercher un professeur..."
+                        placeholder="Rechercher un template..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -105,18 +84,13 @@ export default function Manage({ auth }) {
                             <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template
-                                    Id
-                                </th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Id</th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
-                                </th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site
-                                </th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site</th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject
-                                </th>
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -127,7 +101,7 @@ export default function Manage({ auth }) {
                                             type="text"
                                             className="form-input rounded-md"
                                             value={template.template_id}
-                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
+                                            onChange={(e) => handleUpdate(template.id, 'template_id', e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -135,14 +109,14 @@ export default function Manage({ auth }) {
                                             type="text"
                                             className="form-input rounded-md"
                                             value={template.description}
-                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
+                                            onChange={(e) => handleUpdate(template.id, 'description', e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
                                             className="mt-1 block w-full"
                                             value={template.id_localisation}
-                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
+                                            onChange={(e) => handleUpdate(template.id, 'id_localisation', e.target.value)}
                                         >
                                             {sites.map(site => (
                                                 <option key={site.id} value={site.id}>{site.name}</option>
@@ -153,11 +127,10 @@ export default function Manage({ auth }) {
                                         <select
                                             className="mt-1 block w-full"
                                             value={template.id_subject}
-                                            onChange={(e) => handleTemplateChange(template.id, e.target.value)}
+                                            onChange={(e) => handleUpdate(template.id, 'id_subject', e.target.value)}
                                         >
                                             {subjects.map(subject => (
-                                                <option key={subject.id}
-                                                        value={subject.id}>{subject.description}</option>
+                                                <option key={subject.id} value={subject.id}>{subject.description}</option>
                                             ))}
                                         </select>
                                     </td>
@@ -165,7 +138,6 @@ export default function Manage({ auth }) {
                             ))}
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
