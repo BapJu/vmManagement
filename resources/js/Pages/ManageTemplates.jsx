@@ -30,6 +30,8 @@ export default function Manage({ auth }) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
+    console.log(data);
+
     const handleTemplateChange = (templateId, templateDescription,vmId,idSubject) => {
         setData({ templateId: templateId, templateDescription: templateDescription, vmId: vmId, idSubject: idSubject });
         const token = localStorage.getItem('bearerToken');
