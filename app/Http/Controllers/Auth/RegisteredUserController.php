@@ -44,9 +44,11 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'id_role' => 4,
             'id_localisation' => $request->id_localisation,
         ]);
 
+        $token = $user->createToken('myapptoken')->plainTextToken;
 
 
 
@@ -54,7 +56,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
         // Création du personal access token pour l'utilisateur.
-        $token = $user->createToken('api_token')->plainTextToken;
+
 
 
         // Sauvegarder dans une session ou le renvoyer avec la réponse.
