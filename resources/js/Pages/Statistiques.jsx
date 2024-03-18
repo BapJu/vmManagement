@@ -187,38 +187,44 @@ function VmStatsGraph({ auth }) {
 }
 
 // Supposons que cette fonction traite les données pour l'évolution des VMs en ligne
-function processEvolutionData(eventsData) {
-    // Trier les événements par date de création
-    const sortedEvents = eventsData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+function processDistributionData(eventsData, typesOfVMData) {
+    let distributionByType = {};
 
-    // Créer un objet pour stocker le nombre de créations par date
-    const countsByDate = {};
-
-    // Obtenir la première date de création de VM
-    const firstDate = new Date(sortedEvents[0].created_at.split('T')[0]);
-    const today = new Date(); // Date actuelle
-
-    // Parcourir toutes les dates de la première date jusqu'à aujourd'hui
-    for (let date = new Date(firstDate); date <= today; date.setDate(date.getDate() + 1)) {
-        const formattedDate = date.toISOString().split('T')[0]; // Format 'yyyy-mm-dd'
-        const count = sortedEvents.filter(event => event.active && event.created_at.split('T')[0] === formattedDate).length;
-        countsByDate[formattedDate] = count;
-    }
+    // Compter le nombre total de VMs par type
+    eventsData.forEach(event => {
+        const vmType = event.id_typeofvm;
+        if (!distributionByType[vmType]) {
+            distributionByType[vmType] = 0;
+        }
+        distributionByType[vmType] += 1;
+    });
 
     // Préparer les données pour le graphique
-    const labels = Object.keys(countsByDate);
-    const data = labels.map(date => countsByDate[date]);
+    const labels = Object.keys(distributionByType);
+    const data = Object.values(distributionByType);
+
+    // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
+    const descriptionsById = {};
+    typesOfVMData.forEach(typeOfVM => {
+        descriptionsById[typeOfVM.id] = typeOfVM.description;
+    });
+
+    // Générer des couleurs aléatoires pour chaque type de VM
+    const backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
+    const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
 
     return {
-        labels: labels, // Les dates
+        labels: labels.map(id => descriptionsById[id]), // Les descriptions des types de VM
         datasets: [{
-            label: 'VMs created',
+            label: 'VMs by Type',
             data: data, // Les données calculées
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1,
         }],
     };
 }
+
 
 
 
