@@ -265,13 +265,19 @@ function processDistributionData(eventsData, typesOfVMData) {
 }
 
 
-function processDistributionDataUser(eventsData, namesById) {
+function processDistributionDataUser(eventsData, usersData) {
     let distributionByUser = {};
+    // Créer un dictionnaire pour stocker les noms par id_user
+    const namesById = {};
+    usersData.forEach(user => {
+        namesById[user.id] = user.name;
+    });
+
     // Compter le nombre de VMs actives par utilisateur
     eventsData.forEach(event => {
         if (event.active) {
             const vmUser = event.id_user;
-            const userName = namesById[vmUser]; // Récupérer le nom d'utilisateur associé à l'ID d'utilisateur
+            const userName = namesById[vmUser]; // Sélectionner le nom d'utilisateur associé à l'ID d'utilisateur
             if (!distributionByUser[userName]) {
                 distributionByUser[userName] = 0;
             }
@@ -298,4 +304,5 @@ function processDistributionDataUser(eventsData, namesById) {
         }],
     };
 }
+
 export default VmStatsGraph;
