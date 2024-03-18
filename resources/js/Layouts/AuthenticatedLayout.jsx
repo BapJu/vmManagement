@@ -137,7 +137,7 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
-            <footer className="bg-gray-100 dark:bg-gray-800 flex flex-col justify-between">
+            <footer className="bg-gray-100 dark:bg-gray-800 min-h-screen">
                 <div className="text-center text-sm text-gray-500 dark:text-gray-400">
                     Created by Alexis &  Baptiste - Projet M1 2024
                 </div>
