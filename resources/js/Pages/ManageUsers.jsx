@@ -107,7 +107,7 @@ export default function Manage({ auth }) {
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
                                             id="role"
-                                            className="mt-1 block w-full"
+                                            className="p-2 border border-gray-300 rounded-md"
                                             value={user.id_role}
                                             onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                         >
