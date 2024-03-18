@@ -64,6 +64,20 @@ Route::get('/manage-users', function () {
     }
 })->middleware(['auth', 'verified'])->name('manage-users');
 
+Route::get('/manage-templates', function () {
+    if (Auth::check()) {
+        $userRole = Auth::user()->id_role;
+
+        if ($userRole == 1) {
+            return Inertia::render('ManageTemplates');
+        } else {
+            return redirect()->route('dashboard')->with('error', 'Accès interdit');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->middleware(['auth', 'verified'])->name('manage-templates');
+
 
 Route::get('/manage', function () {
     return Inertia::render('Manage');
