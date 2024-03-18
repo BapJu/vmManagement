@@ -282,7 +282,7 @@ export default function Manage({auth}) {
                                         )}
                                     </tr>
                                 )
-                            )}
+                            ))}
                             </tbody>
 
 
