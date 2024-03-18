@@ -5,7 +5,7 @@ import {useEffect, useState, useCallback } from 'react';
 export default function Dashboard({ auth }) {
     const [vmStats, setVmStats] = useState({ totalCreated: 0, totalActive: 0 });
     const [templates, setTemplates] = useState([]);
-    const [isLoading, setIsLoading] = useState(() => !auth.user.id_role);
+    const [isLoading, setIsLoading] = useState(() => auth.user.id_role === 4);
     const [showForm, setShowForm] = useState(false);
     const [localisations, setLocalisations] = useState([]);
     const [subjects, setSubjects] = useState([]);
@@ -142,7 +142,7 @@ export default function Dashboard({ auth }) {
         >
 
             <Head title="Dashboard"/>
-            {!auth.user.id_role && (
+            {auth.user.id_role===4 && (
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="mt-8 bg-yellow-200 border-l-4 border-yellow-500 text-yellow-700 p-4 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
@@ -174,7 +174,7 @@ export default function Dashboard({ auth }) {
                                 <button
                                     className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={toggleFormDisplay} // Lorsqu'on clique, on change l'état pour afficher le formulaire
-                                    disabled={!auth.user.id_role}
+                                    disabled={auth.user.id_role===4}
                                 >
                                     Déployer des VMs
                                 </button>
