@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import _ from 'lodash';
 
 export default function Manage({ auth }) {
     const [subjects, setSubjects] = useState([]);
@@ -27,13 +28,7 @@ export default function Manage({ auth }) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
-    const handleUpdate = (templateId, field, value) => {
-        const updatedTemplates = templates.map(template =>
-            template.id === templateId ? { ...template, [field]: value } : template
-        );
-        setTemplates(updatedTemplates);
-
-        const token = localStorage.getItem('bearerToken');
+    const debouncedUpdate = _.debounce((templateId, field, value, token) => {
         const url = `/api/typeOfVm/${templateId}`;
         const data = { ...templates.find(t => t.id === templateId), [field]: value };
 
@@ -52,11 +47,23 @@ export default function Manage({ auth }) {
                 return response.json();
             })
             .then(() => {
-                window.location.reload();
+                console.log('Update successful');
+                // Vous pouvez également déclencher ici une mise à jour de l'état pour refléter le changement ou rafraîchir les données
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+    }, 500); // Attend 500ms après le dernier appel pour exécuter la mise à jour
+
+    const handleUpdate = (templateId, field, value) => {
+        const updatedTemplates = templates.map(template =>
+            template.id === templateId ? { ...template, [field]: value } : template
+        );
+        setTemplates(updatedTemplates);
+
+        const token = localStorage.getItem('bearerToken');
+        // Appelez la fonction debounced pour la mise à jour
+        debouncedUpdate(templateId, field, value, token);
     };
 
     const filteredTemplates = templates.filter(template =>
