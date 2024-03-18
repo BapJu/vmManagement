@@ -257,8 +257,11 @@ export default function Manage({auth}) {
                                     (selectedUserId && event.id_user === selectedUserId) || // Si un utilisateur est sélectionné et l'événement appartient à cet utilisateur
                                     (!selectedUserId && event.id_user === auth.user.id) // Si aucun utilisateur n'est sélectionné et l'événement appartient à l'utilisateur actuel
                                 ) && (<tr key={event.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className={`px-6 py-4 whitespace-nowrap ${event.active ? 'bg-green-100' : event.active === false ? 'bg-pink-100' : ''}`}>
+                                        {event.namevm}
+                                    </td>
+
+                                    <td className={`px-6 py-4 whitespace-nowrap ${event.active ? 'bg-green-100' : event.active === false ? 'bg-pink-100' : ''}`}>
                                         {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
