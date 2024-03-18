@@ -18,7 +18,10 @@ class TypeOfVmController extends Controller
     public function store(Request $request)
     {
         $TypeOfVm = new TypeOfVm();
-        $TypeOfVm->name = $request->input('name'); // Assurez-vous d'avoir un champ 'name' dans votre formulaire
+        $TypeOfVm->description = $request->input('description');
+        $TypeOfVm->template_id = $request->input('template_id');
+        $TypeOfVm->id_localisation = $request->input('id_localisation');
+        $TypeOfVm->id_subject = $request->input('id_subject');
         $TypeOfVm->save();
 
         return response()->json(['message' => 'TypeOfVm created successfully']);
