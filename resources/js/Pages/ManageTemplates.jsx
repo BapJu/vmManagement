@@ -198,7 +198,7 @@ export default function Manage({auth}) {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
-                                            className="mt-1 block w-full"
+                                            className="p-2 border border-gray-300 rounded-md"
                                             value={template.id_localisation}
                                             onChange={(e) => handleUpdate(template.id, 'id_localisation', e.target.value)}
                                         >
@@ -209,7 +209,7 @@ export default function Manage({auth}) {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <select
-                                            className="mt-1 block w-full"
+                                            className="p-2 border border-gray-300 rounded-md"
                                             value={template.id_subject}
                                             onChange={(e) => handleUpdate(template.id, 'id_subject', e.target.value)}
                                         >
