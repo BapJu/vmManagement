@@ -252,12 +252,12 @@ export default function Manage({auth}) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {events.map(event => ((historiqueChecked || event.ip !== null) &&
+                            {events.map(event => (
                                 ((auth.user.id_role === 1) ||
                                     (selectedUserId && event.id_user === selectedUserId) ||
                                     (!selectedUserId && event.id_user === auth.user.id)
                                 ) && (
-                                    <tr key={event.id} className={event.ip !== null && !historiqueChecked ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
+                                    <tr key={event.id} className={(event.ip !== null && !historiqueChecked) ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
@@ -273,6 +273,7 @@ export default function Manage({auth}) {
                                         )}
                                     </tr>
                                 )))}
+
                             </tbody>
 
 
