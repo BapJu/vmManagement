@@ -292,7 +292,12 @@ export default function Manage({auth}) {
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.created_at)}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{event.scheduledexpiry}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {event.scheduledexpiry}
+                                            {new Date(event.scheduledexpiry) < new Date() && event.active && (
+                                                <FontAwesomeIcon icon={faClock} className="ml-2"/>
+                                            )}
+                                        </td>
                                         {event.ip !== null && auth.user.id_role !== 4 && (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
