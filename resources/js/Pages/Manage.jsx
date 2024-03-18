@@ -256,27 +256,27 @@ export default function Manage({auth}) {
                                 ((auth.user.id_role === 1) || // Si l'utilisateur est un administrateur
                                     (selectedUserId && event.id_user === selectedUserId) || // Si un utilisateur est sélectionné et l'événement appartient à cet utilisateur
                                     (!selectedUserId && event.id_user === auth.user.id) // Si aucun utilisateur n'est sélectionné et l'événement appartient à l'utilisateur actuel
-                                ) && (<tr key={event.id}>
-                                    <td className={`px-6 py-4 whitespace-nowrap ${event.active ? 'bg-green-100' : event.active === false ? 'bg-pink-100' : ''}`}>
-                                        {event.namevm}
-                                    </td>
-
-                                    <td className={`px-6 py-4 whitespace-nowrap ${event.active ? 'bg-green-100' : event.active === false ? 'bg-pink-100' : ''}`}>
-                                        {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
-                                    {event.ip !== null && auth.user.id_role !== 4 && (
+                                ) && (
+                                    <tr key={event.id}
+                                        className={event.active ? 'bg-green-100' : (event.active === false ? 'bg-pink-100' : '')}>
+                                        <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {event.active ? (<FontAwesomeIcon icon={faStop}
-                                                                              onClick={() => handleStopVM(event.id)}
-                                                                              className="cursor-pointer mr-2"/>) : (
-                                                <FontAwesomeIcon icon={faPlay}
-                                                                 onClick={() => handleStartVM(event.id)}
-                                                                 className="cursor-pointer mr-2"/>)}
-                                            <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
-                                                             className="cursor-pointer"/>
-                                        </td>)}
-                                </tr>)))}
+                                            {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
+                                        {event.ip !== null && auth.user.id_role !== 4 && (
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                {event.active ? (<FontAwesomeIcon icon={faStop}
+                                                                                  onClick={() => handleStopVM(event.id)}
+                                                                                  className="cursor-pointer mr-2"/>) : (
+                                                    <FontAwesomeIcon icon={faPlay}
+                                                                     onClick={() => handleStartVM(event.id)}
+                                                                     className="cursor-pointer mr-2"/>)}
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
+                                                                 className="cursor-pointer"/>
+                                            </td>)}
+                                    </tr>)
+                            ))}
                             </tbody>
 
 
