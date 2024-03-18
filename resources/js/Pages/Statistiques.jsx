@@ -48,7 +48,7 @@ function VmStatsGraph({ auth }) {
                 },
             }).then(res => res.json()),
             // Récupération des types de VM
-            fetch(`/api/typeOfVms`, {
+            fetch(`/api/typeofvm`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -63,6 +63,11 @@ function VmStatsGraph({ auth }) {
             }).then(res => res.json())
         ])
             .then(([eventsData, typesOfVMData, usersData]) => {
+                // Vérifie si typesOfVMData est un tableau
+                if (!Array.isArray(typesOfVMData)) {
+                    throw new Error('typesOfVMData is not an array');
+                }
+
                 // Créer un dictionnaire pour stocker les descriptions par id_typeofvm
                 const descriptionsById = {};
                 typesOfVMData.forEach(typeOfVM => {
@@ -91,6 +96,7 @@ function VmStatsGraph({ auth }) {
                 setLoading(false);
             });
     }, [auth.user.id]);
+
 
 
     if (loading) {
