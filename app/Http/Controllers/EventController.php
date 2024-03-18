@@ -12,14 +12,6 @@ use App\Services\YAMLGenerator;
 class EventController extends Controller
 {
 
-    public function getEventsByUser($userId)
-    {
-        $events = Event::where('id_user', $userId)
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return response()->json($events);
-    }
-
     public function index()
     {
         $userRole = Auth::user()->id_role;
