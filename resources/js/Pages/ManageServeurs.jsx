@@ -103,10 +103,12 @@ export default function Manage({auth}) {
 
     function isFormValid() {
         return (
-            newServeur.template_id !== '' &&
-            newServeur.description !== '' &&
+
+            newServeur.adress_ip !== '' &&
+            newServeur.noeud !== '' &&
             newServeur.id_localisation !== '' &&
             newServeur.id_subject !== ''
+
         );
     }
 
@@ -129,24 +131,24 @@ export default function Manage({auth}) {
                            value={search} onChange={(e) => setSearch(e.target.value)}/>
                     <button onClick={() => setShowAddTemplate(!showAddTemplate)}
                             className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        {showAddTemplate ? 'Cancel' : 'Add serveur'}
+                        {showAddServeur? 'Cancel' : 'Add serveur'}
                     </button>
                 </div>
-                {showAddTemplate && (
+                {showAddServeur&& (
                     <div>
-                        <input type="text" placeholder="serveur ID" value={newTemplate.template_id}
+                        <input type="text" placeholder="serveur ID" value={newServeur.template_id}
                                onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
                                className="form-input mt-1 block" required />
-                        <input type="text" placeholder="Description" value={newTemplate.description}
+                        <input type="text" placeholder="Description" value={newServeur.description}
                                onChange={(e) => handleNewTemplateChange('description', e.target.value)}
                                className="form-input mt-1 block" required />
                         <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
-                                value={newTemplate.id_localisation} className="mt-1 block w-full" required>
+                                value={newServeur.id_localisation} className="mt-1 block w-full" required>
                             <option value="" disabled>Choisir lieu</option>
                             {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
                         </select>
                         <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
-                                value={newTemplate.id_subject} className="mt-1 block w-full" required>
+                                value={newServeur.id_subject} className="mt-1 block w-full" required>
                             <option value="" disabled>Choisir matière</option>
                             {subjects.map(subject => (
                                 <option key={subject.id} value={subject.id}>{subject.description}</option>))}
@@ -179,49 +181,43 @@ export default function Manage({auth}) {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {filteredTemplates.map(serveur => (
+                            {filteredServeur.map(serveur => (
                                 <tr key={serveur.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <input
                                             type="text"
                                             className="form-input rounded-md"
-                                            value={serveur.template_id}
-                                            onChange={(e) => handleUpdate(serveur.id, 'template_id', e.target.value)}
+                                            value={serveur.noeud}
+                                            onChange={(e) => handleUpdate(serveur.id, 'noeud', e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <input
                                             type="text"
                                             className="form-input rounded-md"
-                                            value={serveur.description}
+                                            value={serveur.adress_ip}
                                             onChange={(e) => handleUpdate(serveur.id, 'description', e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <select
-                                            className="p-2 border border-gray-300 rounded-md"
-                                            value={serveur.id_localisation}
-                                            onChange={(e) => handleUpdate(serveur.id, 'id_localisation', e.target.value)}
-                                        >
-                                            {sites.map(site => (
-                                                <option key={site.id} value={site.id}>{site.name}</option>
-                                            ))}
-                                        </select>
+                                        <input
+                                            type="text"
+                                            className="form-input rounded-md"
+                                            value={serveur.ssh_user}
+                                            onChange={(e) => handleUpdate(serveur.id, 'ssh_user', e.target.value)}
+                                        />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <select
-                                            className="p-2 border border-gray-300 rounded-md"
-                                            value={serveur.id_subject}
-                                            onChange={(e) => handleUpdate(serveur.id, 'id_subject', e.target.value)}
-                                        >
-                                            {subjects.map(subject => (
-                                                <option key={subject.id}
-                                                        value={subject.id}>{subject.description}</option>
-                                            ))}
-                                        </select>
+                                        <input
+                                            type="text"
+                                            className="form-input rounded-md"
+                                            value={serveur.ssh_password}
+                                            onChange={(e) => handleUpdate(serveur.id, 'ssh_password', e.target.value)}
+                                        />
                                     </td>
+
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <button onClick={() => confirmDeleteTemplate(serveur.id)}
+                                        <button onClick={() => confirmDeleteServeur(serveur.id)}
                                                 className="text-red-600 hover:text-red-900">Delete
                                         </button>
                                     </td>
