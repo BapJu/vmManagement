@@ -8,10 +8,10 @@ export default function Manage({auth}) {
     const [search, setSearch] = useState("");
     const [showAddServeur, setShowAddServeur] = useState(false);
     const [newServeur, setNewServeur] = useState({
-        adress_ip: '',
+        address_ip: '',
         noeud: '',
-        id_localisation: '',
-        id_subject: ''
+        ssh_user: '',
+        ssh_password: ''
     });
 
     useEffect(() => {
@@ -104,10 +104,10 @@ export default function Manage({auth}) {
     function isFormValid() {
         return (
 
-            newServeur.adress_ip !== '' &&
+            newServeur.address_ip !== '' &&
             newServeur.noeud !== '' &&
-            newServeur.id_localisation !== '' &&
-            newServeur.id_subject !== ''
+            newServeur.ssh_user !== '' &&
+            newServeur.ssh_password !== ''
 
         );
     }
@@ -129,31 +129,26 @@ export default function Manage({auth}) {
                 <div className="mb-4">
                     <input type="text" className="form-input mt-1 block w-full" placeholder="Rechercher un serveur..."
                            value={search} onChange={(e) => setSearch(e.target.value)}/>
-                    <button onClick={() => setShowAddTemplate(!showAddTemplate)}
+                    <button onClick={() => setShowAddServeur(!showAddServeur)}
                             className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         {showAddServeur? 'Cancel' : 'Add serveur'}
                     </button>
                 </div>
                 {showAddServeur&& (
                     <div>
-                        <input type="text" placeholder="serveur ID" value={newServeur.template_id}
-                               onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
-                               className="form-input mt-1 block" required />
-                        <input type="text" placeholder="Description" value={newServeur.description}
-                               onChange={(e) => handleNewTemplateChange('description', e.target.value)}
-                               className="form-input mt-1 block" required />
-                        <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
-                                value={newServeur.id_localisation} className="mt-1 block w-full" required>
-                            <option value="" disabled>Choisir lieu</option>
-                            {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
-                        </select>
-                        <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
-                                value={newServeur.id_subject} className="mt-1 block w-full" required>
-                            <option value="" disabled>Choisir matière</option>
-                            {subjects.map(subject => (
-                                <option key={subject.id} value={subject.id}>{subject.description}</option>))}
-                        </select>
-                        <button onClick={handleAddTemplateClick} disabled={!isFormValid()}
+                        <input type="text" placeholder="serveur ID" value={newServeur.address_ip}
+                               onChange={(e) => handleNewServeurChange('address_ip', e.target.value)}
+                               className="form-input mt-1 block" required/>
+                        <input type="text" placeholder="Description" value={newServeur.noeud}
+                               onChange={(e) => handleNewServeurChange('noeud', e.target.value)}
+                               className="form-input mt-1 block" required/>
+                        <input type="text" placeholder="Description" value={newServeur.ssh_user}
+                               onChange={(e) => handleNewServeurChange('ssh_user', e.target.value)}
+                               className="form-input mt-1 block" required/>
+                        <input type="text" placeholder="Description" value={newServeur.ssh_password}
+                               onChange={(e) => handleNewServeurChange('ssh_password', e.target.value)}
+                               className="form-input mt-1 block" required/>
+                        <button onClick={handleAddServeurClick} disabled={!isFormValid()}
                                 className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
                             serveur
                         </button>
@@ -163,20 +158,24 @@ export default function Manage({auth}) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">serveur
-                                    Id
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Noeud
                                 </th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address
+                                    IP
                                 </th>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site
                                 </th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SSH
+                                    User
+                                </th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 </th>
                             </tr>
                             </thead>
@@ -207,14 +206,7 @@ export default function Manage({auth}) {
                                             onChange={(e) => handleUpdate(serveur.id, 'ssh_user', e.target.value)}
                                         />
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <input
-                                            type="text"
-                                            className="form-input rounded-md"
-                                            value={serveur.ssh_password}
-                                            onChange={(e) => handleUpdate(serveur.id, 'ssh_password', e.target.value)}
-                                        />
-                                    </td>
+
 
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => confirmDeleteServeur(serveur.id)}
