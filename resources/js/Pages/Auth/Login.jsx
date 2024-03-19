@@ -34,23 +34,23 @@ export default function Login({ status, canResetPassword }) {
             }),
         })
             .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                localStorage.setItem('bearerToken', data.token);
+                // Supposons que la session soit maintenant établie côté serveur.
                 console.log('Login success:', data);
-                post(route('login'));
+                // Redirection avec Inertia vers une route interne qui vérifie la session.
+                window.location.href = route('home'); // Utilisez la redirection standard pour assurer la recharge complète de la page et l'initialisation de l'état de session.
             })
             .catch(error => {
                 console.error('Login error:', error);
                 setLoginError('Failed to login');
             });
-
-
     };
+
 
     return (
         <GuestLayout>
