@@ -140,29 +140,33 @@ export default function Manage({auth}) {
                         {showAddTemplate ? 'Cancel' : 'Add Template'}
                     </button>
                 </div>
-                {showAddTemplate && <div>
-                    <input type="text" placeholder="Template ID" value={newTemplate.template_id}
-                           onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
-                           className="form-input mt-1 block"/>
-                    <input type="text" placeholder="Description" value={newTemplate.description}
-                           onChange={(e) => handleNewTemplateChange('description', e.target.value)}
-                           className="form-input mt-1 block"/>
-                    <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
-                            value={newTemplate.id_localisation} className="mt-1 block w-full" required>
-                        <option value="" disabled>Choisir lieu</option>
-                        {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
-                    </select>
-                    <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
-                            value={newTemplate.id_subject} className="mt-1 block w-full" required>
-                        <option value="" disabled>Choisir matière</option>
-                        {subjects.map(subject => (
-                            <option key={subject.id} value={subject.id}>{subject.description}</option>))}
-                    </select>
-                    <button onClick={addNewTemplate}
-                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
-                        Template
-                    </button>
-                </div>}
+                {showAddTemplate && (
+                    <form>
+                        <div>
+                            <input type="text" placeholder="Template ID" value={newTemplate.template_id}
+                                   onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
+                                   className="form-input mt-1 block"/>
+                            <input type="text" placeholder="Description" value={newTemplate.description}
+                                   onChange={(e) => handleNewTemplateChange('description', e.target.value)}
+                                   className="form-input mt-1 block"/>
+                            <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
+                                    value={newTemplate.id_localisation} className="mt-1 block w-full" required>
+                                <option value="" disabled>Choisir lieu</option>
+                                {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
+                            </select>
+                            <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
+                                    value={newTemplate.id_subject} className="mt-1 block w-full" required>
+                                <option value="" disabled>Choisir matière</option>
+                                {subjects.map(subject => (
+                                    <option key={subject.id} value={subject.id}>{subject.description}</option>))}
+                            </select>
+                            <button type="button" onClick={addNewTemplate}
+                                    className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
+                                Template
+                            </button>
+                        </div>
+                    </form>
+                )}
 
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
