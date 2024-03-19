@@ -18,6 +18,7 @@
         --hostname ansible-lxc-{{ item.vmid }}
         --pool {{ item.resource_pool }}
         --hostname {{ item.cloneName }}
+      delegate_to: 10.10.48.9
       ignore_errors: yes
       with_items: "{{ clones.clones }}"
 
@@ -27,10 +28,12 @@
         regexp: '^net0'
         line: "net0: name=eth0,ip={{ item.static_ip }}/24,gw={{ item.gateway }},bridge=vmbr0"
         create: yes
+      delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
 
     - name: 'Start LXC Containers'
       command: >
         pct start {{ item.vmid }}
+      delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
       when: start_containers
