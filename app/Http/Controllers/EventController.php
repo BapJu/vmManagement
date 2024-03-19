@@ -15,7 +15,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $userRole = auth()->user()->id_role;
+        $userRole = Auth::user()->id_role;
         if ($userRole == 1) {
             $events = Event::orderBy('created_at', 'desc')->get();
             return response()->json($events);
