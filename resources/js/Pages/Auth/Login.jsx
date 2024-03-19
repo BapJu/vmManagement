@@ -49,14 +49,26 @@ export default function Login({ status, canResetPassword }) {
                 // Cela dépend de la façon dont votre application est configurée pour gérer les sessions utilisateur
                 // Ici, j'utilise une redirection simplifiée comme exemple
 
-                Inertia.visit(route('dashboard'), { only: ['user'] }); // Assurez-vous que 'route' est défini correctement pour correspondre à vos routes
-            })
-            .catch(error => {
-                console.error('Login error:', error);
-                // setLoginError('Failed to login');
-                // Si vous utilisez React avec Inertia, vous pourriez vouloir utiliser un état pour gérer les erreurs de connexion
-                // Pour Vue ou Svelte, l'approche pourrait différer légèrement
+                Inertia.post('/login', {
+                    email: data.email,
+                    password: data.password,
+                }, {
+                    // Ajouter des options si nécessaire, par exemple pour gérer les retours
+                    onSuccess: (page) => {
+                        // La connexion est réussie, vous pouvez rediriger ou effectuer d'autres actions ici
+                        console.log('Login success:', page);
+                        // Inertia.visit('/home'); // Redirection optionnelle
+                    },
+                    onError: (errors) => {
+                        // Gérer les erreurs de connexion ici
+                        console.error('Login error:', errors);
+                        // setLoginError('Failed to login'); // Mettre à jour l'état de l'erreur si vous utilisez un framework comme React
+                    }
+                }
+                );
             });
+
+
     };
 
 
