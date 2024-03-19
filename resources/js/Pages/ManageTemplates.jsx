@@ -138,8 +138,8 @@ export default function Manage({auth}) {
 
     function handleAddTemplateClick() {
         if (isFormValid()) {
-            // Ajouter ici la logique pour ajouter le nouveau template au serveur Proxmox
             alert("Attention : Ne pas oublier d'ajouter le nouveau template au serveur Proxmox. En cas d'incompréhension, veuillez contacter Mr Vignaud.");
+            addNewTemplate();
         } else {
             alert("Veuillez remplir tous les champs avant d'ajouter le template.");
         }
@@ -177,7 +177,7 @@ export default function Manage({auth}) {
                             {subjects.map(subject => (
                                 <option key={subject.id} value={subject.id}>{subject.description}</option>))}
                         </select>
-                        <button onClick={handleAddTemplateClick}
+                        <button onClick={handleAddTemplateClick} disabled={!isFormValid()}
                                 className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
                             Template
                         </button>
