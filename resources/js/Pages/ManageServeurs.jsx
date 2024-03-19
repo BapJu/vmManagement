@@ -198,8 +198,8 @@ export default function Manage({auth}) {
                                         <input
                                             type="text"
                                             className="form-input rounded-md"
-                                            value={serveur.adress_ip}
-                                            onChange={(e) => handleUpdate(serveur.id, 'description', e.target.value)}
+                                            value={serveur.address_ip}
+                                            onChange={(e) => handleUpdate(serveur.id, 'address_ip', e.target.value)}
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
