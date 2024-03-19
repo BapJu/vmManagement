@@ -32,7 +32,6 @@ export default function Manage({auth}) {
     }
 
 
-
     const handleUpdate = (templateId, field, value) => {
         const updatedTemplates = serveurs.map(serveur =>
             serveur.id === templateId ? {...serveur, [field]: value} : serveur
@@ -64,7 +63,12 @@ export default function Manage({auth}) {
             })
             .then(data => {
                 setServeurs(prev => [...prev, data]);
-                setNewServeur({template_id: '', description: '', id_localisation: '', id_subject: ''});
+                setNewServeur({
+                    address_ip: '',
+                    noeud: '',
+                    ssh_user: '',
+                    ssh_password: ''
+                });
                 setShowAddServeur(false);
                 window.location.reload();
             })
@@ -74,7 +78,7 @@ export default function Manage({auth}) {
     };
 
     const filteredServeur = serveurs.filter(serveur =>
-        serveur.description.toLowerCase().includes(search.toLowerCase())
+        serveur.node.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleDelete = (serveurId) => {
@@ -131,10 +135,10 @@ export default function Manage({auth}) {
                            value={search} onChange={(e) => setSearch(e.target.value)}/>
                     <button onClick={() => setShowAddServeur(!showAddServeur)}
                             className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        {showAddServeur? 'Cancel' : 'Add serveur'}
+                        {showAddServeur ? 'Cancel' : 'Add serveur'}
                     </button>
                 </div>
-                {showAddServeur&& (
+                {showAddServeur && (
                     <div>
                         <input type="text" placeholder="serveur ID" value={newServeur.address_ip}
                                onChange={(e) => handleNewServeurChange('address_ip', e.target.value)}
@@ -158,7 +162,7 @@ export default function Manage({auth}) {
                 <div className="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="overflow-x-auto mb-4">
                         <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                            <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Noeud
