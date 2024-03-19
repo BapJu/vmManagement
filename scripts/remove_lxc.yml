@@ -15,10 +15,12 @@
       command: >
         pct stop {{ item }}
       ignore_errors: yes
+      delegate_to: 10.10.48.9
       with_items: "{{ vmids_to_remove }}"
 
     - name: 'Remove LXC Containers'
       command: >
         pct destroy {{ item }}
       ignore_errors: yes
+      delegate_to: 10.10.48.9
       with_items: "{{ vmids_to_remove }}"
