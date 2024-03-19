@@ -35,19 +35,7 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/dashboard-admin', function () {
-    if (Auth::check()) {
-        $userRole = Auth::user()->id_role;
 
-        if ($userRole == 1) {
-            return Inertia::render('DashboardAdmin');
-        } else {
-            return redirect()->route('dashboard')->with('error', 'Accès interdit');
-        }
-    } else {
-        return redirect()->route('login');
-    }
-})->middleware(['auth', 'verified'])->name('dashboard-admin');
 
 
 Route::get('/manage-users', function () {

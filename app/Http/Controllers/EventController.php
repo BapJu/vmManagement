@@ -15,13 +15,17 @@ class EventController extends Controller
 
     public function index()
     {
-        $userRole = Auth::user()->id_role;
-        if ($userRole == 1) {
-            $events = Event::orderBy('created_at', 'desc')->get();
-            return response()->json($events);
+        if (Auth::check()) {
+            $userRole = Auth::user()->id_role;
+            if ($userRole == 1) {
+                $events = Event::orderBy('created_at', 'desc')->get();
+                return response()->json($events);
+            } else {
+                $events = Event::where('id_user', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+                return response()->json($events);
+            }
         } else {
-            $events = Event::where('id_user', auth()->user()->id)->orderBy('created_at', 'desc')->get();
-            return response()->json($events);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
     }
 
