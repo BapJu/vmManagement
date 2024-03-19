@@ -66,6 +66,20 @@ Route::get('/manage-templates', function () {
     }
 })->middleware(['auth', 'verified'])->name('manage-templates');
 
+Route::get('/ManageServeurs', function () {
+    if (Auth::check()) {
+        $userRole = Auth::user()->id_role;
+
+        if ($userRole == 1) {
+            return Inertia::render('ManageServeurs');
+        } else {
+            return redirect()->route('dashboard')->with('error', 'Accès interdit');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->middleware(['auth', 'verified'])->name('ManageServeurs');
+
 
 Route::get('/manage', function () {
     return Inertia::render('Manage');
