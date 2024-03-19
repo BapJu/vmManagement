@@ -132,6 +132,20 @@ export default function Manage({ auth }) {
                                         </select>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.created_at}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        {(() => {
+                                            const createdAt = new Date(user.created_at);
+                                            const today = new Date();
+                                            const timeDifference = Math.abs(today.getTime() - createdAt.getTime());
+                                            const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+                                            const isNewUser = daysDifference <= 7;
+
+                                            if (isNewUser) {
+                                                return <FontAwesomeIcon icon={faUser}/>;
+                                            }
+                                            return null;
+                                        })()}
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
