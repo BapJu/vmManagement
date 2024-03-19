@@ -14,8 +14,6 @@ export default function Manage({auth}) {
         id_localisation: '',
         id_subject: ''
     });
-    const [selectedLocalisation, setSelectedLocalisation] = useState('');
-    const [selectedSubject, setSelectedSubject] = useState('');
 
     useEffect(() => {
         fetchData('/api/subjects', setSubjects);
@@ -129,28 +127,6 @@ export default function Manage({auth}) {
         }
     };
 
-    const handleLocalisationChange = (e) => {
-        setSelectedLocalisation(e.target.value);
-    }
-
-    const handleSubjectChange = (e) => {
-        setSelectedSubject(e.target.value);
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Vérifiez si les deux options sont sélectionnées
-        if (selectedLocalisation && selectedSubject) {
-            // Effectuez l'action de soumission
-            console.log("Formulaire soumis !");
-        } else {
-            // Affichez un message d'erreur ou prenez une autre action
-            console.log("Veuillez sélectionner une option dans chaque liste.");
-        }
-    }
-
-
     return (
         <AuthenticatedLayout user={auth.user}
                              header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les
@@ -171,33 +147,17 @@ export default function Manage({auth}) {
                     <input type="text" placeholder="Description" value={newTemplate.description}
                            onChange={(e) => handleNewTemplateChange('description', e.target.value)}
                            className="form-input mt-1 block"/>
-                    <form onSubmit={handleSubmit}>
-                        <select
-                            onChange={handleLocalisationChange}
-                            value={selectedLocalisation}
-                            className="mt-1 block w-full"
-                            required
-                        >
-                            <option value="" disabled>Choisir lieu</option>
-                            {sites.map(site => (
-                                <option key={site.id} value={site.id}>{site.name}</option>
-                            ))}
-                        </select>
-
-                        <select
-                            onChange={handleSubjectChange}
-                            value={selectedSubject}
-                            className="mt-1 block w-full"
-                            required
-                        >
-                            <option value="" disabled>Choisir matière</option>
-                            {subjects.map(subject => (
-                                <option key={subject.id} value={subject.id}>{subject.description}</option>
-                            ))}
-                        </select>
-
-                        <button type="submit">Soumettre</button>
-                    </form>
+                    <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
+                            value={newTemplate.id_localisation} className="mt-1 block w-full" required>
+                        <option value="" disabled>Choisir lieu</option>
+                        {sites.map(site => (<option key={site.id} value={site.id}>{site.name}</option>))}
+                    </select>
+                    <select onChange={(e) => handleNewTemplateChange('id_subject', e.target.value)}
+                            value={newTemplate.id_subject} className="mt-1 block w-full" required>
+                        <option value="" disabled>Choisir matière</option>
+                        {subjects.map(subject => (
+                            <option key={subject.id} value={subject.id}>{subject.description}</option>))}
+                    </select>
                     <button onClick={addNewTemplate}
                             className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
                         Template
