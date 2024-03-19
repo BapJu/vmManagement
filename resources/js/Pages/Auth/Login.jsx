@@ -21,7 +21,7 @@ export default function Login({ status, canResetPassword }) {
         };
     }, []);
 
-    const submitLogin = async (event) => {
+    const submit = async (event) => {
         event.preventDefault(); // Prevent the default form submission
 
         try {
