@@ -37,6 +37,7 @@ export default function Manage({auth}) {
         })
             .then(response => response.json())
             .then(data => {
+                setEvents([]);
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
