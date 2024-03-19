@@ -140,16 +140,16 @@ export default function Manage({auth}) {
                 </div>
                 {showAddServeur && (
                     <div>
-                        <input type="text" placeholder="serveur ID" value={newServeur.address_ip}
+                        <input type="text" placeholder="Address IP" value={newServeur.address_ip}
                                onChange={(e) => handleNewServeurChange('address_ip', e.target.value)}
                                className="form-input mt-1 block" required/>
-                        <input type="text" placeholder="Description" value={newServeur.noeud}
+                        <input type="text" placeholder="Noeud" value={newServeur.noeud}
                                onChange={(e) => handleNewServeurChange('noeud', e.target.value)}
                                className="form-input mt-1 block" required/>
-                        <input type="text" placeholder="Description" value={newServeur.ssh_user}
+                        <input type="text" placeholder="SSH USER" value={newServeur.ssh_user}
                                onChange={(e) => handleNewServeurChange('ssh_user', e.target.value)}
                                className="form-input mt-1 block" required/>
-                        <input type="text" placeholder="Description" value={newServeur.ssh_password}
+                        <input type="password" placeholder="SSH Password" value={newServeur.ssh_password}
                                onChange={(e) => handleNewServeurChange('ssh_password', e.target.value)}
                                className="form-input mt-1 block" required/>
                         <button onClick={handleAddServeurClick} disabled={!isFormValid()}
