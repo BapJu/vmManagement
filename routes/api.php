@@ -70,7 +70,7 @@ Route::middleware('auth:sanctum')->post('/event', [EventController::class, 'stor
 Route::middleware('auth:sanctum')->get('/event/{id}', [EventController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/event/{id}', [EventController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/event/{id}', [EventController::class, 'destroy']);
-Route::middleware('auth:sanctum')->get('/event/user/{idUser}', [EventController::class, 'filter']);
+Route::middleware('auth:sanctum')->get('/events/user/{idUser}', [EventController::class, 'filter']);
 
 
 // Routes pour 'storage'
