@@ -40,16 +40,18 @@ export default function Login({ status, canResetPassword }) {
                 return response.json();
             })
             .then(data => {
-                // Supposons que la session soit maintenant établie côté serveur.
+                localStorage.setItem('bearerToken', data.token);
                 console.log('Login success:', data);
-                console.log(route('dashboard'));
-                window.location.href = route('dashboard'); // Utilisez la redirection standard pour assurer la recharge complète de la page et l'initialisation de l'état de session.
+                post(route('login'));
             })
             .catch(error => {
                 console.error('Login error:', error);
                 setLoginError('Failed to login');
             });
+
+
     };
+
 
 
     return (
