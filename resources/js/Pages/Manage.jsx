@@ -14,19 +14,7 @@ export default function Manage({auth}) {
 
     console.log(events);
 
-    useEffect(() => {
-        const token = localStorage.getItem('bearerToken');
-        fetch('/api/events/'+auth.user.id, {
-            method: 'GET', headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setEvents(data);
-            })
-            .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token]); // Effectuer la requête chaque fois que le token d'authentification change
+
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
