@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthApiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServeurController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -50,6 +51,13 @@ Route::middleware('auth:sanctum')->post('/subject', [SubjectController::class, '
 Route::get('/subject/{id}', [SubjectController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/subject/{id}', [SubjectController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/subject/{id}', [SubjectController::class, 'destroy']);
+
+
+Route::middleware('auth:sanctum')->get('/serveurs', [ServeurController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/serveur', [ServeurController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/serveur/{id}', [ServeurController::class, 'show']);
+Route::middleware('auth:sanctum')->put('/serveur/{id}', [ServeurController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/serveur/{id}', [ServeurController::class, 'destroy']);
 
 
 // Routes pour 'type_of_vm'
