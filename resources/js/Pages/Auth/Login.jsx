@@ -42,8 +42,8 @@ export default function Login({ status, canResetPassword }) {
             .then(data => {
                 // Supposons que la session soit maintenant établie côté serveur.
                 console.log('Login success:', data);
-                // Redirection avec Inertia vers une route interne qui vérifie la session.
-                window.location.href = route('dashboard').url(); // Utilisez la redirection standard pour assurer la recharge complète de la page et l'initialisation de l'état de session.
+                console.log(route('dashboard'));
+                window.location.href = route('dashboard'); // Utilisez la redirection standard pour assurer la recharge complète de la page et l'initialisation de l'état de session.
             })
             .catch(error => {
                 console.error('Login error:', error);
