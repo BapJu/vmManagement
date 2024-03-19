@@ -50,6 +50,7 @@ class TypeOfVmController extends Controller
         $TypeOfVm->template_id = $request->input('template_id');
         $TypeOfVm->id_localisation = $request->input('id_localisation');
         $TypeOfVm->id_subject = $request->input('id_subject');
+        $TypeOfVm->serveur_id = $request->input('serveur_id');
         $TypeOfVm->updated_at = now();
         $TypeOfVm->save();
 
