@@ -255,6 +255,18 @@ export default function Manage({auth}) {
                                         </select>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
+                                        <select
+                                            className="p-2 border border-gray-300 rounded-md"
+                                            value={template.serveur_id}
+                                            onChange={(e) => handleUpdate(template.id, 'serveur_id', e.target.value)}
+                                        >
+                                            {serveurs.map(server => (
+                                                <option key={server.id}
+                                                        value={server.id}>{server.noeud}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => confirmDeleteTemplate(template.id)}
                                                 className="text-red-600 hover:text-red-900">Delete
                                         </button>
