@@ -110,7 +110,7 @@ export default function Manage({auth}) {
             .catch(error => console.error('Error fetching all events:', error));
     }, [auth.token]);
 
-
+    console.log(data);
     const handleStartVM = (vmId) => {
         const action = {action: "start"};
         const token = localStorage.getItem('bearerToken');
