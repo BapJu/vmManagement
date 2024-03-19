@@ -75,19 +75,7 @@ Route::get('/statistiques', function () {
     return Inertia::render('Statistiques');
 })->middleware(['auth', 'verified'])->name('statistiques');
 
-Route::get('/manage-admin', function () {
-    if (Auth::check()) {
-        $userRole = Auth::user()->id_role;
 
-        if ($userRole == 1) {
-            return Inertia::render('ManageAdmin');
-        } else {
-            return redirect()->route('manage')->with('error', 'Accès interdit');
-        }
-    } else {
-        return redirect()->route('login');
-    }
-})->middleware(['auth', 'verified'])->name('manage-admin');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

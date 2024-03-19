@@ -63,7 +63,8 @@ Route::middleware('auth:sanctum')->delete('/typeOfVm/{id}', [TypeOfVmController:
 
 
 // Routes pour 'event'
-Route::middleware('auth:sanctum')->get('/events', [EventController::class, 'index']);
+
+Route::get('/events/', [EventController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/events/current_user', [EventController::class, 'index_current_user']);
 Route::middleware('auth:sanctum')->post('/event', [EventController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/event/{id}', [EventController::class, 'show']);
