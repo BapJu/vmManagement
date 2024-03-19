@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Manage({ auth }) {
     const [users, setUsers] = useState([]);
