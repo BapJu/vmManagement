@@ -89,11 +89,12 @@ export default function Manage({auth}) {
     // Méthode pour obtenir toutes les VM lorsque le bouton est coché
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
+        let url;
         if (auth.user.id_role === 1) {
-            const url = '/api/events';
+            url = '/api/events';
         }
         else {
-            const url = `/api/events/user/${auth.user.id}`;
+            url = `/api/events/user/${auth.user.id}`;
         }
         fetch(url, {
             method: 'GET', headers: {
