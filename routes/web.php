@@ -78,7 +78,7 @@ Route::get('/ManageServeurs', function () {
     } else {
         return redirect()->route('login');
     }
-})->middleware(['auth', 'verified'])->name('ManageServeurs');
+})->middleware(['auth', 'verified'])->name('manage-serveurs');
 
 
 Route::get('/manage', function () {
