@@ -21,6 +21,5 @@
     - name: 'Stop LXC Containers'
       command: >
         pct stop {{ item }}
-      delegate_to: 10.10.48.9
       ignore_errors: yes
       with_items: "{{ vmids_to_stop }}"
