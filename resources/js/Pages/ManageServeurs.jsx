@@ -78,7 +78,7 @@ export default function Manage({auth}) {
     };
 
     const filteredServeur = serveurs.filter(serveur =>
-        serveur.node.toLowerCase().includes(search.toLowerCase())
+        serveur.noeud.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleDelete = (serveurId) => {
