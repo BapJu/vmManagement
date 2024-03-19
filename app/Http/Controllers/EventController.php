@@ -124,7 +124,7 @@ class EventController extends Controller
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
 
 
-        $command = "sudo ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml');
+        $command = "ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml'."  -i /etc/ansible/hosts -l 10.10.48.9");
 
         if ($request->input('start_vm') === false ) {
             $command = $command . " --extra-vars 'start_containers=no'";
@@ -161,7 +161,7 @@ class EventController extends Controller
         if ($action === 'stop') {
             $event->active = false;
 
-            $command = "sudo ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
+            $command = "ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'  -i /etc/ansible/hosts -l 10.10.48.9";
             exec($command);
             $event->save();
 
@@ -176,7 +176,7 @@ class EventController extends Controller
             return response()->json(['message' => 'Event started successfully'], 201);
         } elseif ($action === 'destroy') {
             $event->active = false;
-            $command = "sudo ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
+            $command = "ansible-playbook " . base_path('/scripts/remove_lxc.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'  -i /etc/ansible/hosts -l 10.10.48.9";
             exec($command);
 
             $event->ip = null;
