@@ -19,7 +19,7 @@ class ServeurController extends Controller
     public function store(Request $request)
     {
         $Serveur = new Serveur();
-        $Serveur->address_ip = $request->input('adress_ip');
+        $Serveur->address_ip = $request->input('address_ip');
         $Serveur->noeud = $request->input('noeud');
         $Serveur->ssh_user = $request->input('ssh_user');
         $Serveur->ssh_password = Hash::make($request->input('ssh_password'));
