@@ -103,7 +103,9 @@ export default function Manage({auth}) {
         })
             .then(response => response.json())
             .then(data => {
-                setEvents(data);
+                    setEvents([]); // Réinitialise l'état
+                    setEvents(data); // Met à jour avec les nouvelles données
+
             })
             .catch(error => console.error('Error fetching all events:', error));
     }, [auth.token]);
