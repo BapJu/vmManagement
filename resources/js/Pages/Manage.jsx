@@ -257,10 +257,10 @@ export default function Manage({auth}) {
                                     Name
                                 </th>
                                 {(auth.user.id_role === 1) && (
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    User
-                                </th>
+                                    <th scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        User
+                                    </th>
                                 )}
 
                                 <th scope="col"
@@ -291,24 +291,10 @@ export default function Manage({auth}) {
                                     <tr key={event.id}
                                         className={event.ip !== null ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
-                                        {(auth.user.id_role === 1) && (
-                                            <td className="px-6 py-4 whitespace-nowrap">{getusername(event.id_user)}</td>
-                                        )}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
-
-                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.created_at)}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {event.scheduledexpiry}
-                                            {new Date(event.scheduledexpiry) < new Date() && event.active && event.scheduledexpiry && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faClock} className="ml-2 text-red-500"/>
-
-                                                </>
-                                            )}
-                                        </td>
-
+                                        <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.updated_at)}</td>
                                         {event.ip !== null && auth.user.id_role !== 4 && (
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {event.active ? (
@@ -320,13 +306,10 @@ export default function Manage({auth}) {
                                                                      onClick={() => handleStartVM(event.id)}
                                                                      className="cursor-pointer mr-2"/>
                                                 )}
-                                                <FontAwesomeIcon icon={faTrash}
-                                                                 onClick={() => confirmDeleteVM(event.id)}
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteVM(event.id)}
                                                                  className="cursor-pointer"/>
-
                                             </td>
                                         )}
-
                                     </tr>
                                 )
                             ))}
