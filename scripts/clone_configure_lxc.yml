@@ -3,8 +3,11 @@
   hosts: all
   vars:
     clones_file: "clones.yml"
+<<<<<<< HEAD
     start_containers: yes  # Ajouter un paramètre pour contrôler le démarrage des conteneurs
-
+=======
+    start_containers: yes
+>>>>>>> 9c6c389cc2945e99b15143b98519dc0bb0a1c535
 
   tasks:
     - name: 'Clone LXC Containers'
@@ -18,6 +21,7 @@
         --hostname ansible-lxc-{{ item.vmid }}
         --pool {{ item.resource_pool }}
         --hostname {{ item.cloneName }}
+      delegate_to: 10.10.48.9
       ignore_errors: yes
       with_items: "{{ clones.clones }}"
 
@@ -27,10 +31,16 @@
         regexp: '^net0'
         line: "net0: name=eth0,ip={{ item.static_ip }}/24,gw={{ item.gateway }},bridge=vmbr0"
         create: yes
+      delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
 
     - name: 'Start LXC Containers'
       command: >
         pct start {{ item.vmid }}
+      delegate_to: 10.10.48.9
       with_items: "{{ clones.clones }}"
+<<<<<<< HEAD
+      when: start_containers  # Utilisez la variable pour contrôler l'exécution de cette tâche
+=======
       when: start_containers
+>>>>>>> 9c6c389cc2945e99b15143b98519dc0bb0a1c535
