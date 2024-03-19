@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia'
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -40,16 +41,22 @@ export default function Login({ status, canResetPassword }) {
                 return response.json();
             })
             .then(data => {
+                // Stockage du token dans localStorage
                 localStorage.setItem('bearerToken', data.token);
-                console.log('Login success:', data);
-                post(route('login'));
+
+                // Connexion réussie, redirection ou action post-login avec Inertia
+                // À ce stade, vous pourriez vouloir actualiser l'utilisateur dans votre application
+                // Cela dépend de la façon dont votre application est configurée pour gérer les sessions utilisateur
+                // Ici, j'utilise une redirection simplifiée comme exemple
+
+                Inertia.visit(route('dashboard'), { only: ['user'] }); // Assurez-vous que 'route' est défini correctement pour correspondre à vos routes
             })
             .catch(error => {
                 console.error('Login error:', error);
-                setLoginError('Failed to login');
+                // setLoginError('Failed to login');
+                // Si vous utilisez React avec Inertia, vous pourriez vouloir utiliser un état pour gérer les erreurs de connexion
+                // Pour Vue ou Svelte, l'approche pourrait différer légèrement
             });
-
-
     };
 
 
