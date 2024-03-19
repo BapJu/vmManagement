@@ -16,7 +16,7 @@ export default function Manage({auth}) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        fetch('/api/events/current_user', {
+        fetch('/api/events/'+auth.user.id, {
             method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
             },
