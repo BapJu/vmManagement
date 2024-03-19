@@ -21,42 +21,55 @@ export default function Login({ status, canResetPassword }) {
         };
     }, []);
 
-    const submit = (e) => {
-        e.preventDefault();
+    const submit = async (event) => {
+        event.preventDefault(); // Prevent the default form submission
 
-        fetch('/api/tokens/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        try {
+            // Step 1: Direct API Call for Authentication
+            const apiResponse = await fetch('/api/tokens/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password,
+                }),
+            });
+
+            if (!apiResponse.ok) {
+                throw new Error('API login failed: ' + apiResponse.statusText);
+            }
+
+            const { token } = await apiResponse.json();
+            // Consider secure ways to handle the token (e.g., using httpOnly cookies if possible)
+            localStorage.setItem('bearerToken', token);
+
+            // Step 2: Inertia.js Post Request for Frontend-specific Login Actions
+            Inertia.post('/login', {
                 email: data.email,
                 password: data.password,
-            }),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+            }, {
+                preserveState: true,
+                onSuccess: (page) => {
+                    console.log('Inertia login success:', page);
+                    // Optional: Redirect or perform other actions upon successful login
+                    Inertia.visit('/home'); // Example redirection
+                },
+                onError: (errors) => {
+                    // Handle errors more gracefully in a production environment
+                    console.error('Inertia login error:', errors);
                 }
-                return response.json();
-            })
-            .then(data => {
-                // Stockage du token dans localStorage
-                localStorage.setItem('bearerToken', data.token);
-
-                // Connexion réussie, redirection ou action post-login avec Inertia
-                // À ce stade, vous pourriez vouloir actualiser l'utilisateur dans votre application
-                // Cela dépend de la façon dont votre application est configurée pour gérer les sessions utilisateur
-                // Ici, j'utilise une redirection simplifiée comme exemple
-
-                Inertia.visit(route('dashboard'), { only: ['user'] }); // Assurez-vous que 'route' est défini correctement pour correspondre à vos routes
-            })
-            .catch(error => {
-                console.error('Login error:', error);
-                // setLoginError('Failed to login');
-                // Si vous utilisez React avec Inertia, vous pourriez vouloir utiliser un état pour gérer les erreurs de connexion
-                // Pour Vue ou Svelte, l'approche pourrait différer légèrement
             });
+
+        } catch (error) {
+            // Handle network or other errors gracefully
+            console.error('Login process error:', error.message);
+            // Optionally, update the UI to reflect the error
+        }
+
+
+
     };
 
 
