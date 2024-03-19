@@ -6,6 +6,7 @@ export default function Manage({auth}) {
     const [subjects, setSubjects] = useState([]);
     const [sites, setSites] = useState([]);
     const [templates, setTemplates] = useState([]);
+    const [serveurs, setServeurs] = useState([]);
     const [search, setSearch] = useState("");
     const [showAddTemplate, setShowAddTemplate] = useState(false);
     const [newTemplate, setNewTemplate] = useState({
@@ -19,6 +20,7 @@ export default function Manage({auth}) {
         fetchData('/api/subjects', setSubjects);
         fetchData('/api/localisations', setSites);
         fetchData('/api/typeOfVms', setTemplates);
+        fetchData('/api/serveurs', setServeurs);
     }, [auth.token]);
 
     function fetchData(url, setState) {
@@ -162,10 +164,10 @@ export default function Manage({auth}) {
                     <div>
                         <input type="text" placeholder="Template ID" value={newTemplate.template_id}
                                onChange={(e) => handleNewTemplateChange('template_id', e.target.value)}
-                               className="form-input mt-1 block" required />
+                               className="form-input mt-1 block" required/>
                         <input type="text" placeholder="Description" value={newTemplate.description}
                                onChange={(e) => handleNewTemplateChange('description', e.target.value)}
-                               className="form-input mt-1 block" required />
+                               className="form-input mt-1 block" required/>
                         <select onChange={(e) => handleNewTemplateChange('id_localisation', e.target.value)}
                                 value={newTemplate.id_localisation} className="mt-1 block w-full" required>
                             <option value="" disabled>Choisir lieu</option>
@@ -176,6 +178,12 @@ export default function Manage({auth}) {
                             <option value="" disabled>Choisir matière</option>
                             {subjects.map(subject => (
                                 <option key={subject.id} value={subject.id}>{subject.description}</option>))}
+                        </select>
+                        <select onChange={(e) => handleNewTemplateChange('serveur_id', e.target.value)}
+                                value={newTemplate.serveur_id} className="mt-1 block w-full" required>
+                            <option value="" disabled>Choisir le serveur</option>
+                            {serveurs.map(serveur => (
+                                <option key={serveur.id} value={serveur.id}>{serveur.noeud}</option>))}
                         </select>
                         <button onClick={handleAddTemplateClick} disabled={!isFormValid()}
                                 className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
