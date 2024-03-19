@@ -1,7 +1,6 @@
 # start_containers.yml
 ---
 - name: Start LXC containers in Proxmox
-  hosts: all
   vars:
     # Commentez la ligne suivante pour désactiver le chargement depuis le fichier de configuration
     # start_containers_file: "start_containers_config.yml"
