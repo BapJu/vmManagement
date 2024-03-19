@@ -12,6 +12,8 @@ export default function Manage({auth}) {
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState('');
 
+    console.log(events);
+
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
         fetch('/api/events/current_user', {
