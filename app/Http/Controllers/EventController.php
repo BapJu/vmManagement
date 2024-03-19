@@ -169,7 +169,7 @@ class EventController extends Controller
         } elseif ($action === 'start') {
             $event->active = true;
 
-            $command = "sudo ansible-playbook -i /etc/ansible/hosts" . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
+            $command = "sudo ansible-playbook -i /etc/ansible/hosts " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'";
             $output = exec($command);
             echo $output;
             $event->save();
