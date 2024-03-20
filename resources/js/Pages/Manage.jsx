@@ -260,7 +260,7 @@ export default function Manage({auth}) {
 
                            <select
                                 value={selectedServeurId}
-                                onChange={handleServeurSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                onChange={handleServeurSelection}
                                 className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
                             >
                                 <option value="">Show all serveurs</option>
@@ -285,11 +285,15 @@ export default function Manage({auth}) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                {(auth.user.id_role === 1) && (
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    User
+                                    Serveur
                                 </th>
+                                {(auth.user.id_role === 1) && (
+                                    <th scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        User
+                                    </th>
                                 )}
 
                                 <th scope="col"
