@@ -128,7 +128,7 @@ class EventController extends Controller
         file_put_contents(base_path('/scripts/clones.yml'), $yamlContent);
 
 
-        $command = "ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml') . " -i {$serveur_ip}, --extra-vars 'node_name=ens10pxcv'";
+        $command = "ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml') . " -i {$serveur_ip}, --extra-vars 'node_name={$serveur_node}'";
 
         if ($request->input('start_vm') === false ) {
             $command = $command . " --extra-vars 'start_containers=no'";
