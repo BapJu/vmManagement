@@ -117,6 +117,7 @@ LIMIT :limit
             $event->ip = $ip->available_ip;
             $event->active = $request->input('start_vm');
             $event->namevm = $request->input('prefix_name_vm') . $request->input('name_vm') . "-" . str_replace('.', '', $ip->available_ip);
+            $event->created_at = now();
             $event->save();
 
             $dataForYAML[] = [
