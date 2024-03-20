@@ -111,7 +111,7 @@ export default function Dashboard({ auth }) {
 
     useEffect(() => {
         if (data.serveur_id) {
-            fetch(`/api/storage/serveur=${data.serveur_id}`)
+            fetch(`/api/storage/serveur/${data.serveur_id}`)
                 .then(response => response.json())
                 .then(setStorages)
                 .catch(error => {
