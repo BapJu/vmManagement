@@ -285,15 +285,12 @@ export default function Manage({auth}) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
+
+                                {(auth.user.id_role === 1) && (
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Serveur
+                                    User
                                 </th>
-                                {(auth.user.id_role === 1) && (
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        User
-                                    </th>
                                 )}
 
                                 <th scope="col"
@@ -329,9 +326,6 @@ export default function Manage({auth}) {
                                         )}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {vmServers.find(vmServer => vmServer.vmId === event.id)?.serverName || 'N/A'}
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.created_at)}</td>
