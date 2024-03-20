@@ -181,11 +181,12 @@ class EventController extends Controller
             $typeOfVm = $event->id_typeofvm;
             $serveur_id = DB::table('typeofvm')->where('id', $typeOfVm)->value('serveur_id');
             $serveur_ip = DB::table('serveur')->where('id', $serveur_id)->value('address_ip');
+
             $command = "ansible-playbook " . base_path('/scripts/start_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}' -i /etc/ansible/hosts -l {$serveur_ip}";
             exec($command);
             $event->save();
 
-            return response()->json(['message' => 'Event started successfully'], 201);
+            return response()->json(['message' => 'Event started successfully', 'typeOfVm' => $typeOfVm], 201);
         } elseif ($action === 'destroy') {
             $event->active = false;
 
