@@ -23,7 +23,7 @@ export default function Dashboard({ auth }) {
         end_date: null,
         name_vm: null,
         start_vm : true,
-        serveur_id : 1
+        serveur_id : null,
     });
 
     const nameParts = auth.user.name.split(' ');
@@ -226,7 +226,7 @@ export default function Dashboard({ auth }) {
                                             <select
                                                 id="serveur"
                                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                onChange={(e) => setData('id_serveurs', e.target.value)}
+                                                onChange={(e) => setData('serveur_id', e.target.value)}
                                                 required
                                             >
                                                 {serveurs.map(serveur => (<option key={serveur.id}
