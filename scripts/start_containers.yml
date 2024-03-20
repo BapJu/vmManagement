@@ -1,11 +1,12 @@
 # start_containers.yml
 ---
 - name: Start LXC containers in Proxmox
-  hosts: "{{ target_host }}"  # Utiliser la variable target_host
+- hosts: all
 
   tasks:
     - name: 'Generate VMIDs to Start'
       set_fact:
+        # Modifiez cette ligne pour utiliser les paramètres depuis la ligne de commande
         vmids_to_start: "{{ range(param_start_vmid|int, param_end_vmid|int + 1)|list }}"
 
     - name: 'Start LXC Containers'
@@ -13,3 +14,4 @@
         pct start {{ item }}
       ignore_errors: yes
       with_items: "{{ vmids_to_start }}"
+
