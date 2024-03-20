@@ -1,7 +1,7 @@
 # start_containers.yml
 ---
 - name: Start LXC containers in Proxmox
-- hosts: all
+  hosts: all
 
   tasks:
     - name: 'Generate VMIDs to Start'
