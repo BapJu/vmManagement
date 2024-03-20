@@ -330,6 +330,9 @@ export default function Manage({auth}) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {vmServers.find(vmServer => vmServer.vmId === event.id)?.serverName || 'N/A'}
+                                        </td>
 
                                         <td className="px-6 py-4 whitespace-nowrap">{formatDate(event.created_at)}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
