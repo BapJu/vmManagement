@@ -10,6 +10,7 @@ export default function Dashboard({ auth }) {
     const [localisations, setLocalisations] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const [storages, setStorages] = useState([]);
+    const [serveurs, setServeurs] = useState([]);
     const [error, setError] = useState('');
 
     const { data, setData, errors, processing } = useForm({
@@ -22,6 +23,7 @@ export default function Dashboard({ auth }) {
         end_date: null,
         name_vm: null,
         start_vm : true,
+        serveur_id : 1
     });
 
     const nameParts = auth.user.name.split(' ');
@@ -79,12 +81,14 @@ export default function Dashboard({ auth }) {
                     fetch('/api/localisations'),
                     fetch('/api/subjects'),
                     fetch('/api/storages'),
+                    fetch('/api/serveurs')
                 ]);
-                const [localisationsData, subjectsData, storagesData] = await Promise.all(responses.map(res => res.json()));
+                const [localisationsData, subjectsData, storagesData, serveursData] = await Promise.all(responses.map(res => res.json()));
 
                 setLocalisations(localisationsData);
                 setSubjects(subjectsData);
                 setStorages(storagesData);
+                setServeurs(serveursData);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError('An error occurred while fetching data. Please try again.');
@@ -218,6 +222,18 @@ export default function Dashboard({ auth }) {
                                             </select>
                                         </div>
                                         <div className="mb-4">
+                                            <label htmlFor="serveur" className="block text-gray-700">Mémoire:</label>
+                                            <select
+                                                id="serveur"
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                onChange={(e) => setData('id_serveurs', e.target.value)}
+                                                required
+                                            >
+                                                {serveurs.map(serveur => (<option key={serveur.id}
+                                                                                  value={serveur.id}>{storage.noeud}</option>))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-4">
                                             <label htmlFor="storage" className="block text-gray-700">Mémoire:</label>
                                             <select
                                                 id="storage"
@@ -225,8 +241,13 @@ export default function Dashboard({ auth }) {
                                                 onChange={(e) => setData('id_storage', e.target.value)}
                                                 required
                                             >
-                                                {storages.map(storage => (<option key={storage.id}
-                                                                                  value={storage.id}>{storage.name}</option>))}
+                                                {storages.map(storage =>
+                                                        storage.serveur_id === data.serveur_id && (
+                                                            <option key={storage.id} value={storage.id}>
+                                                                {storage.name}
+                                                            </option>
+                                                        )
+                                                )}
                                             </select>
                                         </div>
                                         <div className="mb-4">
@@ -238,8 +259,13 @@ export default function Dashboard({ auth }) {
                                                 required
                                             >
                                                 <option value="">Choisissez votre template</option>
-                                                {templates.map(template => (<option key={template.id}
-                                                                                    value={template.id}>{template.description}</option>))}
+                                                {templates.map(template =>
+                                                    template.serveur_id === data.serveur_id && (
+                                                        <option
+                                                            key={template.id} value={template.id}>{template.description}
+                                                        </option>
+                                                    )
+                                                )}
                                             </select>
                                         </div>
                                         <div className="mb-4">
