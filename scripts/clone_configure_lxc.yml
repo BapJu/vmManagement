@@ -4,7 +4,7 @@
   vars:
     clones_file: "clones.yml"
     start_containers: yes  # Ajouter un paramètre pour contrôler le démarrage des conteneurs
-
+    node_name: "{{ ansible_nodename }}"  # Utilise le nom du nœud actuel comme valeur par défaut
 
   tasks:
     - name: 'Clone LXC Containers'
@@ -23,7 +23,7 @@
 
     - name: 'Configure Static IP Address'
       lineinfile:
-        path: "/etc/pve/nodes/ens10pxcv/lxc/{{ item.vmid }}.conf"
+        path: "/etc/pve/nodes/{{ node_name }}/lxc/{{ item.vmid }}.conf"
         regexp: '^net0'
         line: "net0: name=eth0,ip={{ item.static_ip }}/24,gw={{ item.gateway }},bridge=vmbr0"
         create: yes
