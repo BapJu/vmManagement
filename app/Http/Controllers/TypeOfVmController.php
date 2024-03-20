@@ -73,7 +73,7 @@ class TypeOfVmController extends Controller
 
     public function filter($idLocalisation, $idSubject, $idServeur)
     {
-        $TypeOfVms = TypeOfVm::where('id_localisation', $idLocalisation)->where('id_subject', $idSubject)->where('id_serveur',$idServeur)->get();
+        $TypeOfVms = TypeOfVm::where('id_localisation', $idLocalisation)->where('id_subject', $idSubject)->where('serveur_id',$idServeur)->get();
         return response()->json($TypeOfVms);
     }
 
