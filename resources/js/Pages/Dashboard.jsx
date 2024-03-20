@@ -230,7 +230,7 @@ export default function Dashboard({ auth }) {
                                                 required
                                             >
                                                 {serveurs.map(serveur => (<option key={serveur.id}
-                                                                                  value={serveur.id}>{storage.noeud}</option>))}
+                                                                                  value={serveur.id}>{serveur.noeud}</option>))}
                                             </select>
                                         </div>
                                         <div className="mb-4">
