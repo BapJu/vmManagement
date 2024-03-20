@@ -36,7 +36,7 @@ export default function Manage({auth}) {
         const updatedServeurs = serveurs.map(serveur =>
             serveur.id === serveurId ? {...serveur, [field]: value} : serveur
         );
-        setServeur(updatedServeur);
+        setServeurs(updatedServeurs);
         const token = localStorage.getItem('bearerToken');
         debouncedUpdate(serveurId, field, value, token);
     };
