@@ -107,7 +107,7 @@ export default function Dashboard({ auth }) {
                     setError('An error occurred while fetching templates. Please try again.');
                 });
         }
-    }, [data.id_localisation, data.id_subject]);
+    }, [data.id_localisation, data.id_subject, data.serveur_id]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
