@@ -10,7 +10,7 @@ class ServeurController extends Controller
 {
     public function index()
     {
-        $TypeOfVms = Serveur::all();
+        $TypeOfVms = Serveur::orderBy('id', 'asc')->get();
         return response()->json($TypeOfVms);
     }
 
