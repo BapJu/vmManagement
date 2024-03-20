@@ -75,10 +75,10 @@ class EventController extends Controller
         SELECT generate_series(200, 250) AS octet -- Génère les octets de 200 à 250
         ),
         available_ips AS (
-            SELECT CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet AS available_ip
+            SELECT CONCAT('10.', '10', '.', '48', '.', octet::text)::inet AS available_ip
             FROM ip_series
             WHERE NOT EXISTS (
-                SELECT 1 FROM event WHERE ip = CONCAT('10.', '{$mask_site}', '.', '{$mask_subject}', '.', octet::text)::inet
+                SELECT 1 FROM event WHERE ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
             )
         )
         SELECT available_ip
