@@ -323,13 +323,14 @@ export default function Manage({auth}) {
                                 ) && (
                                     <tr key={event.id}
                                         className={event.ip !== null ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         {(auth.user.id_role === 1) && (
                                             <td className="px-6 py-4 whitespace-nowrap">{getusername(event.id_user)}</td>
                                         )}
-                                        <td className="px-6 py-4 whitespace-nowrap">
 
-                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
