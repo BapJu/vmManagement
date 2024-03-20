@@ -327,7 +327,7 @@ export default function Manage({auth}) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {
                                                 (() => {
-                                                    const template = templates.find(template => template.id === event.template_id);
+                                                    const template = typeofvms.find(template => template.id === event.template_id);
                                                     const noeud = serveurs.find(serveur => serveur.id === template?.serveur_id)?.noeud;
                                                     return noeud; // Cette valeur sera affichée dans le td
                                                 })()
