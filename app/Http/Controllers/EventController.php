@@ -115,7 +115,7 @@ class EventController extends Controller
 
             $dataForYAML[] = [
                 'template_vmid' => $templateVMID,
-                'vmid' => str_replace('.', '', $ip->available_ip),
+                'vmid' => substr(str_replace('.', '', $ip->available_ip), 2),
                 'static_ip' => $ip->available_ip,
                 'gateway' => "10.{$mask_site}.{$mask_subject}.1",
                 'cloneName' => $request->input('prefix_name_vm') . $request->input('name_vm') . "-" . str_replace('.', '', $ip->available_ip),
