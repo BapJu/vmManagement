@@ -234,7 +234,16 @@ export default function Manage({auth}) {
                                 onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
                             >
-                                <option value="">Show all user vm's</option>
+                                <option value="">Show all user vms</option>
+                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                            </select>)}
+
+                            {auth.user.id_role === 1 && (<select
+                                value={selectedUserId}
+                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
+                            >
+                                <option value="">Choix du serveur</option>
                                 {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
                             </select>)}
                         </div>
