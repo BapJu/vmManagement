@@ -328,6 +328,9 @@ export default function Manage({auth}) {
                                             <td className="px-6 py-4 whitespace-nowrap">{getusername(event.id_user)}</td>
                                         )}
                                         <td className="px-6 py-4 whitespace-nowrap">
+
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             {historiqueChecked && !event.ip ? 'Deleted' : event.active ? 'Active' : 'Inactive'}
                                         </td>
 
