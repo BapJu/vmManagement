@@ -2,9 +2,6 @@
 ---
 - name: Stop and Remove LXC containers in Proxmox hosts
   hosts: all
-  vars:
-    # Uncomment the following line to enable loading from the configuration file
-    # remove_containers_file: "/var/www/html/vmManagement/scripts/remove_containers_config.yml"
 
   tasks:
     - name: 'Generate VMIDs to Stop and Remove'
@@ -15,12 +12,10 @@
       command: >
         pct stop {{ item }}
       ignore_errors: yes
-      delegate_to: 10.10.48.9
       with_items: "{{ vmids_to_remove }}"
 
     - name: 'Remove LXC Containers'
       command: >
         pct destroy {{ item }}
       ignore_errors: yes
-      delegate_to: 10.10.48.9
       with_items: "{{ vmids_to_remove }}"

@@ -2,17 +2,8 @@
 ---
 - name: Start LXC containers in Proxmox
   hosts: all
-  vars:
-    # Commentez la ligne suivante pour désactiver le chargement depuis le fichier de configuration
-    # start_containers_file: "start_containers_config.yml"
 
   tasks:
-    # Commentez la tâche suivante pour désactiver le chargement depuis le fichier de configuration
-    # - name: 'Load Start Containers Configuration'
-    #   include_vars:
-    #     file: "{{ start_containers_file }}"
-    #     name: start_containers_config
-
     - name: 'Generate VMIDs to Start'
       set_fact:
         # Modifiez cette ligne pour utiliser les paramètres depuis la ligne de commande
