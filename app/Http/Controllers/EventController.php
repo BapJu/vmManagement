@@ -80,7 +80,7 @@ available_ips AS (
     WHERE NOT EXISTS (
         SELECT 1
         FROM event
-        JOIN typeofvm ON event.id_template = typeofvm.id -- Jointure pour accéder à serveur_id
+        JOIN typeofvm ON event.id_typeofvm = typeofvm.id -- Jointure pour accéder à serveur_id
         WHERE event.ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
         AND typeofvm.serveur_id = :serveurId -- Filtre par serveur_id spécifique
     )
