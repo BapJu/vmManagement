@@ -211,7 +211,6 @@ class EventController extends Controller
 
     }
 
-
     public function filter($idUser)
     {
         if (!is_numeric($idUser)) {
