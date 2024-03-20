@@ -31,6 +31,31 @@ export default function Manage({auth}) {
             .catch(error => console.error(`Error fetching data from ${url}:`, error));
     }
 
+    const debouncedUpdate = _.debounce((serveurId, field, value, token) => {
+        const url = `/api/serveur/${serveurId}`;
+        const data = {...serveurs.find(t => t.id === serveurId), [field]: value};
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => {
+                console.log('Update successful');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, 500);
+
 
     const handleUpdate = (serveurId, field, value) => {
         const updatedServeurs = serveurs.map(serveur =>
@@ -124,6 +149,8 @@ export default function Manage({auth}) {
             alert("Veuillez remplir tous les champs avant d'ajouter le serveur.");
         }
     }
+
+
 
     return (
         <AuthenticatedLayout user={auth.user}
