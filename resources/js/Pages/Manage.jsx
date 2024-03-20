@@ -285,12 +285,15 @@ export default function Manage({auth}) {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-
-                                {(auth.user.id_role === 1) && (
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    User
+                                    Serveur
                                 </th>
+                                {(auth.user.id_role === 1) && (
+                                    <th scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        User
+                                    </th>
                                 )}
 
                                 <th scope="col"
