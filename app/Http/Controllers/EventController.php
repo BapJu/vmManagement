@@ -218,16 +218,11 @@ class EventController extends Controller
             return response()->json(['message' => 'Invalid User ID'], 400);
         }
 
-        $events = Event::where('id_user', $idUser)
-            ->orderBy('created_at', 'desc') // Tri par date de création décroissante
-            ->get();
-
-        if ($events->isEmpty()) {
+        $Events = Event::where('id_user', $idUser)->get();
+        if ($Events->isEmpty()) {
             return response()->json([], 200);
         }
-
-        return response()->json($events);
+        return response()->json($Events);
     }
-
 
 }
