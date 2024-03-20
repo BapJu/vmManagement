@@ -217,7 +217,10 @@ class EventController extends Controller
             return response()->json(['message' => 'Invalid User/Server ID'], 400);
         }
 
-        $Events = Event::where('id_user', $idUser)->where('serveur_id',$idUser)->orderBy('created_at', 'desc')->get();
+
+
+        $Templates_by_server = DB::table('typeofvm')->where('serveur_id', $idServer)->pluck('id');
+        $Events = Event::where('id_user', $idUser)->whereIn('id_typeofvm', $Templates_by_server)->orderBy('created_at', 'desc')->get();
         if ($Events->isEmpty()) {
             return response()->json([], 200);
         }
@@ -230,7 +233,8 @@ class EventController extends Controller
             return response()->json(['message' => 'Invalid User ID'], 400);
         }
 
-        $Events = Event::where('serveur_id', $idServer)->orderBy('created_at', 'desc')->get();
+        $Templates_by_server = DB::table('typeofvm')->where('serveur_id', $idServer)->pluck('id');
+        $Events = Event::whereIn('id_typeofvm', $Templates_by_server)->orderBy('created_at', 'desc')->get();
         if ($Events->isEmpty()) {
             return response()->json([], 200);
         }
