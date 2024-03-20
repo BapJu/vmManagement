@@ -259,8 +259,8 @@ export default function Manage({auth}) {
                             </label>
 
                             {auth.user.id_role === 1 && (<select
-                                value={selectedUserId}
-                                onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
+                                value={selectedServeurId}
+                                onChange={handleServeurSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
                             >
                                 <option value="">Show all serveurs</option>
