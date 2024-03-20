@@ -32,11 +32,11 @@ export default function Manage({auth}) {
     }
 
 
-    const handleUpdate = (templateId, field, value) => {
-        const updatedTemplates = serveurs.map(serveur =>
-            serveur.id === templateId ? {...serveur, [field]: value} : serveur
+    const handleUpdate = (serveurId, field, value) => {
+        const updatedServeurs = serveurs.map(serveur =>
+            serveur.id === serveurId ? {...serveur, [field]: value} : serveur
         );
-        setServeur(updatedTemplates);
+        setServeur(updatedServeur);
         const token = localStorage.getItem('bearerToken');
         debouncedUpdate(serveurId, field, value, token);
     };
@@ -93,7 +93,7 @@ export default function Manage({auth}) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                setTemplates(serveurs.filter(serveur => serveur.id !== templateId));
+                setServeurs(serveurs.filter(serveur => serveur.id !== serveurId));
             })
             .catch(error => console.error('Error:', error));
     };
@@ -129,6 +129,7 @@ export default function Manage({auth}) {
         <AuthenticatedLayout user={auth.user}
                              header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Gérer les
                                  serveurs</h2>}>
+            <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
             <div className="ax-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
                 <div className="mb-4">
                     <input type="text" className="form-input mt-1 block w-full" placeholder="Rechercher un serveur..."
@@ -223,7 +224,7 @@ export default function Manage({auth}) {
                     </div>
                 </div>
             </div>
-
+        </div>
         </AuthenticatedLayout>
     )
         ;
