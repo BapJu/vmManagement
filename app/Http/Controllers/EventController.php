@@ -106,7 +106,7 @@ class EventController extends Controller
             $event->id_typeofvm = $typeOfVm;
             $event->id_user = $request->input('id_user');
             $event->id_storage = $storage_id;
-            $event->vmid = str_replace('.', '', $ip->available_ip);
+            $event->vmid = substr(str_replace('.', '', $ip->available_ip), 2);
             $event->scheduledexpiry = $request->input('end_date');
             $event->ip = $ip->available_ip;
             $event->active = $request->input('start_vm');
