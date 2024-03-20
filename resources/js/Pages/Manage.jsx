@@ -22,7 +22,7 @@ export default function Manage({auth}) {
         const token = localStorage.getItem('bearerToken');
         let url = '/api/events';
         if (selectedUserId) {
-            url += `/serveur/${selectedServeurId}`;
+            url += `/user/${selectedUserId}`;
         }
         if (selectedServeurId) {
             url += `/serveur/${selectedServeurId}`;
@@ -38,7 +38,7 @@ export default function Manage({auth}) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token, selectedUserId, selectedUserId]);
+    }, [auth.token, selectedUserId, selectedServeurId]);
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
@@ -258,14 +258,14 @@ export default function Manage({auth}) {
                                 </div>
                             </label>
 
-                            {auth.user.id_role === 1 && (<select
+                           <select
                                 value={selectedServeurId}
                                 onChange={handleServeurSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
                             >
                                 <option value="">Show all serveurs</option>
                                 {serveurs.map(serveur => (<option key={serveur.id} value={serveur.id}>{serveur.noeud}</option>))}
-                            </select>)}
+                            </select>
 
                             {auth.user.id_role === 1 && (<select
                                 value={selectedUserId}
