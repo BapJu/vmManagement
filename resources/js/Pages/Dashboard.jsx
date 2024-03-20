@@ -99,7 +99,7 @@ export default function Dashboard({ auth }) {
 
     useEffect(() => {
         if (data.id_localisation && data.id_subject) {
-            fetch(`/api/typeOfVms/location=${data.id_localisation}/subject=${data.id_subject}`)
+            fetch(`/api/typeOfVms/location=${data.id_localisation}/subject=${data.id_subject}/serveur=${data.serveur_id}`)
                 .then(response => response.json())
                 .then(setTemplates)
                 .catch(error => {
