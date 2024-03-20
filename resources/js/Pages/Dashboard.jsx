@@ -254,11 +254,11 @@ export default function Dashboard({ auth }) {
                                                 required
                                             >
                                                 {storages.map(storage =>
-                                                        storage.serveur_id === data.serveur_id && (
-                                                            <option key={storage.id} value={storage.id}>
-                                                                {storage.name}
-                                                            </option>
-                                                        )
+
+                                                        <option key={storage.id} value={storage.id}>
+                                                            {storage.name}
+                                                        </option>
+
                                                 )}
                                             </select>
                                         </div>
