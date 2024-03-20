@@ -62,6 +62,7 @@ class StorageController extends Controller
 
     public function filter($idServeur)
     {
+        $idServeur = (int)$idServeur;
         $Storages = Storage::where('serveur_id', $idServeur)->get();
         return response()->json($Storages);
     }
