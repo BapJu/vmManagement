@@ -109,6 +109,18 @@ export default function Dashboard({ auth }) {
         }
     }, [data.id_localisation, data.id_subject, data.serveur_id]);
 
+    useEffect(() => {
+        if (data.serveur_id) {
+            fetch(`/api/storage/serveur=${data.serveur_id}`)
+                .then(response => response.json())
+                .then(setStorages)
+                .catch(error => {
+                    console.error('Error fetching templates:', error);
+                    setError('An error occurred while fetching templates. Please try again.');
+                });
+        }
+    }, [data.serveur_id]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
