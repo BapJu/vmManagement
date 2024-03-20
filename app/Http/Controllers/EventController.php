@@ -170,7 +170,7 @@ class EventController extends Controller
             $serveur_ip = DB::table('serveur')->where('id', $serveur_id)->value('address_ip');
 
             #echo $serveur_ip;
-            echo 'test';
+            echo "hello";
             $command = "ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}' -i /etc/ansible/hosts -l {$serveur_ip}";
             exec($command);
             $event->save();
