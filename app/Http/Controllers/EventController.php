@@ -71,24 +71,26 @@ class EventController extends Controller
     ";
         */
         $query = "
-        WITH ip_series AS (
-        SELECT generate_series(200, 250) AS octet -- Génère les octets de 200 à 250
-        ),
-        available_ips AS (
-            SELECT CONCAT('10.', '10', '.', '48', '.', octet::text)::inet AS available_ip
-            FROM ip_series
-            WHERE NOT EXISTS (
-                SELECT 1 FROM event WHERE ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
-            )
-        )
-        SELECT available_ip
-        FROM available_ips
-        LIMIT :limit
-    ";
+WITH ip_series AS (
+SELECT generate_series(200, 250) AS octet -- Génère les octets de 200 à 250
+),
+available_ips AS (
+    SELECT CONCAT('10.', '10', '.', '48', '.', octet::text)::inet AS available_ip
+    FROM ip_series
+    WHERE NOT EXISTS (
+        SELECT 1 FROM event WHERE ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
+        AND serveur_id = :serveurId -- Filtre les IP déjà utilisées sur ce serveur spécifique
+    )
+)
+SELECT available_ip
+FROM available_ips
+LIMIT :limit
+";
 
 
+       // $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
+        $ipAvailable = DB::select($query, ['limit' => $nb_vm, 'serveurId' => $serveur_id]);
 
-        $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
 
         if (empty($ipAvailable)) {
             // Si aucune plage d'IP disponible, renvoyer une erreur
@@ -130,7 +132,7 @@ class EventController extends Controller
 
         $command = "ansible-playbook " . base_path('/scripts/clone_configure_lxc.yml') . " -i /etc/ansible/hosts -l {$serveur_ip}, --extra-vars 'node_name={$serveur_node}'";
 
-        if ($request->input('start_vm') === false ) {
+        if ($request->input('start_vm') === false) {
             $command = $command . " --extra-vars 'start_containers=no'";
         }
         exec($command);
@@ -211,12 +213,11 @@ class EventController extends Controller
 
     }
 
-    public function filter($idUser,$idServer)
+    public function filter($idUser, $idServer)
     {
         if (!is_numeric($idUser) || !is_numeric($idServer)) {
             return response()->json(['message' => 'Invalid User/Server ID'], 400);
         }
-
 
 
         $Templates_by_server = DB::table('typeofvm')->where('serveur_id', $idServer)->pluck('id');
