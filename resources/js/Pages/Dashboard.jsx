@@ -23,7 +23,7 @@ export default function Dashboard({ auth }) {
         end_date: null,
         name_vm: null,
         start_vm : true,
-        serveur_id : null,
+        serveur_id : 1,
     });
 
     const nameParts = auth.user.name.split(' ');
