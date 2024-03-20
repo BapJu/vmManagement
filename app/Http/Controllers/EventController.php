@@ -78,8 +78,11 @@ available_ips AS (
     SELECT CONCAT('10.', '10', '.', '48', '.', octet::text)::inet AS available_ip
     FROM ip_series
     WHERE NOT EXISTS (
-        SELECT 1 FROM event WHERE ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
-        AND serveur_id = :serveurId -- Filtre les IP déjà utilisées sur ce serveur spécifique
+        SELECT 1
+        FROM event
+        JOIN template ON event.id_template = template.id -- Jointure pour accéder à serveur_id
+        WHERE event.ip = CONCAT('10.', '10', '.', '48', '.', octet::text)::inet
+        AND template.serveur_id = :serveurId -- Filtre par serveur_id spécifique
     )
 )
 SELECT available_ip
@@ -88,7 +91,8 @@ LIMIT :limit
 ";
 
 
-       // $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
+
+        // $ipAvailable = DB::select($query, ['limit' => $nb_vm]);
         $ipAvailable = DB::select($query, ['limit' => $nb_vm, 'serveurId' => $serveur_id]);
 
 
