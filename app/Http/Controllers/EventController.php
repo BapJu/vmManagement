@@ -212,32 +212,22 @@ class EventController extends Controller
     }
 
 
-    /*
-    // Méthode pour supprimer un rôle
-    public function destroy($id)
-    {
-        $Event = Event::find($id);
-        if (!$Event) {
-            return response()->json(['message' => 'Event not found'], 404);
-        }
-
-        $Event->delete();
-
-        return response()->json(['message' => 'Event deleted successfully']);
-    }
-    */
-
     public function filter($idUser)
     {
         if (!is_numeric($idUser)) {
             return response()->json(['message' => 'Invalid User ID'], 400);
         }
 
-        $Events = Event::where('id_user', $idUser)->get();
-        if ($Events->isEmpty()) {
+        $events = Event::where('id_user', $idUser)
+            ->orderBy('created_at', 'desc') // Tri par date de création décroissante
+            ->get();
+
+        if ($events->isEmpty()) {
             return response()->json([], 200);
         }
-        return response()->json($Events);
+
+        return response()->json($events);
     }
+
 
 }
