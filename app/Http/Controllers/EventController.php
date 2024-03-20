@@ -241,4 +241,17 @@ class EventController extends Controller
         return response()->json($Events);
     }
 
+    public function filteronlyuser($idUser)
+    {
+        if (!is_numeric($idUser)) {
+            return response()->json(['message' => 'Invalid User ID'], 400);
+        }
+
+        $Events = Event::where('id_user', $idUser)->orderBy('created_at', 'desc')->get();
+        if ($Events->isEmpty()) {
+            return response()->json([], 200);
+        }
+        return response()->json($Events);
+    }
+
 }

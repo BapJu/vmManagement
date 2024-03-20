@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->put('/event/{id}', [EventController::class, '
 Route::middleware('auth:sanctum')->delete('/event/{id}', [EventController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/events/user/{idUser}/serveur/{serveurId}', [EventController::class, 'filter']);
 Route::middleware('auth:sanctum')->get('/events/serveur/{serveurId}', [EventController::class, 'filteronlyserveur']);
+Route::middleware('auth:sanctum')->get('/events/user/{userId}', [EventController::class, 'filteronlyuser']);
 
 // Routes pour 'storage'
 Route::get('/storages', [StorageController::class, 'index']);
