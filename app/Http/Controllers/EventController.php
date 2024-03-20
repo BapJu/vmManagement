@@ -211,13 +211,26 @@ class EventController extends Controller
 
     }
 
-    public function filter($idUser)
+    public function filter($idUser,$idServer)
     {
-        if (!is_numeric($idUser)) {
+        if (!is_numeric($idUser) || !is_numeric($idServer)) {
+            return response()->json(['message' => 'Invalid User/Server ID'], 400);
+        }
+
+        $Events = Event::where('id_user', $idUser)->where('serveur_id',$idUser)->orderBy('created_at', 'desc')->get();
+        if ($Events->isEmpty()) {
+            return response()->json([], 200);
+        }
+        return response()->json($Events);
+    }
+
+    public function filteronlyserveur($idServer)
+    {
+        if (!is_numeric($idServer)) {
             return response()->json(['message' => 'Invalid User ID'], 400);
         }
 
-        $Events = Event::where('id_user', $idUser)->get();
+        $Events = Event::where('serveur_id', $idServer)->orderBy('created_at', 'desc')->get();
         if ($Events->isEmpty()) {
             return response()->json([], 200);
         }

@@ -8,9 +8,11 @@ export default function Manage({auth}) {
     const [events, setEvents] = useState([]);
     const [typeofvms, setTypeOfVms] = useState([]);
     const [subjects, setSubjects] = useState([]);
+    const [serveurs, setServeurs] = useState([]);
     const [historiqueChecked, setHistoriqueChecked] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState('');
+    const [selectedServeurId, setSelectedServeurId] = useState('');
 
     console.log(events);
 
@@ -18,8 +20,13 @@ export default function Manage({auth}) {
 
     useEffect(() => {
         const token = localStorage.getItem('bearerToken');
-        const url = selectedUserId ? `/api/events/user/${selectedUserId}` : '/api/events';
-
+        let url = '/api/events';
+        if (selectedUserId) {
+            url += `/serveur/${selectedServeurId}`;
+        }
+        if (selectedServeurId) {
+            url += `/serveur/${selectedServeurId}`;
+        }
         fetch(url, {
             method: 'GET', headers: {
                 'Authorization': `Bearer ${token}`,
@@ -31,7 +38,22 @@ export default function Manage({auth}) {
                 setEvents(data);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [auth.token, selectedUserId]);
+    }, [auth.token, selectedUserId, selectedUserId]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('bearerToken');
+
+        fetch('api/serveurs', {
+            method: 'GET', headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setServeurs(data);
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    }, [auth.token]);
 
 
     useEffect(() => {
@@ -187,6 +209,11 @@ export default function Manage({auth}) {
         return `${day}-${month}-${year}`;
     }
 
+    const handleServeurSelection = (e) => {
+        const selectedServeurId = e.target.value;
+        setSelectedServeurId(selectedServeurId);
+    };
+
     const handleUserSelection = (e) => {
         const selectedUserId = e.target.value;
         setSelectedUserId(selectedUserId);
@@ -236,8 +263,8 @@ export default function Manage({auth}) {
                                 onChange={handleUserSelection} // Utiliser la fonction de gestion de sélection d'utilisateur
                                 className="p-2 border border-gray-300 rounded-md ml-4" // Added margin-left (ml-4) here
                             >
-                                <option value="">Show all user vms</option>
-                                {users.map(user => (<option key={user.id} value={user.id}>{user.name}</option>))}
+                                <option value="">Show all serveurs</option>
+                                {serveurs.map(serveur => (<option key={serveur.id} value={serveur.id}>{serveur.noeud}</option>))}
                             </select>)}
 
                             {auth.user.id_role === 1 && (<select
