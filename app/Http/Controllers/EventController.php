@@ -165,7 +165,12 @@ class EventController extends Controller
         if ($action === 'stop') {
             $event->active = false;
 
-            $command = "ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}'  -i /etc/ansible/hosts -l 10.10.48.9";
+            $typeOfVm = DB::table('event')->where('id', $request->input('id_event'))->value('id_typeofvm');
+            $serveur_id = DB::table('typeofvm')->where('id', $typeOfVm)->value('serveur_id');
+            $serveur_ip = DB::table('serveur')->where('id', $serveur_id)->value('address_ip');
+
+
+            $command = "ansible-playbook " . base_path('/scripts/stop_containers.yml') . " --extra-vars 'param_start_vmid={$event->vmid} param_end_vmid={$event->vmid}' -i /etc/ansible/hosts -l {$serveur_ip}";
             exec($command);
             $event->save();
 
