@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->put('/subject/{id}', [SubjectController::clas
 Route::middleware('auth:sanctum')->delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 
-Route::middleware('auth:sanctum')->get('/serveurs', [ServeurController::class, 'index']);
+Route::get('/serveurs', [ServeurController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/serveur', [ServeurController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/serveur/{id}', [ServeurController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/serveur/{id}', [ServeurController::class, 'update']);
