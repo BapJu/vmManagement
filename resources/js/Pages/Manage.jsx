@@ -325,8 +325,15 @@ export default function Manage({auth}) {
                                         className={event.ip !== null ? (event.active ? 'bg-green-100' : 'bg-pink-100') : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">{event.namevm}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {serveurs.find(serveur => serveur.id === event.id_serveur)?.noeud}
+                                            {
+                                                (() => {
+                                                    const template = templates.find(template => template.id === event.template_id);
+                                                    const noeud = serveurs.find(serveur => serveur.id === template?.serveur_id)?.noeud;
+                                                    return noeud; // Cette valeur sera affichée dans le td
+                                                })()
+                                            }
                                         </td>
+
                                         {(auth.user.id_role === 1) && (
                                             <td className="px-6 py-4 whitespace-nowrap">{getusername(event.id_user)}</td>
                                         )}
