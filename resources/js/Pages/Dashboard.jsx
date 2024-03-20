@@ -260,11 +260,11 @@ export default function Dashboard({ auth }) {
                                             >
                                                 <option value="">Choisissez votre template</option>
                                                 {templates.map(template =>
-                                                    template.serveur_id === data.serveur_id && (
-                                                        <option
-                                                            key={template.id} value={template.id}>{template.description}
-                                                        </option>
-                                                    )
+
+                                                    <option
+                                                        key={template.id} value={template.id}>{template.description}
+                                                    </option>
+
                                                 )}
                                             </select>
                                         </div>
