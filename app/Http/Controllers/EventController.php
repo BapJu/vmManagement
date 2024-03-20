@@ -165,7 +165,7 @@ class EventController extends Controller
         if ($action === 'stop') {
             $event->active = false;
 
-            $typeOfVm = DB::table('event')->where('id', $request->input('id_event'))->value('id_typeofvm');
+            $typeOfVm = DB::table('event')->where('id', $request->input('id'))->value('id_typeofvm');
             $serveur_id = DB::table('typeofvm')->where('id', $typeOfVm)->value('serveur_id');
             $serveur_ip = DB::table('serveur')->where('id', $serveur_id)->value('address_ip');
 
