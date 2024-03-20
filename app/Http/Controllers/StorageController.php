@@ -59,4 +59,10 @@ class StorageController extends Controller
 
         return response()->json(['message' => 'Storage deleted successfully']);
     }
+
+    public function filter($idServeur)
+    {
+        $Storages = Storage::where('serveur_id', $idServeur)->get();
+        return response()->json($Storages);
+    }
 }

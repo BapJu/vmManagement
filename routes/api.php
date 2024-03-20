@@ -85,6 +85,7 @@ Route::middleware('auth:sanctum')->get('/events/user/{idUser}', [EventController
 Route::get('/storages', [StorageController::class, 'index']);
 Route::post('/storage', [StorageController::class, 'store']);
 Route::get('/storage/{id}', [StorageController::class, 'show']);
+Route::get('/storage/serveur={idServeur}', [StorageController::class, 'filter']);
 Route::put('/storage/{id}', [StorageController::class, 'update']);
 Route::delete('/storage/{id}', [StorageController::class, 'destroy']);
 
