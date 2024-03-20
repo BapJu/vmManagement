@@ -41,6 +41,10 @@ class EventController extends Controller
 
         $templateVMID = DB::table('typeofvm')->where('id', $typeOfVm)->value('template_id');
 
+        $serveur_id = DB::table('typeofvm')->where('id', $typeOfVm)->value('serveur_id');
+        $serveur_ip = DB::table('serveur')->where('id', $serveur_id)->value('address_ip');
+        $serveur_node = DB::table('serveur')->where('id', $serveur_id)->value('noeud');
+
         // Récupération des configurations depuis la BDD
         $mask_subject = DB::table('subject')->where('id', $idSubject)->value('ipaddressingplan');
         $mask_site = DB::table('localisation')->where('id', $idLocalisation)->value('ipaddressingplan');
