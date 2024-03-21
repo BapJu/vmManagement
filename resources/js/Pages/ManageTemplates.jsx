@@ -13,7 +13,9 @@ export default function Manage({auth}) {
         template_id: '',
         description: '',
         id_localisation: '',
-        id_subject: ''
+        id_subject: '',
+        serveur_id : ''
+
     });
 
     useEffect(() => {
