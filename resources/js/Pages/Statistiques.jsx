@@ -201,7 +201,7 @@ function processEvolutionData(eventsData) {
     // Parcourir toutes les dates de la première date jusqu'à aujourd'hui
     for (let date = new Date(firstDate); date <= today; date.setDate(date.getDate() + 1)) {
         const formattedDate = date.toISOString().split('T')[0]; // Format 'yyyy-mm-dd'
-        const count = sortedEvents.filter(event => event.active && event.created_at.split('T')[0] === formattedDate).length;
+        const count = sortedEvents.filter(event => event.created_at.split('T')[0] === formattedDate).length;
         countsByDate[formattedDate] = count;
     }
 
